@@ -21,6 +21,16 @@ module.exports = {
       },
       items: [
         {
+          href: 'https://www.speedrun.com/pokemon',
+          label: 'SRC Leaderboards',
+        },
+        {
+          href: 'https://discord.gg/0UUw8zDe2hWlwRsm',
+          position: 'right',
+          className: 'header-discord-link',
+          'aria-label': 'Discord server',
+        },
+        {
           href: 'https://github.com/efoerster/pokemon-routes',
           position: 'right',
           className: 'header-github-link',
