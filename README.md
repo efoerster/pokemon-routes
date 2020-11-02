@@ -1,4 +1,5 @@
 [![CI](https://github.com/efoerster/pokemon-routes/workflows/CI/badge.svg)](https://github.com/efoerster/pokemon-routes/actions)
+[![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=efoerster/pokemon-routes)](https://dependabot.com)
 
 # pokemon-routes
 
