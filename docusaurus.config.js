@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Pokemon Routes',
   tagline: 'Interactive speedrunning guides of the Pokemon series',
-  url: 'https://efoerster.github.io/pokemon-routes/',
+  url: 'https://efoerster.github.io',
   baseUrl: '/pokemon-routes/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
