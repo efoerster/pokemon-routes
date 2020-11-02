@@ -8,6 +8,11 @@ module.exports = {
   organizationName: 'efoerster',
   projectName: 'pokemon-routes',
   themeConfig: {
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
     navbar: {
       title: 'Pokemon Routes',
       logo: {

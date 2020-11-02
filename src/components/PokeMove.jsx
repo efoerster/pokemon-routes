@@ -25,7 +25,9 @@ export function PokeMove({ name, dmgRanges, torrent }) {
   });
 
   const type = move && move.type.name;
-  const style = torrent ? { borderBottom: '3px dashed #6890F0' } : null;
+  const style = torrent
+    ? { borderBottom: '3px dashed var(--pokemon-type-water)' }
+    : null;
 
   let damage = null;
   if (dmgRanges && move) {
