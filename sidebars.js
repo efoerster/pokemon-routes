@@ -1,6 +1,13 @@
 module.exports = {
   docs: {
-    Welcome: ['index'],
-    'Generation III': ['frlg/any'],
+    Routes: [
+      'index',
+      {
+        type: 'category',
+        label: 'Generation III',
+        collapsed: false,
+        items: ['frlg/any'],
+      },
+    ],
   },
 };

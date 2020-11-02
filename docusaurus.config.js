@@ -1,22 +1,22 @@
 module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Pokemon Routes',
+  tagline: 'Interactive speedrunning guides of the Pokemon series',
+  url: 'http://efoerster.github.io/pokemon-routes',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'efoerster',
+  projectName: 'pokemon-routes',
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'Pokemon Routes',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Logo',
         src: 'img/logo.svg',
       },
       items: [
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/efoerster/pokemon-routes',
           label: 'GitHub',
           position: 'right',
         },
@@ -31,9 +31,8 @@ module.exports = {
           path: 'src',
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+          showLastUpdateTime: true,
+          editUrl: 'https://github.com/efoerster/pokemon-routes/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
