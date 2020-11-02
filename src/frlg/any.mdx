@@ -1,0 +1,3410 @@
+---
+id: any
+title: FireRed/LeafGreen Any%
+---
+
+import {
+  MtMoonPicker,
+  PokeItem,
+  Pokemon,
+  PokeMove,
+  SpeedInfo,
+  StarterPicker,
+  StateContext,
+} from '../components';
+import {
+  antidoteInfo,
+  grabPersimBerry,
+  grabCarbosFor,
+  silphRivalHP,
+} from './any-helpers';
+
+This guide is an interactive version of [PulseEffect's Any% Squirtle route](https://docs.google.com/document/d/1j4fqPzBkLTsCEeLguL0I5xhiXimfVwhbLYwVpi4uRYA/edit?usp=sharing).
+
+## Before Starting
+
+- Make sure your save file options are:
+
+  ![Options](../../static/img/frlg/Options.png)
+
+- Mashing A, B, and L simultaneously is the fastest way to mash text.
+- Watch this [video](https://youtu.be/IMdiOVMCIKY) on if you are a beginner to this speedrun or want to learn the newest methods in RNG Manipulation (this guide assumes the best stats).
+- Download this [RNG Manipulation Program](https://www.speedrun.com/tools/Gen3Predictor1.2c.jar_2ssx4.zip) and set [these options](https://i.imgur.com/GB0YJig.png) if you are just starting out.
+  Set [these options](https://i.imgur.com/lP39ReJ.png) instead once you learn the game well enough.
+  - To help calculate offset for Flowtimer use [this website](https://plnkr.co/edit/w0hvCuTtvJVC6qRAZhGE?p=preview&preview) starting with Offset 0.
+  - If you are on Nintendo DS change the line `$scope.fpses = [59.7275]` to `$scope.fpses = [59.7275, 59.5666]` in `app.js`.
+- Pokemon LeafGreen has a version exclusive cut friend (<Pokemon name="Sandshrew" />) if you miss out on one in Route 1. Otherwise the version difference does not matter.
+- The first 6 steps on normal grass, 7 steps in Viridian Forest, and 8 Steps in Mt.Moon are a 1% chance to get an encounter. This 1% 6/7/8 rule restarts after every brand new encounter.
+- Recommend avoiding 28 Special Attack unless really good stats.
+
+## New Game
+
+- Choosing the boy or girl is preference.
+- Give yourself a 1-character name ("A" is fastest).
+- Give your rival a 1-character name ("A" is also the fastest).
+
+## Pallet Town
+
+- Check and insert your Trainer ID into the RNG Manipulation Program.
+- Walk outside then head north towards the grass have Oak stop you.
+- Mash through text until you can pick and manipulate Squirtle.
+- Head down and fight your rival.
+- Enter your Squirtle IVs: <StarterPicker />
+
+- ### Rival 1
+
+  - <StateContext stateKey="starter">
+      {({ nature, atk }) => (
+        <>
+          <Pokemon name="Bulbasaur" />:{' '}
+          {nature === 'Modest' || atk <= 3 ? (
+            <>
+              <PokeMove name="Tail Whip" /> x1, <PokeMove name="Tackle" />
+            </>
+          ) : (
+            <PokeMove name="Tackle" />
+          )}
+          <SpeedInfo range={{ from: 0, to: 13, at: 0 }} />
+        </>
+      )}
+    </StateContext>
+
+    - Reset if Bulbasaur ever outspeeds you.
+
+## Route 1-2
+
+- Grab the potion from mart guy.
+- Kill any level 2 or 3 <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> along the way.
+  - Do not kill a level 3 <Pokemon name="Pidgey" /> if Modest or less than 21 Attack.
+  - If 31 IV speed, attempt to kill an extra <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> on Route 1.
+- Grab the parcel at the mart then head back to Oak’s lab.
+- Catch <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> if you come across them (Tackle once to weaken).
+  - Do not try to force an encounter since there are backups later.
+- On Route 2 cut through the grass before the Viridian Forest entrance (2nd tile to the right) it is 1% to get an encounter.
+
+## Viridian Forest
+
+- Avoid all non mandatory trainers.
+- Grab the <PokeItem name="Antidote" /> near the sign above the 2nd Bug Catcher.
+- Grab this hidden <PokeItem name="Potion" /> if necessary.
+
+  ![Potion](../../static/img/frlg/ViridianPotion.png)
+
+- Let the Bug Catcher walk to you from the middle tile if not grabbing the <PokeItem name="Potion" />.
+
+- ### Bug Catcher Sammy
+
+  - <Pokemon name="Weedle" />: <PokeMove name="Tail Whip" /> x1-2, <PokeMove name="Tackle" /> x4-6
+
+    - Swap <PokeMove name="Tail Whip" /> with <PokeMove name="Tackle" /> turn 1 before using it (Right + Select, A + A).
+    - Spam <PokeMove name="Bubble" /> if level 7.
+    - <PokeMove
+        name="Poison Sting"
+        dmgRanges={{
+          normal: [{ from: 0, to: 31, value: '3(4)' }],
+          lowered: [{ from: 0, to: 31, value: '3(4)' }],
+        }}
+      />
+    - **Poison** damage:
+      <StateContext stateKey="starter">
+        {({ hp }) => <b> {hp <= 11 ? '2' : '2 at lvl 6, 3 at lvl 7'}</b>}
+      </StateContext>
+
+- <StateContext stateKey="starter">
+    {(starter) => {
+      const { hp, torrent, heal } = antidoteInfo(starter);
+      return (
+        <>
+          If poisoned, use <PokeItem name="Antidote" /> at <b>{hp} HP</b> after
+          the fight.
+          <ul>
+            <li>
+              {torrent ? 'In torrent' : <b>No torrent</b>} for Brock's{' '}
+              <Pokemon name="Geodude" />.
+            </li>
+            {heal && (
+              <li>
+                <b>Need to heal</b> at <Pokemon name="Onix" />.
+              </li>
+            )}
+          </ul>
+        </>
+      );
+    }}
+  </StateContext>
+
+## Pewter City
+
+- Head straight to the gym.
+
+- ### Camper Liam
+
+  - <Pokemon name="Geodude" />: <PokeMove name="Bubble" torrent={true} /> (x2)
+  - <Pokemon name="Sandshrew" />: <PokeMove name="Bubble" torrent={true} /> x2-4
+
+    - <PokeMove
+        name="Scratch"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 3, value: '6-7(8)' },
+            { from: 4, to: 31, value: '(5)6(7)' },
+          ],
+          lowered: [
+            { from: 0, to: 3, value: '7-8(9)' },
+            { from: 4, to: 25, value: '6-7(8)' },
+            { from: 26, to: 31, value: '(5)6(7)' },
+          ],
+        }}
+      />
+
+- ### Leader Brock
+
+  - <Pokemon name="Geodude" />: <PokeMove name="Bubble" torrent={true} /> (x2)
+
+    - 87.5% (14/16) to OHKO at level 11
+    - Consider <PokeMove name="Withdraw" /> Turn 1 if HP is too high for Torrent.
+    - <PokeMove
+        name="Tackle"
+        dmgRanges={{
+          normal: [{ from: 0, to: 31, value: '(5)6(7), 4(5) at +1 Def' }],
+          lowered: [
+            { from: 0, to: 19, value: '6-7(8), 5(6) at +1 Def' },
+            { from: 20, to: 31, value: '(5)6(7), 4(5) at +1 Def' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Onix" />: <PokeMove name="Bubble" torrent={true} /> (x2)
+    <SpeedInfo range={{ from: 14, to: 23, at: -1 }} />
+
+    - 56.25% (9/16) to OHKO
+    - Teach <PokeMove name="Water Gun" /> over <PokeMove name="Tail Whip" /> (Mash A)
+    - <StateContext stateKey="starter">
+        {({ spe }) =>
+          spe >= 24 && (
+            <>
+              If you drop speed with <PokeMove name="Bubble" />, it will{' '}
+              <PokeMove name="Rock Tomb" /> you at 24+ Speed.{' '}
+            </>
+          )
+        }
+      </StateContext>
+    - <PokeMove
+        name="Rock Tomb"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 6, value: '10-11(12), 7-8(9) at +1 Def' },
+            { from: 7, to: 31, value: '8-9(10), (5)6(7) at +1 Def' },
+          ],
+          lowered: [
+            { from: 0, to: 6, value: '11-12(13), 7-8(9) at +1 Def' },
+            { from: 7, to: 31, value: '10-11(12), 7-8(9) at +1 Def' },
+          ],
+        }}
+      />
+    - <PokeMove
+        name="Tackle"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 15, value: '5(6), 3(4) at +1 Def' },
+            { from: 16, to: 31, value: '4(5), 3(4) at +1 Def' },
+          ],
+          lowered: [
+            { from: 0, to: 24, value: '5(6), 4(5) at +1 Def' },
+            { from: 25, to: 31, value: '5(6), 3(4) at +1 Def' },
+          ],
+        }}
+      />
+
+- Head straight to the mart and buy
+  - 8x <PokeItem name="Potion" /> (↓)
+  - 3x <PokeItem name="Antidote" /> (↓)
+  - 3x <PokeItem name="Awakening" /> (↓↓)
+  - 3x <PokeItem name="Repel" /> (↓↓↓)
+  - **If you need <Pokemon name="Paras" /> (FireRed only), then buy a <PokeItem name="Paralyze Heal" /> instead of one <PokeItem name="Potion" />.**
+- Head to Route 3 to get your running shoes.
+
+## Route 3
+
+- Attempt to get torrent in as little turns as possible on this route.
+
+  - <StateContext stateKey="starter">
+      {({ hp }) => (
+        <>
+          If no torrent for level 14, get it off the 2nd level 10{' '}
+          <Pokemon name="Caterpie" /> (<b>{hp == 27 ? '+3' : '+2'} HP</b> upon
+          level up).
+        </>
+      )}
+    </StateContext>
+  - <StateContext stateKey="starter">
+      {({ hp }) => (
+        <>
+          If no torrent for level 15, get it off the level 11{' '}
+          <Pokemon name="Caterpie" /> (
+          <b>{hp == 19 || hp == 26 ? '+3' : hp == 5 ? '+1' : '+2'} HP</b> upon
+          level up).
+        </>
+      )}
+    </StateContext>
+
+- ### Bug Catcher Colton
+
+  - <Pokemon name="Caterpie" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 &&
+          spa <= 30 &&
+          'Both Caterpie are 93.75% (15/16) to OHKO in Torrent'
+        }
+      </StateContext>
+
+  - <Pokemon name="Weedle" />: <PokeMove name="Water Gun" torrent={true} /> (x2)
+  - <Pokemon name="Caterpie" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+
+- Go above shorts guy and fight the next bug catcher.
+
+- ### Bug Catcher Greg
+
+  - <Pokemon name="Weedle" />: <PokeMove name="Water Gun" torrent={true} />
+    <SpeedInfo range={{ from: 14, to: 29, at: -1 }} />
+  - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" /> (x2)
+    <SpeedInfo range={{ from: 21, to: 31, at: -1 }} />
+  - <Pokemon name="Kakuna" />: <PokeMove name="Water Gun" torrent={true} /> (x2)
+  - <Pokemon name="Metapod" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+    <SpeedInfo range={{ from: 21, to: 31, at: -2 }} />
+
+- ### Bug Catcher James
+
+  - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" /> (x2)
+    <SpeedInfo range={{ from: 20, to: 31, at: -1 }} />
+  - <Pokemon name="Metapod" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+    <SpeedInfo range={{ from: 27, to: 31, at: -2 }} />
+
+- If you did not catch <Pokemon name="Pidgey" /> on Route 1, catch a <Pokemon name="Spearow" /> / <Pokemon name="Pidgey" />
+  now in the grass below the lass (<PokeMove name="Bubble" /> to weaken, <PokeMove name="Tackle" /> if in torrent).
+
+  - If no HM Slaves, can catch <Pokemon name="Nidoran F" /> / <Pokemon name="Nidoran M" /> for <PokeMove name="Cut" /> and <PokeMove name="Strength" />.
+  - Can Bag Manip the Lass for a free pass.
+
+- <StateContext stateKey="starter">
+    {(starter) => (
+      <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <>
+            <b>{grabPersimBerry(starter, mtMoonExp) ? 'Grab' : 'Skip'}</b> the{' '}
+            <PokeItem name="Persim Berry" />.
+          </>
+        )}
+      </StateContext>
+    )}
+  </StateContext>
+
+  - Check optional Mt. Moon trainer selection below.
+
+## Mt. Moon
+
+<MtMoonPicker />
+
+- Run up 8 tiles then
+  - Register <PokeItem name="TM Case" />
+  - Equip <PokeItem name="Persim Berry" /> from the <PokeItem name="Berry Pouch" /> if you got it.
+  - Use <PokeItem name="Repel" />
+- Grab this <PokeItem name="Rare Candy" /> near the Bug Catcher (after fighting him if you’re fighting him).
+  ![Rare Candy](../../static/img/frlg/MtMoonRareCandy.png)
+- Fight **ONE** of the following optional trainers for EXP depending on the situation
+
+  ![Bug Catcher Robby](../../static/img/frlg/BugCatcherRobby.png)
+  ![Youngster Josh](../../static/img/frlg/YoungsterJosh.png)
+
+  ![Rocket Spinner](../../static/img/frlg/RocketSpinner.png)
+  ![Hiker Marcos](../../static/img/frlg/HikerMarcos.png)
+
+  - ### Bug Catcher Robby (if Torrent for level 16)
+    - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
+    - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
+    - <Pokemon name="Metapod" />: <PokeMove name="Water Gun" torrent={true} />
+    - <StateContext stateKey="starter">
+        {({ hp }) => (
+          <>
+            <b>
+              {hp == 24 || hp == 25 || hp == 30 || hp == 31 ? '+3' : '+2'} HP
+            </b>{' '}
+            upon level up.
+          </>
+        )}
+      </StateContext>
+  - ### Youngster Josh (if Torrent at level 15 and want to keep torrent)
+
+    - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
+      <SpeedInfo range={{ from: 16, to: 20, at: 0 }} />
+
+      - <PokeMove
+          name="Quick Attack"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '5(6)' }],
+            lowered: [
+              { from: 0, to: 7, value: '(5)6(7)' },
+              { from: 8, to: 31, value: '5(6)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
+
+      - <PokeMove
+          name="Quick Attack"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 7, value: '(5)6(7)' },
+              { from: 8, to: 31, value: '5(6)' },
+            ],
+            lowered: [
+              { from: 0, to: 22, value: '(5)6(7)' },
+              { from: 23, to: 31, value: '5(6)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Zubat" />: <PokeMove
+        name="Water Gun"
+        torrent={true}
+      /> (x2)
+
+      - 62.5% (10/16) to OHKO in torrent
+
+  - ### Rocket Spinner (if you can take a hit from Hyper Fang)
+
+    - <Pokemon name="Rattata" />: <PokeMove
+        name="Water Gun"
+        torrent={true}
+      /> (x2)
+
+      - 62.5% (10/16) to OHKO in torrent
+      - <PokeMove
+          name="Hyper Fang"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 14, value: '12-14(15)' },
+              { from: 15, to: 31, value: '11-12(13)' },
+            ],
+            lowered: [
+              { from: 0, to: 1, value: '15-17(18)' },
+              { from: 2, to: 14, value: '13-15(16)' },
+              { from: 15, to: 31, value: '12-14(15)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Sandshrew" />: <PokeMove name="Water Gun" />
+
+  - ### Hiker Marcos (no Torrent and can not tank Hyper Fang)
+    - <Pokemon name="Geodude" />: <PokeMove name="Bubble" />
+    - <Pokemon name="Geodude" />: <PokeMove name="Bubble" />
+    - <Pokemon name="Onix" />: <PokeMove name="Bubble" />
+
+- Force the Rocket Grunt to walk up to you to save repel steps by running.
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Rattata" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} /> (x2)
+
+    - Both OHKO in torrent
+
+- ### Super Nerd Miguel
+
+  - <Pokemon name="Grimer" />: <PokeMove name="Water Gun" /> x2
+
+    - If you can survive two turns of Poison and a <PokeMove name="Tackle"/> from <Pokemon name="Voltorb" /> then use <PokeItem name="Antidote" /> on <Pokemon name="Voltorb" />.
+
+  - <Pokemon name="Voltorb" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+    <StateContext stateKey="mtMoonExp">
+      {(mtMoonExp) => (
+        <SpeedInfo
+          range={
+            mtMoonExp === 'josh'
+              ? { from: 24, to: 29, at: 0 }
+              : { from: 25, to: 30, at: 0 }
+          }
+        />
+      )}
+    </StateContext>
+
+    - 56.25% (9/16) to OHKO in Torrent
+
+  - <Pokemon name="Koffing" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> (x2)
+
+    - 87.5% (14/16) to OHKO in Torrent
+    - If poisoned, <PokeItem name="Antidote" /> immediately if you need a
+      <Pokemon name="Rattata" /> / <Pokemon name="Sandshrew" /> / <Pokemon name="Paras" />
+      . Otherwise <b>skip</b> and revive with a <PokeItem name="Rare Candy" /> in
+      Cerulean City.
+
+- Praise Helix and head outside of Mt. Moon.
+
+## Route 4
+
+- Talk to the Karate Man on the right and teach <PokeMove name="Mega Kick" /> over <PokeMove name="Withdraw" /> (Slot 4).
+- If you have no <PokeMove name="Cut" /> slave, catch a <Pokemon name="Sandshrew" /> / <Pokemon name="Rattata" /> in the grass (<PokeMove name="Tackle" /> to weaken).
+  - Can teach <PokeMove name="Strength" /> to <Pokemon name="Sandshrew" /> later if caught.
+  - If you die using a <PokeItem name="Rare Candy" /> will revive <Pokemon name="Wartortle" />.
+
+## Cerulean City
+
+- Grab this hidden <PokeItem name="Rare Candy" />.
+
+  ![Rare Candy](../../static/img/frlg/CeruleanRareCandy.png)
+
+- Open your bag
+
+  - Use 2x <PokeItem name="Potion" />.
+  - <PokeItem name="Rare Candy" /> to level 20.
+  - Teach <PokeMove name="Bite" /> over <PokeMove name="Bubble" /> (Slot 3).
+
+- Head to the gym.
+
+- Skip both gym trainers and talk to Misty from the right side.
+
+- ### Leader Misty
+
+  - <Pokemon name="Staryu" />: <PokeMove name="Bite" /> x2{' '}
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              {spa >= 30 ? '93%' : '59.4%'} to 2HKO with {spa} SPA
+            </>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Starmie" />: <PokeMove name="Bite" />, (<PokeMove name="Tackle" />
+    ), <PokeMove name="Bite" />
+
+    - <PokeMove name="Tackle" /> if low roll on the first <PokeMove name="Bite" />
+
+    - <PokeMove
+        name="Swift"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 1, value: '13-15(16)' },
+            { from: 2, to: 21, value: '12-14(15)' },
+            { from: 22, to: 31, value: '11-13(14)' },
+          ],
+          lowered: [
+            { from: 0, to: 11, value: '11-13(14)' },
+            { from: 12, to: 26, value: '11-12(13)' },
+            { from: 27, to: 31, value: '10-11(12)' },
+          ],
+        }}
+      />
+
+    - <PokeMove
+        name="Water Pulse"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 19, value: '10-11(12)' },
+            { from: 20, to: 31, value: '9-10(11)' },
+          ],
+          lowered: [
+            { from: 0, to: 4, value: '11-13(14)' },
+            { from: 5, to: 14, value: '11-12(13)' },
+            { from: 15, to: 31, value: '10-11(12)' },
+          ],
+        }}
+      />
+
+- After the fight:
+  - Teach <PokeMove name="Water Pulse" /> over <PokeMove name="Tackle" /> (Slot 2).
+  - Heal for Rival so you can survive a <PokeMove name="Quick Attack" /> and <PokeMove name="Vine Whip" />.
+
+## Nugget Bridge
+
+- ### Rival
+
+  - <Pokemon name="Pidgeotto" />: <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
+
+    - 25% (4/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 13, value: '7-8(9)' },
+            { from: 14, to: 31, value: '5-6(7)' },
+          ],
+          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
+        }}
+      />
+
+  - <StateContext stateKey="starter">
+      {({ nature, atk }) => (
+        <>
+          <Pokemon name="Bulbasaur" />:{' '}
+          {nature === 'Modest' && atk <= 12 ? (
+            <>
+              <PokeMove name="Mega Kick" /> x2
+            </>
+          ) : (
+            <>
+              <PokeMove name="Bite" />, <PokeMove name="Mega Kick" />
+            </>
+          )}
+        </>
+      )}
+    </StateContext>
+
+    - <PokeMove
+        name="Vine Whip"
+        dmgRanges={{
+          normal: [{ from: 0, to: 31, value: '15-17(18)' }],
+          lowered: [
+            { from: 0, to: 20, value: '17-19(20)' },
+            { from: 21, to: 31, value: '15-17(18)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Abra" />: <PokeMove name="Water Pulse" />
+    <StateContext stateKey="mtMoonExp">
+      {(mtMoonExp) => (
+        <SpeedInfo
+          range={
+            mtMoonExp === 'josh'
+              ? { from: 20, to: 23, at: 0 }
+              : { from: 21, to: 24, at: 0 }
+          }
+        />
+      )}
+    </StateContext>
+
+    - 81.25% (13/16) to OHKO
+
+  - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Quick Attack"
+            dmgRanges={
+              mtMoonExp === 'josh'
+                ? {
+                    normal: [{ from: 0, to: 31, value: '5-6(7)' }],
+                    lowered: [
+                      { from: 0, to: 14, value: '7-8(9)' },
+                      { from: 15, to: 31, value: '5-6(7)' },
+                    ],
+                  }
+                : {
+                    normal: [{ from: 0, to: 31, value: '5-6(7)' }],
+                    lowered: [
+                      { from: 0, to: 13, value: '7-8(9)' },
+                      { from: 14, to: 31, value: '5-6(7)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+- ### Bug Catcher Cale
+
+  - <Pokemon name="Caterpie" />: <PokeMove name="Bite" />
+  - <Pokemon name="Weedle" />: <PokeMove name="Bite" />
+  - <Pokemon name="Metapod" />: <PokeMove name="Bite" />
+  - <Pokemon name="Kakuna" />: <PokeMove name="Bite" />
+
+- ### Lass Ali
+
+  - <Pokemon name="Pidgey" />: <PokeMove name="Bite" />
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+  - <Pokemon name="Bellsprout" />: <PokeMove name="Bite" />
+
+- ### Youngster Timmy
+
+  - <Pokemon name="Sandshrew" />: <PokeMove name="Bite" />
+  - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+  - Can <PokeMove name="Water Gun" /> everything from here in Torrent
+
+- ### Lass Reli
+
+  - <Pokemon name="Nidoran M" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> / <PokeMove name="Water Pulse" />
+  - <Pokemon name="Nidoran F" />: <PokeMove
+      name="Water Gun"
+      torrent={true}
+    /> / <PokeMove name="Water Pulse" />
+
+- ### Camper Ethan
+
+  - <Pokemon name="Mankey" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+
+- ### Rocket Grunt
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+  - <Pokemon name="Ekans" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+
+## Route 25
+
+- Go above the Hiker and grab this hidden <PokeItem name="Elixir" />.
+
+  ![Elixir](../../static/img/frlg/Route25Elixir.png)
+
+- ### Hiker Wayne
+
+  - <Pokemon name="Onix" />: <PokeMove name="Water Gun" />
+
+- Yolo the camper spinner and fight the girl below him (1/16 to hit you with proper movement).
+
+- ### Picknicker Kelsey
+
+  - <Pokemon name="Nidoran M" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Nidoran F" />: <PokeMove name="Water Pulse" />
+
+- ### Camper Flint
+
+  - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+
+- ### Lass Haley
+
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              {spa == 28 ? '68.75% (11/16)' : '81.25% (13/16)'} to OHKO at{' '}
+              <b>level 25</b> with <PokeMove name="Water Pulse" /> Torrent
+            </>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              37.5% (6/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
+            </>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Pidgey" />: <PokeMove name="Bite" />
+
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [{ from: 0, to: 31, value: '3' }],
+          lowered: [
+            { from: 0, to: 14, value: '5' },
+            { from: 15, to: 31, value: '3' },
+          ],
+        }}
+      />
+
+- Grab this hidden <PokeItem name="Ether" /> (risky but can skip if Torrent at 26 + 2 <PokeMove name="Mega Kick" /> left).
+
+  ![Ether](../../static/img/frlg/Route25Ether.png)
+
+- Get the <PokeItem name="SS Ticket" />, then run back to Cerulean City and enter the Dig house.
+- <PokeItem name="Ether" /> before <Pokemon name="Drowzee" /> / <Pokemon name="Raticate" /> if
+  you need the <PokeMove name="Mega Kick" />s (not in Torrent).
+
+## Cerulean City
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Machop" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Drowzee" />: <PokeMove name="Mega Kick" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 29 && (
+            <>
+              18.75% (3/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
+            </>
+          )
+        }
+      </StateContext>
+    - <PokeMove name="Headbutt" /> / <PokeMove
+        name="Confusion"
+        dmgRanges={{
+          normal: [{ from: 0, to: 31, value: '5-7' }],
+          lowered: [{ from: 0, to: 31, value: '5-7' }],
+        }}
+      />
+
+## Route 6
+
+- Grab this hidden <PokeItem name="Rare Candy" /> and consider the <PokeItem name="Sitrus Berry" /> with low Sp. Def.
+
+  ![Rare Candy](../../static/img/frlg/Route6RareCandy.png)
+  ![Sitrus Berry](../../static/img/frlg/Route6Sitrus.png)
+
+- Avoid the Bug Catcher and fight the Camper below the girl trainer.
+
+- ### Camper Jeff
+
+  - <Pokemon name="Spearow" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Raticate" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Mega Kick" />
+
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 10, value: '7-8(9)' },
+            { from: 11, to: 31, value: '(5)6(7)' },
+          ],
+          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
+        }}
+      />
+
+## Vermilion City
+
+- Head straight to the mart and buy
+
+  - 5x <PokeItem name="Super Potion" /> (↓)
+  - 3x <PokeItem name="Paralyze Heal" /> (↓↓)
+  - 3x <PokeItem name="Repel" /> (↓↓↓)
+
+- Head to the S.S. Anne.
+
+## S.S. Anne
+
+- Before the Rival
+
+  - <PokeItem name="Rare Candy" /> to level 27 if you do not level out of torrent.
+
+    - <StateContext stateKey="starter">
+        {({ hp }) => (
+          <>
+            <b>
+              +{[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp) ? '3' : '2'}{' '}
+              HP
+            </b>{' '}
+            upon level up.
+          </>
+        )}
+      </StateContext>
+
+  - <PokeItem name="Ether" /> <PokeMove name="Mega Kick" /> if you have not already.
+  - Keep Torrent if you are still in it and will not die to a <PokeMove name="Quick Attack" />.
+
+- ### Rival
+
+  - <Pokemon name="Pidgeotto" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> or <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Quick Attack"
+            dmgRanges={
+              mtMoonExp === 'josh'
+                ? {
+                    normal: [
+                      { from: 0, to: 6, value: '7-8(9)' },
+                      {
+                        from: 7,
+                        to: 12,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                      { from: 13, to: 31, value: '(5)6(7)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 28, value: '7-8(9)' },
+                      {
+                        from: 29,
+                        to: 31,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 5, value: '7-8(9)' },
+                      {
+                        from: 6,
+                        to: 12,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                      { from: 13, to: 31, value: '(5)6(7)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 27, value: '7-8(9)' },
+                      {
+                        from: 28,
+                        to: 31,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+  - <StateContext stateKey="starter">
+      {({ nature, atk }) => (
+        <>
+          <Pokemon name="Ivysaur" />:{' '}
+          {(nature === 'Modest' && atk <= 20) ||
+          (nature !== 'Modest' && atk <= 1) ? (
+            <>
+              <PokeMove name="Mega Kick" /> x2
+            </>
+          ) : (
+            <>
+              <PokeMove name="Bite" />, <PokeMove name="Mega Kick" />
+            </>
+          )}
+        </>
+      )}
+    </StateContext>
+
+    - <PokeMove
+        name="Vine Whip"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 25, value: '17-19(20)' },
+            {
+              from: 26,
+              to: 31,
+              value: '15-17(18) at level 27, 17-19(20) at level 26',
+            },
+          ],
+          lowered: [
+            { from: 0, to: 14, value: '20-23(24)' },
+            {
+              from: 15,
+              to: 20,
+              value: '17-19(20) at level 27, 20-23(24) at level 26',
+            },
+            { from: 21, to: 31, value: '17-19(20)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Raticate" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Mega Kick" />
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Quick Attack"
+            dmgRanges={
+              mtMoonExp === 'josh'
+                ? {
+                    normal: [
+                      { from: 0, to: 22, value: '7-8(9)' },
+                      {
+                        from: 23,
+                        to: 28,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                      { from: 29, to: 31, value: '(5)6(7)' },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 1,
+                        value: '7-8(9) at level 27, 8-9(10) at level 26',
+                      },
+                      { from: 2, to: 31, value: '7-8(9)' },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 21, value: '7-8(9)' },
+                      {
+                        from: 22,
+                        to: 28,
+                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
+                      },
+                      { from: 29, to: 31, value: '(5)6(7)' },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 1,
+                        value: '7-8(9) at level 27, 8-9(10) at level 26',
+                      },
+                      { from: 2, to: 31, value: '7-8(9)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+  - <Pokemon name="Kadabra" />: <PokeMove name="Bite" />
+
+    - <PokeMove
+        name="Confusion"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 6, value: '13-15(16)' },
+            {
+              from: 7,
+              to: 13,
+              value: '12-14(15) at level 27, 13-15(16) at level 26',
+            },
+            { from: 14, to: 28, value: '12-14(15)' },
+            {
+              from: 29,
+              to: 31,
+              value: '11-12(13) at level 27, 12-14(15) at level 26',
+            },
+          ],
+          lowered: [
+            { from: 0, to: 6, value: '15-17(18)' },
+            {
+              from: 7,
+              to: 13,
+              value: '13-15(16) at level 27, 15-17(18) at level 26',
+            },
+            { from: 14, to: 28, value: '13-15(16)' },
+            {
+              from: 29,
+              to: 31,
+              value: '12-14(15) at level 27, 13-15(16) at level 26',
+            },
+          ],
+        }}
+      />
+
+- Talk to the captain for <PokeItem name="HM01" /> and take the Bed Lady's free heal on the way out.
+
+## Vermilion City
+
+- Press Select to teach <PokeMove name="Cut" /> to <Pokemon name="Rattata" /> / <Pokemon name="Sandshrew" />.
+- <PokeMove name="Cut" /> the bush and enter the gym.
+- Save after you find the first switch of the puzzle.
+
+  - The second switch can be located to any adjacent can.
+  - Soft reset if you did not get the second switch after saving.
+
+- ### Gentlemen Tucker
+
+  - <Pokemon name="Pikachu" />: <PokeMove name="Water Pulse" />
+    <StateContext stateKey="mtMoonExp">
+      {(mtMoonExp) => (
+        <SpeedInfo
+          range={
+            mtMoonExp === 'josh'
+              ? { from: 24, to: 26, at: 0 }
+              : { from: 25, to: 27, at: 0 }
+          }
+        />
+      )}
+    </StateContext>
+
+- ### Leader Surge
+
+  - <Pokemon name="Voltorb" />: <PokeMove name="Water Pulse" /> (x2)
+    <StateContext stateKey="mtMoonExp">
+      {(mtMoonExp) => (
+        <SpeedInfo
+          range={
+            mtMoonExp === 'josh'
+              ? { from: 27, to: 30, at: 0 }
+              : { from: 28, to: 31, at: 0 }
+          }
+        />
+      )}
+    </StateContext>
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>{spa == 28 ? '62.5% (10/16)' : '81.25% (13/16)'} to OHKO</>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Pikachu" />: <PokeMove name="Water Pulse" />
+
+  - <Pokemon name="Raichu" />: <PokeMove name="Water Pulse" />, <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> or <PokeMove name="Water Pulse" />, <PokeMove name="Mega Kick" />
+
+    - <PokeMove
+        name="Shock Wave"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 0, value: '(40)41-47(48)' },
+            { from: 1, to: 11, value: '37-43(44)' },
+            { from: 12, to: 29, value: '(35)36-41(42)' },
+            { from: 30, to: 31, value: '32-37(38)' },
+          ],
+          lowered: [
+            { from: 0, to: 7, value: '(42)43-49(50)' },
+            { from: 8, to: 22, value: '(40)41-47(48)' },
+            { from: 23, to: 31, value: '37-43(44)' },
+          ],
+        }}
+      />
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Quick Attack"
+            dmgRanges={
+              mtMoonExp === 'marcos'
+                ? {
+                    normal: [
+                      {
+                        from: 0,
+                        to: 13,
+                        value: '7-8(9), 13-15(16) after Screech',
+                      },
+                      {
+                        from: 14,
+                        to: 27,
+                        value: '6-7(8), 12-14(15) after Screech',
+                      },
+                      {
+                        from: 28,
+                        to: 31,
+                        value: '6-7(8), (11)12-13(14) after Screech',
+                      },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 9,
+                        value: '8-9(10), 15-17(18) after Screech',
+                      },
+                      {
+                        from: 10,
+                        to: 20,
+                        value: '7-8(9), 14-16(17) after Screech',
+                      },
+                      {
+                        from: 21,
+                        to: 31,
+                        value: '7-8(9), 13-15(16) after Screech',
+                      },
+                    ],
+                  }
+                : {
+                    normal: [
+                      {
+                        from: 0,
+                        to: 0,
+                        value: '7-8(9), 14-16(17) after Screech',
+                      },
+                      {
+                        from: 1,
+                        to: 14,
+                        value: '7-8(9), 13-15(16) after Screech',
+                      },
+                      {
+                        from: 15,
+                        to: 28,
+                        value: '6-7(8), 12-14(15) after Screech',
+                      },
+                      {
+                        from: 29,
+                        to: 31,
+                        value: '6-7(8), (11)12-13(14) after Screech',
+                      },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 10,
+                        value: '8-9(10), 15-17(18) after Screech',
+                      },
+                      {
+                        from: 11,
+                        to: 21,
+                        value: '7-8(9), 14-16(17) after Screech',
+                      },
+                      {
+                        from: 22,
+                        to: 31,
+                        value: '7-8(9), 13-15(16) after Screech',
+                      },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+- Get the <PokeItem name="Bike Voucher" />, then run back to Cerulean City.
+
+## Cerulean City
+
+- Get the <PokeItem name="Bicycle" />, then register and use it.
+- Head to the right towards Rock Tunnel.
+
+## Route 9-10
+
+- ### Jr. Trainer Alicia
+
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+  - <Pokemon name="Bellsprout" />: <PokeMove name="Bite" />
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+  - <Pokemon name="Bellsprout" />: <PokeMove name="Bite" />
+
+- Run-into-bike manip the Hiker spinner (if you mess up just use bike from the bag).
+
+- ### Bug Catcher Conner
+
+  - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Weedle" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Venonat" />: <PokeMove name="Water Pulse" /> (x2)
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              {spa <= 30 ? '37.5% (6/16)' : '43.75% (7/16)'} to OHKO without
+              Torrent
+            </>
+          )
+        }
+      </StateContext>
+
+- Grab these berries if short on <PokeItem name="Awakening" /> (<PokeItem name="Chesto Berry" />) or <PokeItem name="Paralyze Heal" /> (<PokeItem name="Cheri Berry" />).
+
+  ![Chesto Berry](../../static/img/frlg/ChestoBerry.png)
+  ![Cheri Berry](../../static/img/frlg/CheriBerry.png)
+
+- Grab this hidden <PokeItem name="Rare Candy" /> after the Hiker (he has a vision range of 1 tile).
+
+  ![Rare Candy](../../static/img/frlg/Route9RareCandy.png)
+
+## Rock Tunnel
+
+- Use <PokeItem name="Repel" /> as needed.
+  - Use <PokeItem name="Elixir" /> on <PokeItem name="Repel" /> menu as necessary for <PokeMove name="Mega Kick" /> PP.
+
+![Rock Tunnel Map](../../static/img/frlg/RockTunnel.jpg)
+
+- ### Pokemaniac Ashton
+
+  - <Pokemon name="Cubone" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Slowpoke" />: <PokeMove name="Bite" /> (x2)
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && <>{spa <= 30 ? '12.5% (2/16)' : '25% (4/16)'} to OHKO</>
+        }
+      </StateContext>
+
+- ### Pokemaniac Winston
+
+  - <Pokemon name="Slowpoke" />: <PokeMove name="Bite" /> (x2)
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>{spa <= 30 ? '6.25% (1/16)' : '18.75% (3/16)'} to OHKO</>
+          )
+        }
+      </StateContext>
+
+- ### Jr Trainer Martha
+
+  - <StateContext stateKey="starter">
+      {({ nature, atk }) => (
+        <>
+          <Pokemon name="Oddish" />:{' '}
+          {nature === 'Modest' || atk <= 15 ? (
+            <>
+              <PokeMove name="Bite" /> x2
+            </>
+          ) : (
+            <>
+              <PokeMove name="Mega Kick" />
+            </>
+          )}
+        </>
+      )}
+    </StateContext>
+
+    - <StateContext stateKey="starter">
+        {({ nature, atk }) =>
+          nature !== 'Modest' &&
+          atk >= 16 && (
+            <>{atk <= 18 ? '81.25%' : atk <= 21 ? '87.5%' : '100%'} to OHKO</>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Bulbasaur" />: <PokeMove name="Mega Kick" />
+
+    - <PokeMove
+        name="Razor Leaf"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 26, value: '20-23(24)' },
+            { from: 27, to: 31, value: '17-19(20)' },
+          ],
+          lowered: [
+            { from: 0, to: 16, value: '22-25(26)' },
+            { from: 17, to: 31, value: '20-23(24)' },
+          ],
+        }}
+      />
+
+- ### Hiker Eric
+
+  - <Pokemon name="Machop" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Onix" />: <PokeMove name="Water Pulse" />{' '}
+
+- ### Hiker Oliver
+
+  - <Pokemon name="Onix" />: <PokeMove name="Bite" /> (x2)
+
+    - 81.3% to OHKO
+
+  - <Pokemon name="Onix" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Geodude" />: <PokeMove name="Bite" />
+
+- ### Jr Trainer Sofia
+
+  - <Pokemon name="Jigglypuff" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Pidgey" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Meowth" />: <PokeMove name="Water Pulse" />
+
+- Run-into-**walk** manip the Supernerd ([Run-into-bike manip is slower due to lag from music transitions](https://www.youtube.com/watch?v=PwmYijBaFCU)).
+
+- ### Jr Trainer Dana
+
+  - <Pokemon name="Meowth" />: <PokeMove name="Bite" />
+  - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
+
+    - Check how many Mega Kicks you have here.
+
+  - <Pokemon name="Pidgey" />: <PokeMove name="Bite" />
+
+## Lavender Town
+
+- Head south to the mart and buy
+
+  - 4x <PokeItem name="Escape Rope" /> (7x ↓)
+  - 7x <PokeItem name="Super Repel" /> (↓)
+
+- Head left to the next route.
+
+## Route 8
+
+- Fight the Gamer below.
+
+  - ### Gamer Rich
+
+    - <Pokemon name="Growlithe" />: <PokeMove name="Water Gun" />
+    - <StateContext stateKey="starter">
+        {({ spa }) => (
+          <>
+            <Pokemon name="Vulpix" />:{' '}
+            {spa <= 29 ? (
+              <PokeMove name="Water Pulse" />
+            ) : (
+              <PokeMove name="Water Gun" />
+            )}
+          </>
+        )}
+      </StateContext>
+
+- Avoid all the trainers and head into the building above the bikers.
+
+## Celadon City
+
+- Head straight to the game corner.
+
+- ## Rocket Grunt
+
+  - <Pokemon name="Raticate" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Mega Kick" />
+
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 4, value: '8-9(10)' },
+            { from: 5, to: 31, value: '7-8(9)' },
+          ],
+          lowered: [
+            { from: 0, to: 26, value: '8-9(10	)' },
+            { from: 27, to: 31, value: '7-8(9)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Pulse" />
+    <SpeedInfo range={{ from: 16, to: 18, at: -2 }} />
+
+- Talk to the poster and head into the Rocket Hideout.
+
+## Rocket Hideout
+
+- Grab this <PokeItem name="Rare Candy" /> before going into the spinny tiles.
+
+  ![Rare Candy](../../static/img/frlg/RocketRareCandy.png)
+
+- Grab the <PokeItem name="Black Glasses" /> before heading downstairs.
+
+  ![Rare Candy](../../static/img/frlg/Blackglasses.png)
+
+- **Before** battling the lift key guy:
+
+  - <PokeItem name="Rare Candy" /> to level 35.
+  - Put your cursor on <PokeItem name="Escape Rope" />.
+
+- ### Rocket Grunt (Lift Key Guy)
+
+  - <Pokemon name="Koffing" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+
+- Head towards the elevator to floor B4 and fight the left Rocket Grunt first.
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Sandshrew" />: <PokeMove name="Bite" />
+  - <Pokemon name="Sandslash" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && spa <= 30 && '93.75% (15/16) to OHKO without Torrent'
+        }
+      </StateContext>
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Sandshrew" />: <PokeMove name="Bite" />
+  - <Pokemon name="Arbok" />: <PokeMove name="Water Pulse" torrent={true} /> or <PokeMove name="Bite" />
+    , <PokeMove name="Water Pulse" />
+
+    - Should get **+14** or **+15 HP** upon evolution.
+
+- ### Giovanni
+
+  - <Pokemon name="Onix" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Water Gun" />
+  - <Pokemon name="Kangaskhan" />: <PokeMove name="Water Pulse" /> x2-3
+
+    - 98% to 2HKO with Torrent
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Mega Punch"
+            dmgRanges={
+              mtMoonExp === 'josh'
+                ? {
+                    normal: [
+                      {
+                        from: 0,
+                        to: 6,
+                        value: '(23)24-27(28), (35)36-41(42) at -1',
+                      },
+                      {
+                        from: 7,
+                        to: 12,
+                        value: '(23)24-27(28), 34-39(40) at -1',
+                      },
+                      {
+                        from: 13,
+                        to: 15,
+                        value: '(22)23-26(27), 34-39(40) at -1',
+                      },
+                      {
+                        from: 16,
+                        to: 26,
+                        value: '21-24(25), 33-38(39) at -1',
+                      },
+                      {
+                        from: 27,
+                        to: 31,
+                        value: '21-24(25), 31-36(37) at -1',
+                      },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 9,
+                        value: '26-30(31), 39-45(46) at -1',
+                      },
+                      {
+                        from: 10,
+                        to: 12,
+                        value: '26-30(31), 38-44(45) at -1',
+                      },
+                      {
+                        from: 13,
+                        to: 15,
+                        value: '25-29(30), 38-44(45) at -1',
+                      },
+                      {
+                        from: 16,
+                        to: 23,
+                        value: '25-29(30), 36-42(43) at -1',
+                      },
+                      {
+                        from: 24,
+                        to: 31,
+                        value: '(23)24-27(28), (35)36-41(42) at -1',
+                      },
+                    ],
+                  }
+                : {
+                    normal: [
+                      {
+                        from: 0,
+                        to: 5,
+                        value: '(23)24-27(28), (35)36-41(42) at -1',
+                      },
+                      {
+                        from: 6,
+                        to: 11,
+                        value: '(23)24-27(28), 34-39(40) at -1',
+                      },
+                      {
+                        from: 12,
+                        to: 14,
+                        value: '(22)23-26(27), 34-39(40) at -1',
+                      },
+                      {
+                        from: 15,
+                        to: 25,
+                        value: '21-24(25), 33-38(39) at -1',
+                      },
+                      {
+                        from: 26,
+                        to: 31,
+                        value: '21-24(25), 31-36(37) at -1',
+                      },
+                    ],
+                    lowered: [
+                      {
+                        from: 0,
+                        to: 8,
+                        value: '26-30(31), 39-45(46) at -1',
+                      },
+                      {
+                        from: 9,
+                        to: 11,
+                        value: '26-30(31), 38-44(45) at -1',
+                      },
+                      {
+                        from: 12,
+                        to: 14,
+                        value: '25-29(30), 38-44(45) at -1',
+                      },
+                      {
+                        from: 15,
+                        to: 22,
+                        value: '25-29(30), 36-42(43) at -1',
+                      },
+                      {
+                        from: 23,
+                        to: 31,
+                        value: '(23)24-27(28), (35)36-41(42) at -1',
+                      },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+- Grab the <PokeItem name="Silph Scope" /> and <PokeItem name="Escape Rope" /> out.
+
+## Celadon City
+
+- Bike straight to the mart and take the elevator to 5F (↓↓).
+- Buy at the bottom vendor:
+  - **If low on <PokeMove name="Mega Kick" /> or high HP after Giovanni**
+    - <StateContext stateKey="starter">
+        {({ spe }) => (
+          <StateContext stateKey="mtMoonExp">
+            {(mtMoonExp) => (
+              <>
+                {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
+                <PokeItem name="X Speed" /> (↓↓)
+              </>
+            )}
+          </StateContext>
+        )}
+      </StateContext>
+    - 21x <PokeItem name="X Sp Atk" text="X Special" /> (↓)
+    - 4x <PokeItem name="X Accuracy" /> (↓)
+    - 2x <PokeItem name="Guard Spec" /> (↓)
+  - **If 2-3 PP for <PokeMove name="Mega Kick" /> left**
+    - 1x <PokeItem name="X Attack" />
+    - <StateContext stateKey="starter">
+        {({ spe }) => (
+          <StateContext stateKey="mtMoonExp">
+            {(mtMoonExp) => (
+              <>
+                {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
+                <PokeItem name="X Speed" /> (↓↓)
+              </>
+            )}
+          </StateContext>
+        )}
+      </StateContext>
+    - 18x <PokeItem name="X Sp Atk" text="X Special" /> (↓)
+    - 5x <PokeItem name="X Accuracy" /> (↓)
+    - 3x <PokeItem name="Guard Spec" /> (↓)
+- Take the elevator back down and bike west to get <PokeMove name="Fly" />.
+- After obtaining <PokeMove name="Fly" />:
+  - Teach <PokeMove name="Fly" /> to your bird.
+  - Heal to around **44 HP**.
+  - Use <PokeItem name="Super Repel" />.
+  - Equip <PokeItem name="Black Glasses" />.
+  - Toss <PokeItem name="Moon Stone" /> (makes for faster scrolling up and down in the menus).
+  - <PokeMove name="Fly" /> to Lavender Town.
+
+## Lavender Tower
+
+- ### Rival
+
+  - #### X Attack Strategy
+
+    - <Pokemon name="Pidgeotto" />: <PokeItem name="Guard Spec" />, <PokeItem name="X Accuracy" />
+      , <PokeItem name="X Attack" />, <PokeMove
+        name="Water Pulse"
+        torrent={true}
+      /> / <PokeMove name="Mega Kick" />
+
+      - <PokeMove
+          name="Quick Attack"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '7-8(9)' }],
+            lowered: [
+              { from: 0, to: 5, value: '8-9(10)' },
+              { from: 6, to: 31, value: '7-8(9)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Ivysaur" />: <PokeMove name="Mega Kick" />
+
+      - <PokeMove
+          name="Razor Leaf"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 14, value: '22-25(26), 32-37(38) with Overgrow' },
+              { from: 15, to: 28, value: '22-25(26), 30-35(36) with Overgrow' },
+              { from: 29, to: 31, value: '20-23(24), 30-35(36) with Overgrow' },
+            ],
+            lowered: [
+              { from: 0, to: 3, value: '25-29(30), 37-43(44) with Overgrow' },
+              { from: 4, to: 20, value: '25-29(30), 35-41(42) with Overgrow' },
+              { from: 21, to: 23, value: '25-29(30), 32-37(38) with Overgrow' },
+              { from: 24, to: 31, value: '22-25(26), 32-37(38) with Overgrow' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Gyarados" />: <PokeMove name="Mega Kick" />
+
+      - Stall a turn if no Torrent.
+      - <PokeMove
+          name="Thrash"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 9, value: '14-16(17)' },
+              { from: 10, to: 26, value: '13-15(16)' },
+              { from: 27, to: 31, value: '12-14(15)' },
+            ],
+            lowered: [
+              { from: 0, to: 7, value: '16-18(19)' },
+              { from: 8, to: 20, value: '15-19(18)' },
+              { from: 21, to: 31, value: '14-16(17)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Growlithe" />: <PokeMove name="Mega Kick" /> / <PokeMove name="Water Pulse" />
+    - <Pokemon name="Kadabra" />: <PokeMove name="Water Pulse" />
+
+  - #### X Special Strategy
+
+    - <Pokemon name="Pidgeotto" />: <PokeItem
+        name="X Sp Atk"
+        text="X Special"
+      /> x2, <PokeMove name="Bite" />
+
+      - Only use one <PokeItem name="X Sp Atk" text="X Special" /> if in high enough HP
+        to tank a Overgrow <PokeMove name="Razor Leaf" /> and <PokeMove name="Thrash" />.
+      - Use an <PokeItem name="X Accuracy" /> if you get hit by <PokeMove name="Sand Attack"/> (Yolo if you get hit by it twice).
+      - <PokeMove
+          name="Quick Attack"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '7-8(9)' }],
+            lowered: [
+              { from: 0, to: 5, value: '8-9(10)' },
+              { from: 6, to: 31, value: '7-8(9)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Ivysaur" />: <PokeMove
+        name="Water Pulse"
+        torrent={true}
+      /> / <PokeMove name="Bite " /> x2
+
+      - <StateContext stateKey="starter">
+          {({ spa }) =>
+            spa >= 28 && (
+              <>
+                <PokeMove name="Water Pulse" /> with Torrent is{' '}
+                {spa <= 29 ? '68.75% (11/16)' : '81.25% (13/16)'} to OHKO at +2.
+              </>
+            )
+          }
+        </StateContext>
+      - <StateContext stateKey="starter">
+          {({ spa }) =>
+            spa >= 28 && (
+              <>
+                <PokeMove name="Bite" /> is{' '}
+                {spa <= 29 ? '62.5% (10/16)' : '68.75% (11/16)'} to OHKO at +2.
+              </>
+            )
+          }
+        </StateContext>
+
+      - <PokeMove
+          name="Razor Leaf"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 14, value: '22-25(26), 32-37(38) with Overgrow' },
+              { from: 15, to: 28, value: '22-25(26), 30-35(36) with Overgrow' },
+              { from: 29, to: 31, value: '20-23(24), 30-35(36) with Overgrow' },
+            ],
+            lowered: [
+              { from: 0, to: 3, value: '25-29(30), 37-43(44) with Overgrow' },
+              { from: 4, to: 20, value: '25-29(30), 35-41(42) with Overgrow' },
+              { from: 21, to: 23, value: '25-29(30), 32-37(38) with Overgrow' },
+              { from: 24, to: 31, value: '22-25(26), 32-37(38) with Overgrow' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Gyarados" />: <PokeMove name="Bite" /> x2
+
+      - Stall a turn if no Torrent.
+      - <PokeMove
+          name="Thrash"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 9, value: '14-16(17)' },
+              { from: 10, to: 26, value: '13-15(16)' },
+              { from: 27, to: 31, value: '12-14(15)' },
+            ],
+            lowered: [
+              { from: 0, to: 7, value: '16-18(19)' },
+              { from: 8, to: 20, value: '15-19(18)' },
+              { from: 21, to: 31, value: '14-16(17)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Growlithe" />: <PokeMove name="Bite" />
+    - <Pokemon name="Kadabra" />: <PokeMove name="Water Gun" />
+
+- Head to the 5th floor avoiding all optional trainers along the way.
+  Do **not** grab any items till the 6th floor or use the healing pad.
+
+- ### Channeler Tammy
+
+  - <Pokemon name="Haunter" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+
+- ### Channeler Jennifer
+
+  - <Pokemon name="Gastly" />: <PokeMove name="Water Gun" />
+
+- ### Channeler Emilia
+
+  - <Pokemon name="Gastly" />: <PokeMove name="Water Gun" />
+
+- Grab this <PokeItem name="Rare Candy" /> before fighting <Pokemon name="Marowak"/>.
+
+  ![Rare Candy](../../static/img/frlg/LavenderRareCandy.png)
+
+- ### Ghost Marowak
+
+  - <Pokemon name="Marowak" />: <PokeMove name="Water Pulse" torrent={true} />
+
+    - <PokeMove name="Mega Kick" /> / <PokeMove name="Bite" /> for one turn if not
+      in Torrent.
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Bonemerang"
+            dmgRanges={
+              mtMoonExp === 'marcos'
+                ? {
+                    normal: [
+                      { from: 0, to: 11, value: '15-17(18)' },
+                      { from: 12, to: 31, value: '13-15(16)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 14, value: '16-18(19)' },
+                      { from: 15, to: 31, value: '15-17(18)' },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 12, value: '15-17(18)' },
+                      { from: 13, to: 31, value: '13-15(16)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 15, value: '16-18(19)' },
+                      { from: 16, to: 31, value: '15-17(18)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+- Head upstairs and let every Rocket Grunt walk up to you along the way.
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
+  - <Pokemon name="Golbat" />: <PokeMove name="Water Pulse" torrent={true} />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              {spa <= 30 ? '37.5% (6/16)' : '50% (8/16)'} to OHKO without
+              Torrent.
+            </>
+          )
+        }
+      </StateContext>
+    - If you need damage it is 1/4 to get a damaging move.
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Koffing" />: <PokeMove name="Water Gun" torrent={true} />
+  - <Pokemon name="Drowzee" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Bite" />
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
+  - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
+  - <Pokemon name="Raticate" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
+
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 22, value: '7-8(9)' },
+            { from: 23, to: 31, value: '(5)6(7)' },
+          ],
+          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
+        }}
+      />
+
+  - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
+
+- Talk to the old man to exit, then fly to Celadon City after getting the <PokeItem name="Poke Flute" />.
+
+## Celadon City
+
+- Grab the <PokeItem name="Tea" /> from the old lady in the Celadon Mansion.
+- Wake the <Pokemon name="Snorlax" /> and run away.
+- Enter the cycling road.
+
+## Cycling Road
+
+- Bag manip the spinners at the beginning.
+- Grab this hidden <PokeItem name="Rare Candy" /> (3rd sign down) and this hidden <PokeItem name="Max Elixir" />.
+
+  ![Rare Candy](../../static/img/frlg/CyclingRareCandy.png) ![Max Elixir](../../static/img/frlg/CyclingMaxElixir.png)
+
+## Fuchsia City
+
+- Head straight to the Safari Zone.
+
+## Safari Zone
+
+- Before the grass in the second area
+  - <PokeItem name="Rare Candy" /> to level 41.
+  - Use <PokeItem name="Super Repel" />.
+- Grab this <PokeItem name="Full Restore" />.
+
+  ![Full Restore](../../static/img/frlg/SafariFullRestore.png)
+
+- Grab the <PokeItem name="Gold Teeth" /> and get <PokeItem name="HM03" /> from the guy in the house.
+
+- Can grab this hidden <PokeItem name="Revive" /> for safety.
+
+  ![Revive](../../static/img/frlg/SafariRevive.png)
+
+- <PokeMove name="Fly" /> to Fuchsia City and head to the gym.
+
+## Fuchsia Gym
+
+- The 1st and 3rd trainer in this gym are spinners, fight the 2nd guy.
+- During the bag manip on the 1st spinner:
+
+  - Teach <PokeMove name="Surf" /> over <PokeMove name="Water Gun" /> (Slot 1).
+
+- ### Juggler Kirk
+  - <Pokemon name="Drowzee" />: <PokeMove name="Surf" torrent={true} /> or <PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    />, <PokeMove name="Surf" />
+  - <Pokemon name="Drowzee" />: <PokeMove name="Surf" />
+  - <Pokemon name="Kadabra" />: <PokeMove name="Surf" />
+  - <Pokemon name="Drowzee" />: <PokeMove name="Surf" />
+- Heal out of Weezing/Muk kill range on the 2nd spinner.
+
+- ### Leader Koga
+
+  - <Pokemon name="Koffing" />: <PokeMove name="Surf" />
+  - <Pokemon name="Muk" />: <PokeMove name="Surf" torrent={true} />, (<PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    />
+    ), <PokeMove name="Surf" torrent={true} />
+
+    - Use <PokeItem name="X Sp Atk" text="X Special" /> if **60+ HP** or if in <Pokemon name="Weezing" /> kill range after level up.
+    - <PokeMove
+        name="Sludge"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 8, value: '26-30(31)' },
+            { from: 9, to: 21, value: '25-29(30)' },
+            { from: 22, to: 31, value: '23-27(28)' },
+          ],
+          lowered: [
+            { from: 0, to: 1, value: '30-35(36)' },
+            { from: 2, to: 14, value: '28-(33)34' },
+            { from: 15, to: 24, value: '28-32(33)' },
+            { from: 25, to: 31, value: '26-30(31)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Koffing" />: <PokeMove name="Surf" />
+  - <Pokemon name="Weezing" />: <PokeMove name="Surf" torrent={true} /> (at +1)
+    / <PokeMove name="Water Pulse" />, <PokeMove name="Surf" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) => spa >= 30 && '68.75% to OHKO'}
+      </StateContext>
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Sludge"
+            dmgRanges={
+              mtMoonExp === 'marcos'
+                ? {
+                    normal: [
+                      { from: 0, to: 9, value: '30-35(36)' },
+                      { from: 10, to: 19, value: '28-33(34)' },
+                      { from: 20, to: 31, value: '28-32(33)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 7, value: '34-39(40)' },
+                      { from: 8, to: 14, value: '33-38(39)' },
+                      { from: 15, to: 24, value: '31-36(37)' },
+                      { from: 25, to: 31, value: '30-35(36)' },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 0, value: '31-36(37)' },
+                      { from: 1, to: 10, value: '30-35(36)' },
+                      { from: 11, to: 20, value: '28-33(34)' },
+                      { from: 21, to: 31, value: '28-32(33)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 8, value: '34-39(40)' },
+                      { from: 9, to: 15, value: '33-38(39)' },
+                      { from: 16, to: 25, value: '31-36(37)' },
+                      { from: 26, to: 31, value: '30-35(36)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+## Fuchsia City
+
+- Grab <PokeMove name="Strength" /> from the warden.
+- Once outside:
+  - Use <PokeItem name="Super Repel" />.
+  - Heal out of <Pokemon name="Growlithe" /> kill range if necessary.
+  - <PokeMove name="Fly" /> to Pallet Town and <PokeMove name="Surf" /> south to
+    Cinnabar Island.
+
+## Cinnabar Island
+
+- Go to the mansion (approach from the left side).
+
+- <StateContext stateKey="starter">
+    {(starter) => (
+      <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => {
+          const carbosFor = grabCarbosFor(starter, mtMoonExp);
+          return (
+            <>
+              {carbosFor ? 'Grab' : 'Skip'} the <PokeItem name="Carbos" />
+              {carbosFor && carbosFor === 'blaine' ? (
+                <>
+                  {' '}
+                  for Blaine's <Pokemon name="Rapidash" />
+                </>
+              ) : carbosFor === 'sabrina' ? (
+                <>
+                  {' '}
+                  for Sabrina's <Pokemon name="Alakazam" />
+                </>
+              ) : (
+                <>
+                  {' '}
+                  for Giovannis's <Pokemon name="Dugtrio" />
+                </>
+              )}.
+            </>
+          );
+        }}
+      </StateContext>
+    )}
+  </StateContext>
+
+  - <StateContext stateKey="starter">
+      {({ spe }) =>
+        spe == 31 && (
+          <>
+            <b>Skip</b> it if you fought two <Pokemon name="Pidgey" /> /{' '}
+            <Pokemon name="Rattata" /> on Route 1.
+          </>
+        )
+      }
+    </StateContext>
+
+  ![Carbos](../../static/img/frlg/CinnabarCarbos.png)
+
+- Grab this hidden <PokeItem name="Elixir" /> and <PokeItem name="TM14" /> before grabbing the <PokeItem name="Secret Key" /> on the table.
+
+  ![Elixir](../../static/img/frlg/CinnabarElixir.png)
+  ![Blizzard](../../static/img/frlg/CinnabarBlizzard.png)
+
+- Before exiting the mansion:
+
+  - Teach <PokeMove name="Strength" /> to <Pokemon name="Sandshrew" /> if you caught one.
+  - Teach <PokeMove name="Blizzard" /> over <PokeMove name="Mega Kick" /> (Slot 4).
+  - <StateContext stateKey="starter">
+      {(starter) => (
+        <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) =>
+            grabCarbosFor(starter, mtMoonExp) === 'blaine' && (
+              <>
+                Use <PokeItem name="Carbos" /> now.
+              </>
+            )
+          }
+        </StateContext>
+      )}
+    </StateContext>
+  - Use <PokeItem name="Escape Rope" /> and bike to the gym.
+
+## Cinnabar Gym
+
+- Puzzle answers are **A, B, B, B, A, B**.
+
+- ### Leader Blaine
+
+  - <StateContext stateKey="starter">
+      {(starter) => (
+        <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <>
+              <Pokemon name="Growlithe" />:{' '}
+              {(starter.spe == 21 ||
+                (grabCarbosFor(starter, mtMoonExp) === 'blaine' &&
+                  mtMoonExp === 'josh')) && (
+                <>
+                  <PokeItem name="X Speed" />,{' '}
+                </>
+              )}
+              (<PokeItem name="X Sp Atk" text="X Special" />
+              ), <PokeMove name="Surf" /> /{' '}
+              <PokeMove name="Water Pulse" torrent={true} />
+            </>
+          )}
+        </StateContext>
+      )}
+    </StateContext>
+
+    - Use <PokeItem name="X Sp Atk" text="X Special" /> if no Torrent for <Pokemon name="Arcanine" />.
+    - Use <PokeMove name="Water Pulse" /> only if low PP on <PokeMove name="Surf" />.
+    - <PokeMove
+        name="Take Down"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 1, value: '18-21(22)' },
+            { from: 2, to: 13, value: '(17)18-20(21)' },
+            { from: 14, to: 25, value: '17-19(20)' },
+            { from: 26, to: 31, value: '16-18(19)' },
+          ],
+          lowered: [
+            { from: 0, to: 4, value: '20-24(25)' },
+            { from: 5, to: 16, value: '19-22(23)' },
+            { from: 17, to: 25, value: '18-21(22)' },
+            { from: 26, to: 31, value: '(17)18-20(21)' },
+          ],
+        }}
+      />
+    - <PokeMove
+        name="Fire Blast"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 9, value: '18-21(22)' },
+            { from: 10, to: 26, value: '(17)18-20(21)' },
+            { from: 27, to: 31, value: '17-19(20)' },
+          ],
+          lowered: [
+            { from: 0, to: 4, value: '21-24(25)' },
+            { from: 5, to: 18, value: '20-23(24)' },
+            { from: 19, to: 26, value: '19-22(23)' },
+            { from: 27, to: 31, value: '18-21(22)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Ponyta" />: <PokeMove name="Surf" /> <SpeedInfo range={{ from: 22, to: 23, at: 0 }} />
+  - <Pokemon name="Rapidash" />: <PokeMove name="Surf" />
+
+    - <PokeMove
+        name="Bounce"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 1, value: '22-25(26)' },
+            { from: 2, to: 11, value: '21-24(25)' },
+            { from: 12, to: 20, value: '20-23(24)' },
+            { from: 21, to: 31, value: '19-22(23)' },
+          ],
+          lowered: [
+            { from: 0, to: 9, value: '(23)24-27(28)' },
+            { from: 10, to: 25, value: '(22)23-26(27)' },
+            { from: 26, to: 31, value: '21-24(25)' },
+          ],
+        }}
+      />
+
+    - <PokeMove
+        name="Fire Blast"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 2, value: '22-25(26)' },
+            { from: 3, to: 9, value: '21-24(25)' },
+            { from: 10, to: 23, value: '20-23(24)' },
+            { from: 24, to: 31, value: '19-22(23)' },
+          ],
+          lowered: [
+            { from: 0, to: 2, value: '4-28(29)' },
+            { from: 3, to: 7, value: '(23)24-27(28)' },
+            { from: 8, to: 21, value: '(22)23-26(27)' },
+            { from: 22, to: 28, value: '22-25(26)' },
+            { from: 29, to: 31, value: '21-24(25)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Arcanine" />: <PokeMove name="Surf" torrent={true} />
+
+- Exit the gym and say **no** to Bill.
+- <PokeMove name="Fly" /> to Celadon City and bike to the gym.
+
+## Celadon Gym
+
+- Head through the left side of the gym.
+
+- ### Beauty Tamia
+
+  - <Pokemon name="Bellsprout" />: <PokeMove name="Bite" />
+  - <Pokemon name="Bellsprout" />: <PokeMove name="Bite" />
+
+- ### Beauty Lori
+
+  - <Pokemon name="Exeggcute" />: <PokeMove name="Bite" />
+
+- ### Leader Erika
+
+  - <Pokemon name="Victreebel" />: <PokeMove name="Surf" torrent={true} /> / <PokeMove name="Blizzard" />
+  - <Pokemon name="Tangela" />: <PokeMove name="Bite" />
+  - <Pokemon name="Vileplume" />: <PokeMove name="Blizzard" />
+
+    - <PokeMove
+        name="Giga Drain"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 3, value: '27-31(32)' },
+            { from: 4, to: 31, value: '25-29(30)' },
+          ],
+          lowered: [
+            { from: 0, to: 3, value: '30-35(36)' },
+            { from: 4, to: 31, value: '27-31(32)' },
+          ],
+        }}
+      />
+
+- Exit through the already cut bush, then <PokeMove name="Fly" /> to Celadon City and bike to Silph Co.
+
+## Silph Co.
+
+- Take the stairs to 5F.
+- Always bag manip the Rocket Spinner. Can Bag Manip the Scientist walker if need be.
+- On spinner bag manip:
+
+  - Use <PokeItem name="Max Elixir" />.
+  - <StateContext stateKey="starter">
+      {(starter) => (
+        <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) =>
+            (grabCarbosFor(starter, mtMoonExp) === 'sabrina' ||
+              grabCarbosFor(starter, mtMoonExp) === 'giovanni') && (
+              <>
+                Use <PokeItem name="Carbos" /> now.
+              </>
+            )
+          }
+        </StateContext>
+      )}
+    </StateContext>
+  - <StateContext stateKey="starter">
+      {(starter) => (
+        <>
+          Heal to around <b>{silphRivalHP(starter)} HP</b>.
+        </>
+      )}
+    </StateContext>
+
+- ### Rival
+
+  - <Pokemon name="Pidgeot" />: <PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    /> (x2), <PokeItem name="X Accuracy" />, <PokeMove name="Surf" />
+
+    - Use 2x <PokeItem name="X Sp Atk" text="X Special" /> if <PokeMove name="Feather Dance" /> turn 1.
+    - <PokeMove
+        name="Wing Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 4, value: '17-20(21)' },
+            { from: 5, to: 25, value: '16-18(19)' },
+            { from: 26, to: 31, value: '15-17(18)' },
+          ],
+          lowered: [
+            { from: 0, to: 11, value: '18-21(22)' },
+            { from: 12, to: 31, value: '17-20(21)' },
+          ],
+        }}
+      />
+    - <PokeMove
+        name="Quick Attack"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 5, value: '12-14(15)' },
+            { from: 6, to: 31, value: '11-12(13)' },
+          ],
+          lowered: [
+            { from: 0, to: 3, value: '13-15(16)' },
+            { from: 4, to: 31, value: '12-14(15)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Venusaur" />: <PokeMove name="Blizzard" />
+  - <Pokemon name="Gyarados" />: <PokeMove name="Blizzard" />, <PokeMove name="Bite" />
+
+    - 68.75% (11/16) to OHKO at +2
+
+  - <Pokemon name="Growlithe" />: <PokeMove name="Bite" />
+  - <Pokemon name="Alakazam" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Surf" />
+
+- ### Rocket Grunt
+
+  - <Pokemon name="Cubone" />: <PokeMove name="Bite" /> / <PokeMove name="Water Pulse" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>{spa <= 29 ? '75% (12/16)' : '81.25% (13/16)'} to OHKO</>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Marowak" />: <PokeMove name="Water Pulse" />
+  - <Pokemon name="Drowzee" />: <PokeMove name="Water Pulse" torrent={true} />
+
+- ### Giovanni
+
+  - <Pokemon name="Nidorino" />: <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Nidoqueen" />: <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Kangaskhan" />: <PokeMove name="Water Pulse" torrent={true} />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>{spa <= 29 ? '68.75% (11/16)' : '81.25% (13/16)'} to OHKO</>
+          )
+        }
+      </StateContext>
+
+    - <PokeMove
+        name="Fake Out"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 10, value: '13-15(16)' },
+            { from: 11, to: 31, value: '12-14(15)' },
+          ],
+          lowered: [
+            { from: 0, to: 10, value: '15-17(18)' },
+            { from: 11, to: 31, value: '13-15(16)' },
+          ],
+        }}
+      />
+
+    - <PokeMove
+        name="Mega Punch"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 10, value: '25-29(30)' },
+            { from: 11, to: 23, value: '(23)24-27(28)' },
+            { from: 24, to: 31, value: '(22)23-26(27)' },
+          ],
+          lowered: [
+            { from: 0, to: 10, value: '28-32(33)' },
+            { from: 11, to: 23, value: '26-30(31)' },
+            { from: 24, to: 31, value: '25-29(30)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Water Pulse" />
+
+- <PokeItem name="Escape Rope" /> out and bike to the gym.
+
+## Safron Gym
+
+- Tile puzzle is **Top Left, Bottom Left, Down**.
+
+- ### Leader Sabrina
+
+  - <Pokemon name="Kadabra" />: <PokeMove name="Surf" torrent={true} />
+  - <Pokemon name="Mr Mime" />: <PokeMove name="Surf" torrent={true} />
+
+  - <StateContext stateKey="starter">
+      {(starter) => (
+        <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <>
+              <Pokemon name="Venomoth" />:{' '}
+              {!(starter.spe >= 29 && grabCarbosFor(starter, mtMoonExp)) && (
+                <>
+                  <PokeItem name="X Speed" />,{' '}
+                </>
+              )}
+              <PokeMove name="Surf" torrent={true} />
+            </>
+          )}
+        </StateContext>
+      )}
+    </StateContext>
+
+    - <PokeMove
+        name="Psybeam"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 10, value: '(11)12-13(14)' },
+            { from: 11, to: 31, value: '11-12(13)' },
+          ],
+          lowered: [
+            { from: 0, to: 16, value: '12-14(15)' },
+            { from: 17, to: 31, value: '(11)12-13(14)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Alakazam" />: <PokeMove name="Surf" torrent={true} />
+
+- <PokeItem name="Escape Rope" /> out, then <PokeMove name="Fly" /> to Viridian City
+  and bike to the gym.
+
+## Viridian Gym
+
+- Take the spinny tile on the right.
+
+- ### Blackbelt Takashi
+
+  - <Pokemon name="Machoke" />: <PokeMove name="Surf" />
+
+    - <StateContext stateKey="starter">
+        {({ spa }) =>
+          spa >= 28 && (
+            <>
+              {spa <= 29 ? '81.25% (13/16)' : '87.5% (14/16)'} to OHKO without
+              Torrent
+            </>
+          )
+        }
+      </StateContext>
+
+  - <Pokemon name="Machop" />: <PokeMove name="Surf" />
+  - <Pokemon name="Machoke" />: <PokeMove name="Surf" />
+
+- ### Cooltrainer Warren
+
+  - <Pokemon name="Marowak" />: <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Marowak" />: <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Nidorina" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Surf" />
+  - <Pokemon name="Nidoqueen" />: <PokeMove
+      name="Water Pulse"
+      torrent={true}
+    /> / <PokeMove name="Surf" />
+
+- ### Giovanni
+
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Water Pulse" />
+
+    - If less than 5 PP on <PokeMove name="Surf" />, you can <PokeMove name="Water Pulse" /> everything in Torrent.
+
+  - <Pokemon name="Dugtrio" />: <PokeMove name="Water Pulse" />
+    <StateContext stateKey="starter">
+      {(starter) => (
+        <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) =>
+            grabCarbosFor(starter, mtMoonExp) !== 'giovanni' && (
+              <SpeedInfo range={{ from: 18, to: 20, at: 0 }} />
+            )
+          }
+        </StateContext>
+      )}
+    </StateContext>
+  - <Pokemon name="Nidoking" />: <PokeMove name="Surf" /> / <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Nidoqueen" />: <PokeMove name="Surf" /> / <PokeMove name="Water Pulse" torrent={true} />
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Surf" /> / <PokeMove name="Water Pulse" />
+
+    - <PokeMove name="Water Pulse" /> if only 3 <PokeMove name="Surf" /> PP left.
+
+- After exiting, bike to Route 22.
+
+## Route 22
+
+- Use <PokeItem name="Full Restore" /> before fighting the rival.
+- ### Rival
+
+  - <Pokemon name="Pidgeot" />: <PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    /> x2, <PokeItem name="X Accuracy" />, <PokeMove name="Surf" />
+
+    - Consider <PokeItem name="X Accuracy" /> skip if you can live a <PokeMove name="Razor Leaf" />.
+
+  - <Pokemon name="Venusaur" />: <PokeMove name="Blizzard" />
+
+    - <PokeMove
+        name="Razor Leaf"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 5, value: '(71)72-83(84)' },
+            { from: 6, to: 15, value: '68-79(80)' },
+            { from: 16, to: 23, value: '(66)67-77(78)' },
+            { from: 24, to: 31, value: '(62)63-73(74)' },
+          ],
+          lowered: [
+            { from: 0, to: 5, value: '(78)79-91(92)' },
+            { from: 6, to: 13, value: '(76)77-89(90)' },
+            { from: 14, to: 25, value: '73-85(86)' },
+            { from: 26, to: 31, value: '(71)72-83(84)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Rhyhorn" />: <PokeMove name="Bite" />
+  - <Pokemon name="Gyarados" />: <PokeMove name="Bite" />, <PokeMove name="Blizzard" /> / <PokeMove name="Surf" />
+
+    - If <Pokemon name="Gyarados" /> uses <PokeMove name="Rain Dance" /> you can <PokeMove name="Surf" /> instead
+      of <PokeMove name="Blizzard" />.
+
+  - <Pokemon name="Growlithe" />: <PokeItem name="X Speed" />, <PokeMove name="Bite" />
+
+    - Skip <PokeItem name="X Speed" /> if <Pokemon name="Gyarados" /> used <PokeMove name="Rain Dance" /> and
+      can tank a <PokeMove name="Psychic" />.
+
+  - <Pokemon name="Alakazam" />: <PokeMove name="Surf" />
+
+    - <PokeMove
+        name="Psychic"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 0, value: '(54)55-63(64)' },
+            { from: 1, to: 8, value: '(53)54-62(63)' },
+            { from: 9, to: 14, value: '(51)52-60(61)' },
+            { from: 15, to: 18, value: '51-59(60)' },
+            { from: 19, to: 26, value: '49-57(58)' },
+            { from: 27, to: 31, value: '(48)49-56(57)' },
+          ],
+          lowered: [
+            { from: 0, to: 0, value: '61-71(72)' },
+            { from: 1, to: 6, value: '(59)60-69(70)' },
+            { from: 7, to: 10, value: '(58)59-68(69)' },
+            { from: 11, to: 16, value: '(56)57-66(67)' },
+            { from: 17, to: 22, value: '56-65(66)' },
+            { from: 23, to: 26, value: '(54)55-63(64)' },
+            { from: 27, to: 31, value: '(53)54-62(63)' },
+          ],
+        }}
+      />
+
+- Do not <PokeItem name="Super Repel" /> for the grass after Rival (1% chance to encounter).
+
+## Victory Road
+
+- As soon as you reach the water behind the 4th guard:
+  - Use <PokeItem name="Super Repel" /> (keep up till Indigo Plateau).
+  - Teach <PokeMove name="Strength" /> over <PokeMove name="Water Pulse" /> (Slot 2) if you do not have a <Pokemon name="Sandshrew" />.
+- Avoid all trainers.
+
+## Indigo Plateau
+
+- Box heal and deposit HM slaves (from "Move" menu).
+- Buy max <PokeItem name="Full Restore" /> (↓).
+
+## Elite Four
+
+- ### Lorelei
+
+  - <Pokemon name="Dewgong" />: <PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    /> x4, <PokeMove name="Bite" />, <PokeMove name="Bite" />
+
+    - <PokeMove name="Surf" /> if low roll from first <PokeMove name="Bite" />.
+    - Check your <PokeItem name="X Speed" /> count here.
+
+  - <Pokemon name="Cloyster" />: <PokeMove name="Bite" />
+  - <Pokemon name="Slowbro" />: <PokeMove name="Bite" />
+  - <Pokemon name="Jynx" />: <PokeMove name="Surf" />
+    <SpeedInfo range={{ from: 15, to: 16, at: 0 }} />
+  - <Pokemon name="Lapras" />: <PokeMove name="Bite" /> x3
+
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Body Slam"
+            dmgRanges={
+              mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                ? {
+                    normal: [
+                      { from: 0, to: 3, value: '31-36(37)' },
+                      { from: 4, to: 9, value: '30-35(36)' },
+                      { from: 10, to: 10, value: '29-34(35)' },
+                      { from: 11, to: 20, value: '28-33(34)' },
+                      { from: 21, to: 26, value: '28-32(33)' },
+                      { from: 27, to: 31, value: '27-31(32)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 3, value: '(34)35-40(41)' },
+                      { from: 4, to: 9, value: '34-39(40)' },
+                      { from: 10, to: 17, value: '33-38(39)' },
+                      { from: 18, to: 21, value: '32-37(38)' },
+                      { from: 22, to: 29, value: '31-36(37)' },
+                      { from: 30, to: 31, value: '30-35(36)' },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 2, value: '31-36(37)' },
+                      { from: 3, to: 8, value: '30-35(36)' },
+                      { from: 9, to: 9, value: '29-34(35)' },
+                      { from: 10, to: 19, value: '28-33(34)' },
+                      { from: 20, to: 25, value: '28-32(33)' },
+                      { from: 26, to: 31, value: '27-31(32)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 2, value: '(34)35-40(41)' },
+                      { from: 3, to: 8, value: '34-39(40)' },
+                      { from: 9, to: 16, value: '33-38(39)' },
+                      { from: 17, to: 20, value: '32-37(38)' },
+                      { from: 21, to: 28, value: '31-36(37)' },
+                      { from: 29, to: 31, value: '30-35(36)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+- Heal to at least **80 HP** before Bruno.
+
+  - <StateContext stateKey="starter">
+      {({ spe }) =>
+        spe == 31 ? (
+          <>Do Mid HP Bruno strategy.</>
+        ) : (
+          <>
+            Do High HP Bruno strategy if 1x <PokeMove name="Rock Tomb" /> and 2x{' '}
+            <PokeMove name="Earthquake" /> puts you into high Torrent.
+            <ul>
+              <li>
+                <b>
+                  Need 3x <PokeItem name="X Speed" /> in your inventory for High
+                  HP Bruno strategy.
+                </b>
+              </li>
+            </ul>
+          </>
+        )
+      }
+    </StateContext>
+
+- ### Bruno
+
+  - #### High HP Strategy
+
+    - <Pokemon name="Onix" />: <PokeItem
+        name="X Sp Atk"
+        text="X Special"
+      /> x2, <PokeItem name="X Speed" />, <PokeMove name="Surf" /> / <PokeMove name="Bite" />
+
+      - Use an extra <PokeItem name="X Sp Atk" text="X Special" /> if missed <PokeMove name="Rock Tomb" />.
+      - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Rock Tomb"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '16-18(19)' },
+                        { from: 10, to: 31, value: '15-17(18)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 14, value: '17-20(21)' },
+                        { from: 15, to: 31, value: '16-18(19)' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '16-18(19)' },
+                        { from: 9, to: 31, value: '15-17(18)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 13, value: '17-20(21)' },
+                        { from: 14, to: 31, value: '16-18(19)' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Earthquake"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '30-36' },
+                        { from: 10, to: 20, value: '28-34' },
+                        { from: 21, to: 31, value: '28-33' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 5, value: '34-40' },
+                        { from: 6, to: 14, value: '33-39' },
+                        { from: 15, to: 24, value: '31-37' },
+                        { from: 25, to: 31, value: '30-36' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '30-36' },
+                        { from: 9, to: 19, value: '28-34' },
+                        { from: 20, to: 31, value: '28-33' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 4, value: '34-40' },
+                        { from: 5, to: 13, value: '33-39' },
+                        { from: 14, to: 23, value: '31-37' },
+                        { from: 24, to: 31, value: '30-36' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+
+    - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
+
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Mach Punch"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 1, value: '26-31' },
+                        { from: 2, to: 12, value: '25-30' },
+                        { from: 13, to: 26, value: '23-28' },
+                        { from: 26, to: 31, value: '22-27' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 2, value: '28-34' },
+                        { from: 3, to: 13, value: '28-33' },
+                        { from: 14, to: 25, value: '26-31' },
+                        { from: 26, to: 31, value: '25-30' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 0, value: '26-31' },
+                        { from: 1, to: 11, value: '25-30' },
+                        { from: 12, to: 25, value: '23-28' },
+                        { from: 25, to: 31, value: '22-27' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 2, value: '28-34' },
+                        { from: 3, to: 13, value: '28-33' },
+                        { from: 14, to: 25, value: '26-31' },
+                        { from: 26, to: 31, value: '25-30' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Sky Uppercut"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 5, value: '(53)54-62(63)' },
+                        { from: 6, to: 9, value: '(51)52-60(61)' },
+                        { from: 10, to: 14, value: '51-59(60)' },
+                        { from: 15, to: 22, value: '49-57(58)' },
+                        { from: 23, to: 28, value: '(48)49-56(57)' },
+                        { from: 29, to: 31, value: '(46)47-54(55)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 1, value: '(59)60-69(70)' },
+                        { from: 2, to: 7, value: '(58)59-68(69)' },
+                        { from: 8, to: 12, value: '(56)57-66(67)' },
+                        { from: 13, to: 16, value: '56-65(66)' },
+                        { from: 17, to: 22, value: '(54)55-63(64)' },
+                        { from: 23, to: 31, value: '(53)54-62(63)' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 4, value: '(53)54-62(63)' },
+                        { from: 5, to: 8, value: '(51)52-60(61)' },
+                        { from: 9, to: 13, value: '51-59(60)' },
+                        { from: 14, to: 21, value: '49-57(58)' },
+                        { from: 22, to: 27, value: '(48)49-56(57)' },
+                        { from: 28, to: 31, value: '(46)47-54(55)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 0, value: '(59)60-69(70)' },
+                        { from: 1, to: 6, value: '(58)59-68(69)' },
+                        { from: 7, to: 11, value: '(56)57-66(67)' },
+                        { from: 12, to: 15, value: '56-65(66)' },
+                        { from: 16, to: 21, value: '(54)55-63(64)' },
+                        { from: 22, to: 31, value: '(53)54-62(63)' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Rock Tomb"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '21-25' },
+                        { from: 10, to: 20, value: '20-24' },
+                        { from: 21, to: 30, value: '19-23' },
+                        { from: 31, to: 31, value: '18-22' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 5, value: '23-28' },
+                        { from: 6, to: 14, value: '22-27' },
+                        { from: 15, to: 24, value: '22-26' },
+                        { from: 25, to: 31, value: '21-25' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '21-25' },
+                        { from: 9, to: 19, value: '20-24' },
+                        { from: 20, to: 29, value: '19-23' },
+                        { from: 30, to: 31, value: '18-22' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 4, value: '23-28' },
+                        { from: 5, to: 13, value: '22-27' },
+                        { from: 14, to: 23, value: '22-26' },
+                        { from: 24, to: 31, value: '21-25' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+
+    - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
+    - <Pokemon name="Machamp" />: <PokeMove name="Surf" />
+    - <Pokemon name="Onix" />: <PokeMove name="Surf" /> / <PokeMove name="Bite" />
+
+  - #### Mid HP Strategy
+
+    - <Pokemon name="Onix" />: <PokeItem name="Guard Spec" />, <PokeItem
+        name="X Sp Atk"
+        text="X Special"
+      /> x2, <PokeMove name="Surf" /> / <PokeMove name="Bite" />
+
+      - Continue setting up <PokeItem name="X Sp Atk" text="X Special" /> until +4 or at least +2 and in Torrent.
+      - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Rock Tomb"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '16-18(19)' },
+                        { from: 10, to: 31, value: '15-17(18)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 14, value: '17-20(21)' },
+                        { from: 15, to: 31, value: '16-18(19)' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '16-18(19)' },
+                        { from: 9, to: 31, value: '15-17(18)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 13, value: '17-20(21)' },
+                        { from: 14, to: 31, value: '16-18(19)' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Earthquake"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '30-36' },
+                        { from: 10, to: 20, value: '28-34' },
+                        { from: 21, to: 31, value: '28-33' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 5, value: '34-40' },
+                        { from: 6, to: 14, value: '33-39' },
+                        { from: 15, to: 24, value: '31-37' },
+                        { from: 25, to: 31, value: '30-36' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '30-36' },
+                        { from: 9, to: 19, value: '28-34' },
+                        { from: 20, to: 31, value: '28-33' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 4, value: '34-40' },
+                        { from: 5, to: 13, value: '33-39' },
+                        { from: 14, to: 23, value: '31-37' },
+                        { from: 24, to: 31, value: '30-36' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+
+    - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
+
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Mach Punch"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 1, value: '26-31' },
+                        { from: 2, to: 12, value: '25-30' },
+                        { from: 13, to: 26, value: '23-28' },
+                        { from: 26, to: 31, value: '22-27' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 2, value: '28-34' },
+                        { from: 3, to: 13, value: '28-33' },
+                        { from: 14, to: 25, value: '26-31' },
+                        { from: 26, to: 31, value: '25-30' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 0, value: '26-31' },
+                        { from: 1, to: 11, value: '25-30' },
+                        { from: 12, to: 25, value: '23-28' },
+                        { from: 25, to: 31, value: '22-27' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 2, value: '28-34' },
+                        { from: 3, to: 13, value: '28-33' },
+                        { from: 14, to: 25, value: '26-31' },
+                        { from: 26, to: 31, value: '25-30' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Sky Uppercut"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 5, value: '(53)54-62(63)' },
+                        { from: 6, to: 9, value: '(51)52-60(61)' },
+                        { from: 10, to: 14, value: '51-59(60)' },
+                        { from: 15, to: 22, value: '49-57(58)' },
+                        { from: 23, to: 28, value: '(48)49-56(57)' },
+                        { from: 29, to: 31, value: '(46)47-54(55)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 1, value: '(59)60-69(70)' },
+                        { from: 2, to: 7, value: '(58)59-68(69)' },
+                        { from: 8, to: 12, value: '(56)57-66(67)' },
+                        { from: 13, to: 16, value: '56-65(66)' },
+                        { from: 17, to: 22, value: '(54)55-63(64)' },
+                        { from: 23, to: 31, value: '(53)54-62(63)' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 4, value: '(53)54-62(63)' },
+                        { from: 5, to: 8, value: '(51)52-60(61)' },
+                        { from: 9, to: 13, value: '51-59(60)' },
+                        { from: 14, to: 21, value: '49-57(58)' },
+                        { from: 22, to: 27, value: '(48)49-56(57)' },
+                        { from: 28, to: 31, value: '(46)47-54(55)' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 0, value: '(59)60-69(70)' },
+                        { from: 1, to: 6, value: '(58)59-68(69)' },
+                        { from: 7, to: 11, value: '(56)57-66(67)' },
+                        { from: 12, to: 15, value: '56-65(66)' },
+                        { from: 16, to: 21, value: '(54)55-63(64)' },
+                        { from: 22, to: 31, value: '(53)54-62(63)' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+      - <StateContext stateKey="mtMoonExp">
+          {(mtMoonExp) => (
+            <PokeMove
+              name="Rock Tomb"
+              dmgRanges={
+                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
+                  ? {
+                      normal: [
+                        { from: 0, to: 9, value: '21-25' },
+                        { from: 10, to: 20, value: '20-24' },
+                        { from: 21, to: 30, value: '19-23' },
+                        { from: 31, to: 31, value: '18-22' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 5, value: '23-28' },
+                        { from: 6, to: 14, value: '22-27' },
+                        { from: 15, to: 24, value: '22-26' },
+                        { from: 25, to: 31, value: '21-25' },
+                      ],
+                    }
+                  : {
+                      normal: [
+                        { from: 0, to: 8, value: '21-25' },
+                        { from: 9, to: 19, value: '20-24' },
+                        { from: 20, to: 29, value: '19-23' },
+                        { from: 30, to: 31, value: '18-22' },
+                      ],
+                      lowered: [
+                        { from: 0, to: 4, value: '23-28' },
+                        { from: 5, to: 13, value: '22-27' },
+                        { from: 14, to: 23, value: '22-26' },
+                        { from: 24, to: 31, value: '21-25' },
+                      ],
+                    }
+              }
+            />
+          )}
+        </StateContext>
+
+    - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
+      <SpeedHint range={{ from: 17, to: 18, at: 0 }} />
+
+      - Can use <PokeItem name="Super Potion" /> here.
+
+    - <Pokemon name="Machamp" />: <PokeMove name="Surf" />
+
+      - Need at least +2 in torrent or +4 without Torrent to OHKO.
+
+    - <Pokemon name="Onix" />: <PokeMove name="Surf" /> / <PokeMove name="Bite" />
+
+- Heal to high Torrent before Agatha (usually <PokeItem name="Oran Berry" /> out of <PokeMove name="Shadow Punch"/> range).
+
+- ### Agatha
+
+  - <Pokemon name="Gengar" />: <PokeItem name="X Speed" />, <PokeItem
+      name="X Sp Atk"
+      text="X Special"
+    />
+    , <PokeMove name="Surf" torrent={true} />
+
+    - Need at least +3 from here without Torrent.
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeMove
+            name="Shadow Punch"
+            dmgRanges={
+              mtMoonExp === 'josh'
+                ? {
+                    normal: [
+                      { from: 0, to: 2, value: '28-33(34)' },
+                      { from: 3, to: 16, value: '28-32(33)' },
+                      { from: 17, to: 27, value: '26-30(31)' },
+                      { from: 28, to: 31, value: '25-29(30)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 8, value: '31-36(37)' },
+                      { from: 9, to: 18, value: '30-35(36)' },
+                      { from: 19, to: 29, value: '28-33(34)' },
+                      { from: 30, to: 31, value: '28-32(33)' },
+                    ],
+                  }
+                : {
+                    normal: [
+                      { from: 0, to: 1, value: '28-33(34)' },
+                      { from: 2, to: 15, value: '28-32(33)' },
+                      { from: 16, to: 26, value: '26-30(31)' },
+                      { from: 27, to: 31, value: '25-29(30)' },
+                    ],
+                    lowered: [
+                      { from: 0, to: 7, value: '31-36(37)' },
+                      { from: 8, to: 17, value: '30-35(36)' },
+                      { from: 18, to: 28, value: '28-33(34)' },
+                      { from: 29, to: 31, value: '28-32(33)' },
+                    ],
+                  }
+            }
+          />
+        )}
+      </StateContext>
+
+  - <Pokemon name="Golbat" />: <PokeMove name="Surf" torrent={true} />
+  - <Pokemon name="Arbok" />: <PokeMove name="Surf" torrent={true} />
+  - <Pokemon name="Gengar" />: <PokeMove name="Surf" torrent={true} />
+  - <Pokemon name="Haunter" />: <PokeMove name="Surf" torrent={true} />
+
+- Heal to **full HP** before Lance.
+
+- ### Lance
+
+  - Consider risky strategy if 2x <PokeMove name="Dragon Rage" /> puts you into <PokeMove name="Hyper Beam" /> range.
+
+  - #### Safe strategy
+
+    - <Pokemon name="Gyarados" />: <PokeMove name="Bite" />, <PokeItem name="X Accuracy" />
+      , <PokeItem name="X Sp Atk" text="X Special" />, <PokeMove name="Blizzard" />
+      , <PokeMove name="Blizzard" />
+
+      - <StateContext stateKey="starter">
+          {({ spa }) =>
+            spa >= 30 && <>{spa == 31 ? '41.8%' : '31.25% (5/16)'} to 2HKO</>
+          }
+        </StateContext>
+
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 1, value: '75-88(89)' },
+              { from: 2, to: 3, value: '74-87(88)' },
+              { from: 4, to: 7, value: '73-86(87)' },
+              { from: 8, to: 10, value: '73-85(86)' },
+              { from: 11, to: 12, value: '72-84(85)' },
+              { from: 13, to: 16, value: '71-83(84)' },
+              { from: 17, to: 18, value: '70-82(83)' },
+              { from: 19, to: 20, value: '69-81(82)' },
+              { from: 21, to: 23, value: '68-80(81)' },
+              { from: 24, to: 27, value: '68-79(80)' },
+              { from: 28, to: 31, value: '67-78(79)' },
+            ],
+            lowered: [
+              { from: 0, to: 1, value: '85-99(100)' },
+              { from: 2, to: 3, value: '84-98(99)' },
+              { from: 4, to: 7, value: '82-96(97)' },
+              { from: 8, to: 9, value: '81-95(96)' },
+              { from: 10, to: 10, value: '80-94(95)' },
+              { from: 11, to: 14, value: '79-93(94)' },
+              { from: 15, to: 16, value: '79-92(93)' },
+              { from: 17, to: 20, value: '78-91(92)' },
+              { from: 21, to: 23, value: '77-90(91)' },
+              { from: 24, to: 27, value: '75-88(89)' },
+              { from: 28, to: 29, value: '74-87(88)' },
+              { from: 30, to: 31, value: '73-86(87)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
+
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '45-66' }],
+            lowered: [{ from: 0, to: 31, value: '45-66' }],
+          }}
+        />
+
+    - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
+
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '45-66' }],
+            lowered: [{ from: 0, to: 31, value: '45-66' }],
+          }}
+        />
+
+    - <Pokemon name="Dragonite" />: <PokeMove name="Blizzard" />
+    - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
+
+      - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 3, value: '(68)69-80(81)' },
+              { from: 4, to: 6, value: '68-79(80)' },
+              { from: 7, to: 8, value: '67-78(79)' },
+              { from: 9, to: 12, value: '(66)67-77(78)' },
+              { from: 13, to: 17, value: '(65)66-76(77)' },
+              { from: 18, to: 19, value: '(64)65-75(76)' },
+              { from: 20, to: 21, value: '(63)64-74(75)' },
+              { from: 22, to: 24, value: '(62)63-73(74)' },
+              { from: 25, to: 28, value: '62-72(73)' },
+              { from: 29, to: 31, value: '61-71(72)' },
+            ],
+            lowered: [
+              { from: 0, to: 3, value: '62-72(73)' },
+              { from: 4, to: 6, value: '61-71(72)' },
+              { from: 7, to: 10, value: '(60)61-70(71)' },
+              { from: 11, to: 12, value: '(59)60-69(70)' },
+              { from: 13, to: 15, value: '(58)59-68(69)' },
+              { from: 16, to: 19, value: '(57)58-67(68)' },
+              { from: 20, to: 23, value: '(56)57-66(67)' },
+              { from: 24, to: 28, value: '56-65(66)' },
+              { from: 29, to: 30, value: '55-64(65)' },
+              { from: 31, to: 31, value: '(54)55-63(64)' },
+            ],
+          }}
+        />
+
+  - #### Risky strategy
+
+    - <Pokemon name="Gyarados" />: <PokeItem name="X Accuracy" />, <PokeItem
+        name="X Sp Atk"
+        text="X Special"
+      />
+      , <PokeMove name="Bite" /> x2, <PokeMove name="Blizzard" />
+
+      - <StateContext stateKey="starter">
+          {({ spa }) =>
+            spa >= 28 && (
+              <>
+                {spa == 31 ? '85%' : '72%'} to 3HKO with{' '}
+                <PokeMove name="Bite" /> x2, <PokeMove name="Blizzard" />{' '}
+              </>
+            )
+          }
+        </StateContext>
+      - <StateContext stateKey="starter">
+          {({ spa }) =>
+            spa >= 29 && (
+              <>
+                {spa == 31 ? '83%' : '72%'} to 2HKO with{' '}
+                <PokeMove name="Bite" /> Crit and <PokeMove name="Blizzard" />
+              </>
+            )
+          }
+        </StateContext>
+
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 1, value: '75-88(89)' },
+              { from: 2, to: 3, value: '74-87(88)' },
+              { from: 4, to: 7, value: '73-86(87)' },
+              { from: 8, to: 10, value: '73-85(86)' },
+              { from: 11, to: 12, value: '72-84(85)' },
+              { from: 13, to: 16, value: '71-83(84)' },
+              { from: 17, to: 18, value: '70-82(83)' },
+              { from: 19, to: 20, value: '69-81(82)' },
+              { from: 21, to: 23, value: '68-80(81)' },
+              { from: 24, to: 27, value: '68-79(80)' },
+              { from: 28, to: 31, value: '67-78(79)' },
+            ],
+            lowered: [
+              { from: 0, to: 1, value: '85-99(100)' },
+              { from: 2, to: 3, value: '84-98(99)' },
+              { from: 4, to: 7, value: '82-96(97)' },
+              { from: 8, to: 9, value: '81-95(96)' },
+              { from: 10, to: 10, value: '80-94(95)' },
+              { from: 11, to: 14, value: '79-93(94)' },
+              { from: 15, to: 16, value: '79-92(93)' },
+              { from: 17, to: 20, value: '78-91(92)' },
+              { from: 21, to: 23, value: '77-90(91)' },
+              { from: 24, to: 27, value: '75-88(89)' },
+              { from: 28, to: 29, value: '74-87(88)' },
+              { from: 30, to: 31, value: '73-86(87)' },
+            ],
+          }}
+        />
+
+    - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
+
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '45-66' }],
+            lowered: [{ from: 0, to: 31, value: '45-66' }],
+          }}
+        />
+
+    - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
+
+      - Use <PokeItem name="Elixir" /> if you missed a <PokeMove name="Blizzard" />.
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [{ from: 0, to: 31, value: '45-66' }],
+            lowered: [{ from: 0, to: 31, value: '45-66' }],
+          }}
+        />
+
+    - <Pokemon name="Dragonite" />: <PokeMove name="Blizzard" />
+    - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
+
+      - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
+      - <PokeMove
+          name="Hyper Beam"
+          dmgRanges={{
+            normal: [
+              { from: 0, to: 3, value: '(68)69-80(81)' },
+              { from: 4, to: 6, value: '68-79(80)' },
+              { from: 7, to: 8, value: '67-78(79)' },
+              { from: 9, to: 12, value: '(66)67-77(78)' },
+              { from: 13, to: 17, value: '(65)66-76(77)' },
+              { from: 18, to: 19, value: '(64)65-75(76)' },
+              { from: 20, to: 21, value: '(63)64-74(75)' },
+              { from: 22, to: 24, value: '(62)63-73(74)' },
+              { from: 25, to: 28, value: '62-72(73)' },
+              { from: 29, to: 31, value: '61-71(72)' },
+            ],
+            lowered: [
+              { from: 0, to: 3, value: '62-72(73)' },
+              { from: 4, to: 6, value: '61-71(72)' },
+              { from: 7, to: 10, value: '(60)61-70(71)' },
+              { from: 11, to: 12, value: '(59)60-69(70)' },
+              { from: 13, to: 15, value: '(58)59-68(69)' },
+              { from: 16, to: 19, value: '(57)58-67(68)' },
+              { from: 20, to: 23, value: '(56)57-66(67)' },
+              { from: 24, to: 28, value: '56-65(66)' },
+              { from: 29, to: 30, value: '55-64(65)' },
+              { from: 31, to: 31, value: '(54)55-63(64)' },
+            ],
+          }}
+        />
+
+- Heal to **full HP** and use <PokeItem name="Elixir" /> before Champion.
+
+- ### Champion
+
+  - <Pokemon name="Pidgeot" />: <PokeItem name="Guard Spec" />, <PokeItem name="X Speed" />
+    , <PokeItem name="X Sp Atk" text="X Special" /> x3, <PokeMove name="Surf" />
+
+    - If you get into Torrent, skip the third <PokeItem name="X Sp Atk" text="X Special" /> and heal on <Pokemon name="Gyarados" />.
+    - **Need** +3 without Torrent or +2 with Torrent to get past <Pokemon name="Alakazam" />.
+    - Can <PokeMove name="Blizzard" /> at +2 if <PokeItem name="Guard Spec" /> runs out.
+    - <PokeMove
+        name="Aerial Ace"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 1, value: '35-41(42)' },
+            { from: 2, to: 10, value: '34-39(40)' },
+            { from: 11, to: 19, value: '33-38(39)' },
+            { from: 20, to: 30, value: '31-36(37)' },
+            { from: 31, to: 31, value: '30-35(36)' },
+          ],
+          lowered: [
+            { from: 0, to: 1, value: '39-45(46)' },
+            { from: 2, to: 8, value: '38-44(45)' },
+            { from: 9, to: 19, value: '36-42(43)' },
+            { from: 20, to: 26, value: '35-41(42)' },
+            { from: 27, to: 31, value: '34-39(40)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Venusaur" />: <PokeItem name="X Accuracy" />, <PokeMove name="Blizzard" />
+
+    - Skip <PokeItem name="X Accuracy" /> if feeling risky.
+    - <PokeMove name="Bite" /> and <PokeMove name="Surf" /> instead if +3 and in
+      Torrent.
+
+  - <Pokemon name="Alakazam" />: <PokeMove name="Surf" />
+  - <Pokemon name="Rhydon" />: <PokeMove name="Surf" />
+  - <Pokemon name="Gyarados" />: <PokeMove name="Bite" />, <PokeMove name="Blizzard" />
+
+    - <PokeMove name="Blizzard" /> x2 if at +2.
+    - <PokeMove
+        name="Thrash"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 1, value: '44-51(52)' },
+            { from: 2, to: 6, value: '43-50(51)' },
+            { from: 7, to: 9, value: '42-49(50)' },
+            { from: 10, to: 15, value: '41-48(49)' },
+            { from: 16, to: 20, value: '40-47(48)' },
+            { from: 21, to: 26, value: '39-46(47)' },
+            { from: 27, to: 31, value: '39-45(46)' },
+          ],
+          lowered: [
+            { from: 0, to: 4, value: '48-56(57)' },
+            { from: 5, to: 8, value: '47-55(56)' },
+            { from: 9, to: 13, value: '46-54(55)' },
+            { from: 14, to: 17, value: '45-53(54)' },
+            { from: 18, to: 22, value: '45-52(53)' },
+            { from: 23, to: 26, value: '44-51(52)' },
+            { from: 27, to: 31, value: '43-50(51)' },
+          ],
+        }}
+      />
+
+  - <Pokemon name="Arcanine" />: <PokeMove name="Surf" />
+
+    - <PokeMove
+        name="Extreme Speed"
+        dmgRanges={{
+          normal: [
+            { from: 0, to: 4, value: '41-48(49)' },
+            { from: 5, to: 8, value: '40-47(48)' },
+            { from: 9, to: 15, value: '39-46(47)' },
+            { from: 16, to: 20, value: '39-45(46)' },
+            { from: 21, to: 26, value: '38-44(45)' },
+            { from: 27, to: 31, value: '37-43(44)' },
+          ],
+          lowered: [
+            { from: 0, to: 2, value: '46-54(55)' },
+            { from: 3, to: 6, value: '45-53(54)' },
+            { from: 7, to: 11, value: '45-52(53)' },
+            { from: 12, to: 15, value: '44-51(52)' },
+            { from: 16, to: 20, value: '43-50(51)' },
+            { from: 21, to: 24, value: '42-49(50)' },
+            { from: 25, to: 31, value: '41-48(49)' },
+          ],
+        }}
+      />
+
+- Ending split is on fadeout after Hall of Fame.

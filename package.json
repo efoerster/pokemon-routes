@@ -1,0 +1,41 @@
+{
+  "name": "pokemon-routes",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "serve": "docusaurus serve"
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.0.0-alpha.66",
+    "@docusaurus/preset-classic": "2.0.0-alpha.66",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.12",
+    "@mdx-js/react": "^1.5.8",
+    "clsx": "^1.1.1",
+    "pokeapi-js-wrapper": "^1.1.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-hook-form": "^6.9.6",
+    "react-hooks-global-state": "^1.0.1",
+    "react-query": "^2.25.2",
+    "slugify": "^1.4.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
