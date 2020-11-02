@@ -4,7 +4,7 @@
 # pokemon-routes
 
 A website containing interactive speedrunning guides of the Pokemon series.
-You can find it [here](http://efoerster.github.io/pokemon-routes).
+You can find it [here](https://efoerster.github.io/pokemon-routes/).
 
 ## Development
 
