@@ -12,7 +12,7 @@ module.exports = {
       title: 'Pokemon Routes',
       logo: {
         alt: 'Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
