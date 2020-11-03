@@ -37,9 +37,9 @@ export function StarterPicker() {
           <tr>
             <td>
               <select name="nature" ref={register}>
-                <option value="Rash">Rash</option>
-                <option value="Mild">Mild</option>
-                <option value="Modest">Modest</option>
+                <option value="rash">Rash</option>
+                <option value="mild">Mild</option>
+                <option value="modest">Modest</option>
               </select>
             </td>
             <IVInputCell name="hp" />

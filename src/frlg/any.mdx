@@ -60,7 +60,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       {({ nature, atk }) => (
         <>
           <Pokemon name="Bulbasaur" />:{' '}
-          {nature === 'Modest' || atk <= 3 ? (
+          {nature === 'modest' || atk <= 3 ? (
             <>
               <PokeMove name="Tail Whip" /> x1, <PokeMove name="Tackle" />
             </>
@@ -80,7 +80,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - Kill any level 2 or 3 <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> along the way.
   - <StateContext stateKey="starter">
       {({ nature, atk }) =>
-        (nature === 'Modest' || atk < 21) && (
+        (nature === 'modest' || atk < 21) && (
           <>
             <b>Do not</b> kill a level 3 <Pokemon name="Pidgey" />.
           </>
@@ -584,7 +584,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       {({ nature, atk }) => (
         <>
           <Pokemon name="Bulbasaur" />:{' '}
-          {nature === 'Modest' && atk <= 12 ? (
+          {nature === 'modest' && atk <= 12 ? (
             <>
               <PokeMove name="Mega Kick" /> x2
             </>
@@ -901,8 +901,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       {({ nature, atk }) => (
         <>
           <Pokemon name="Ivysaur" />:{' '}
-          {(nature === 'Modest' && atk <= 20) ||
-          (nature !== 'Modest' && atk <= 1) ? (
+          {(nature === 'modest' && atk <= 20) ||
+          (nature !== 'modest' && atk <= 1) ? (
             <>
               <PokeMove name="Mega Kick" /> x2
             </>
@@ -1269,7 +1269,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       {({ nature, atk }) => (
         <>
           <Pokemon name="Oddish" />:{' '}
-          {nature === 'Modest' || atk <= 15 ? (
+          {nature === 'modest' || atk <= 15 ? (
             <>
               <PokeMove name="Bite" /> x2
             </>
@@ -1284,7 +1284,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="starter">
         {({ nature, atk }) =>
-          nature !== 'Modest' &&
+          nature !== 'modest' &&
           atk >= 16 && (
             <>{atk <= 18 ? '81.25%' : atk <= 21 ? '87.5%' : '100%'} to OHKO</>
           )

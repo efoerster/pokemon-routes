@@ -33,8 +33,8 @@ export function PokeMove({ name, dmgRanges, torrent }) {
   if (dmgRanges && move) {
     const defStat = SPECIAL_TYPES.includes(type) ? 'spd' : 'def';
     const ranges =
-      (defStat === 'def' && starter.nature === 'Mild') ||
-      (defStat === 'spd' && starter.nature === 'Rash')
+      (defStat === 'def' && starter.nature === 'mild') ||
+      (defStat === 'spd' && starter.nature === 'rash')
         ? dmgRanges.lowered
         : dmgRanges.normal;
 

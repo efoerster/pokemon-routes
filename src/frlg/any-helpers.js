@@ -1,5 +1,5 @@
 export function antidoteInfo({ nature, def, hp }) {
-  if ((nature === 'Mild' && def >= 7) || (nature !== 'Mild' && def <= 6)) {
+  if ((nature === 'mild' && def >= 7) || (nature !== 'mild' && def <= 6)) {
     if (hp <= 2) {
       return { hp: 7, torrent: false, heal: false };
     } else if (hp <= 11 || hp == 22 || hp == 23) {
@@ -8,7 +8,7 @@ export function antidoteInfo({ nature, def, hp }) {
       return { hp: 5, torrent: true, heal: false };
     }
     return { hp: 6, torrent: true, heal: false };
-  } else if (nature !== 'Mild' && def >= 7) {
+  } else if (nature !== 'mild' && def >= 7) {
     let antidoteAt = 0;
     if (hp <= 1) {
       antidoteAt = 6;
@@ -18,7 +18,7 @@ export function antidoteInfo({ nature, def, hp }) {
       antidoteAt = 5;
     }
     return { hp: antidoteAt, torrent: true, heal: false };
-  } else if (nature === 'Mild' && def <= 3) {
+  } else if (nature === 'mild' && def <= 3) {
     if (hp == 0) {
       return { hp: 8, torrent: false, heal: true };
     } else if (hp == 24) {
@@ -39,7 +39,7 @@ export function antidoteInfo({ nature, def, hp }) {
 }
 
 export function grabPersimBerry({ nature, def, spd, spa }, mtMoonExp) {
-  if (nature === 'Mild') {
+  if (nature === 'mild') {
     return false;
   }
 
@@ -47,7 +47,7 @@ export function grabPersimBerry({ nature, def, spd, spa }, mtMoonExp) {
     return true;
   }
 
-  if (nature === 'Rash') {
+  if (nature === 'rash') {
     if (
       mtMoonExp === 'josh' &&
       ((def >= 13 && def <= 27 && spd >= 15) || (def <= 12 && spd >= 5))
@@ -78,7 +78,7 @@ export function grabCarbosFor({ spe }, mtMoonExp) {
 }
 
 export function silphRivalHP({ nature, def }) {
-  if (nature === 'Mild') {
+  if (nature === 'mild') {
     return def <= 11 ? 82 : 80;
   }
 

@@ -2,7 +2,7 @@ import { createGlobalState } from 'react-hooks-global-state';
 
 export const { useGlobalState } = createGlobalState({
   starter: {
-    nature: 'Rash',
+    nature: 'rash',
     hp: 31,
     atk: 31,
     def: 31,
