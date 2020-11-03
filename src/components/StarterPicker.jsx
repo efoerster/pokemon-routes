@@ -6,6 +6,18 @@ export function StarterPicker() {
   const [starter, setStarter] = useGlobalState('starter');
   const { register, handleSubmit } = useForm();
 
+  const onSubmit = handleSubmit(({ nature, hp, atk, def, spa, spd, spe }) => {
+    setStarter({
+      nature,
+      hp: parseInt(hp),
+      atk: parseInt(atk),
+      def: parseInt(def),
+      spa: parseInt(spa),
+      spd: parseInt(spd),
+      spe: parseFloat(spe),
+    });
+  });
+
   const IVInputCell = ({ name }) => (
     <td>
       <input
@@ -20,7 +32,7 @@ export function StarterPicker() {
   );
 
   return (
-    <form onSubmit={handleSubmit(setStarter)}>
+    <form onSubmit={onSubmit}>
       <table>
         <thead>
           <tr>
