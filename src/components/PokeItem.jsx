@@ -1,13 +1,8 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import slugify from 'slugify';
-import Pokedex from '../pokeapi';
+import { usePokeItem } from '../pokeapi';
 
 export function PokeItem({ name, text }) {
-  const { data: item } = useQuery(name, async () => {
-    return await Pokedex.getItemByName(slugify(name, { lower: true }));
-  });
-
+  const item = usePokeItem(name);
   return (
     <>
       <img

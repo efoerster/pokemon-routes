@@ -1,14 +1,9 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import slugify from 'slugify';
 import { PokeTypeText } from './PokeTypeText';
-import Pokedex from '../pokeapi';
+import { usePokemon } from '../pokeapi';
 
 export function Pokemon({ name }) {
-  const { data: pokemon } = useQuery(name, async () => {
-    return await Pokedex.getPokemonByName(slugify(name, { lower: true }));
-  });
-
+  const pokemon = usePokemon(name);
   const type = pokemon && pokemon.types[0].type.name;
   const sprite =
     pokemon &&

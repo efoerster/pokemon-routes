@@ -1,9 +1,7 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import slugify from 'slugify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import Pokedex from '../pokeapi';
+import { usePokeMove } from '../pokeapi';
 import { PokeTypeText } from './PokeTypeText';
 import { useGlobalState } from '../state';
 
@@ -20,9 +18,7 @@ const SPECIAL_TYPES = [
 
 export function PokeMove({ name, dmgRanges, torrent }) {
   const [starter] = useGlobalState('starter');
-  const { data: move } = useQuery(name, async () => {
-    return await Pokedex.getMoveByName(slugify(name, { lower: true }));
-  });
+  const move = usePokeMove(name);
 
   const type = move && move.type.name;
   const style = torrent
