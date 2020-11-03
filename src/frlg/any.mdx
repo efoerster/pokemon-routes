@@ -76,11 +76,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 ## Route 1-2
 
-- Grab the potion from mart guy.
+- Grab the <PokeItem name="Potion" /> from mart guy.
 - Kill any level 2 or 3 <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> along the way.
-  - Do not kill a level 3 <Pokemon name="Pidgey" /> if Modest or less than 21 Attack.
-  - If 31 IV speed, attempt to kill an extra <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> on Route 1.
-- Grab the parcel at the mart then head back to Oak’s lab.
+  - <StateContext stateKey="starter">
+      {({ nature, atk }) =>
+        (nature === 'Modest' || atk < 21) && (
+          <>
+            <b>Do not</b> kill a level 3 <Pokemon name="Pidgey" />.
+          </>
+        )
+      }
+    </StateContext>
+  - <StateContext stateKey="starter">
+      {({ spe }) =>
+        spe == 31 && (
+          <>
+            Attempt to kill an extra <Pokemon name="Pidgey" /> /{' '}
+            <Pokemon name="Rattata" /> on Route 1.
+          </>
+        )
+      }
+    </StateContext>
+- Grab the <PokeItem name="Parcel" /> at the mart then head back to Oak’s lab.
 - Catch <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> if you come across them (Tackle once to weaken).
   - Do not try to force an encounter since there are backups later.
 - On Route 2 cut through the grass before the Viridian Forest entrance (2nd tile to the right) it is 1% to get an encounter.
