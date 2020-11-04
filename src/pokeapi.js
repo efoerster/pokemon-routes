@@ -4,9 +4,13 @@ import slugify from 'slugify';
 const Pokedex = new (require('pokeapi-js-wrapper').Pokedex)();
 
 function usePokeApi(name, endpoint) {
-  const { data } = useQuery(name, async () => {
-    return await Pokedex[endpoint](slugify(name, { lower: true }));
-  });
+  const { data } = useQuery(
+    name,
+    async () => {
+      return await Pokedex[endpoint](slugify(name, { lower: true }));
+    },
+    { enabled: !!name },
+  );
 
   return data;
 }

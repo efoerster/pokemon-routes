@@ -1,4 +1,5 @@
 export { MtMoonPicker } from './MtMoonPicker';
+export { PokeDamage } from './PokeDamage';
 export { PokeItem } from './PokeItem';
 export { Pokemon } from './Pokemon';
 export { PokeMove } from './PokeMove';

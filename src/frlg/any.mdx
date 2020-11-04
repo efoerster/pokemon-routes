@@ -5,6 +5,7 @@ title: FireRed/LeafGreen Any%
 
 import {
   MtMoonPicker,
+  PokeDamage,
   PokeItem,
   Pokemon,
   PokeMove,
@@ -17,6 +18,7 @@ import {
   grabPersimBerry,
   grabCarbosFor,
   silphRivalHP,
+  adjustEV,
 } from './any-helpers';
 
 This guide is an interactive version of [PulseEffect's Any% Squirtle route](https://docs.google.com/document/d/1j4fqPzBkLTsCEeLguL0I5xhiXimfVwhbLYwVpi4uRYA/edit?usp=sharing).
@@ -118,16 +120,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - Swap <PokeMove name="Tail Whip" /> with <PokeMove name="Tackle" /> turn 1 before using it (Right + Select, A + A).
     - Spam <PokeMove name="Bubble" /> if level 7.
-    - <PokeMove
+    - <PokeDamage
         name="Poison Sting"
-        dmgRanges={{
-          normal: [{ from: 0, to: 31, value: '3(4)' }],
-          lowered: [{ from: 0, to: 31, value: '3(4)' }],
-        }}
+        defender={{ name: 'squirtle', level: 6, ev: 0 }}
+        attacker={{ name: 'weedle', level: 9, atk: 11 }}
       />
     - **Poison** damage:
       <StateContext stateKey="starter">
-        {({ hp }) => <b> {hp <= 11 ? '2' : '2 at lvl 6, 3 at lvl 7'}</b>}
+        {({ hp }) => <b> {hp <= 11 ? '2' : '2 at level 6, 3 at level 7'}</b>}
       </StateContext>
 
 - <StateContext stateKey="starter">
@@ -162,19 +162,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Geodude" />: <PokeMove name="Bubble" torrent={true} /> (x2)
   - <Pokemon name="Sandshrew" />: <PokeMove name="Bubble" torrent={true} /> x2-4
 
-    - <PokeMove
+    - <PokeDamage
         name="Scratch"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 3, value: '6-7(8)' },
-            { from: 4, to: 31, value: '(5)6(7)' },
-          ],
-          lowered: [
-            { from: 0, to: 3, value: '7-8(9)' },
-            { from: 4, to: 25, value: '6-7(8)' },
-            { from: 26, to: 31, value: '(5)6(7)' },
-          ],
-        }}
+        defender={{ name: 'squirtle', level: 9, ev: 1 }}
+        attacker={{ name: 'sandshrew', level: 11, atk: 21 }}
       />
 
 - ### Leader Brock
@@ -183,15 +174,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - 87.5% (14/16) to OHKO at level 11
     - Consider <PokeMove name="Withdraw" /> Turn 1 if HP is too high for Torrent.
-    - <PokeMove
+    - <PokeDamage
         name="Tackle"
-        dmgRanges={{
-          normal: [{ from: 0, to: 31, value: '(5)6(7), 4(5) at +1 Def' }],
-          lowered: [
-            { from: 0, to: 19, value: '6-7(8), 5(6) at +1 Def' },
-            { from: 20, to: 31, value: '(5)6(7), 4(5) at +1 Def' },
-          ],
-        }}
+        defender={{ name: 'squirtle', level: 10, ev: 2 }}
+        attacker={{ name: 'geodude', level: 12, atk: 24 }}
+      />
+    - <PokeDamage
+        name="Tackle"
+        defender={{ name: 'squirtle', level: 10, ev: 2, stage: 1 }}
+        attacker={{ name: 'geodude', level: 12, atk: 24 }}
       />
 
   - <Pokemon name="Onix" />: <PokeMove name="Bubble" torrent={true} /> (x2)
@@ -209,31 +200,25 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-    - <PokeMove
+    - <PokeDamage
         name="Rock Tomb"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 6, value: '10-11(12), 7-8(9) at +1 Def' },
-            { from: 7, to: 31, value: '8-9(10), (5)6(7) at +1 Def' },
-          ],
-          lowered: [
-            { from: 0, to: 6, value: '11-12(13), 7-8(9) at +1 Def' },
-            { from: 7, to: 31, value: '10-11(12), 7-8(9) at +1 Def' },
-          ],
-        }}
+        defender={{ name: 'squirtle', level: 11, ev: 3 }}
+        attacker={{ name: 'geodude', level: 14, atk: 17 }}
       />
-    - <PokeMove
+    - <PokeDamage
         name="Tackle"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 15, value: '5(6), 3(4) at +1 Def' },
-            { from: 16, to: 31, value: '4(5), 3(4) at +1 Def' },
-          ],
-          lowered: [
-            { from: 0, to: 24, value: '5(6), 4(5) at +1 Def' },
-            { from: 25, to: 31, value: '5(6), 3(4) at +1 Def' },
-          ],
-        }}
+        defender={{ name: 'squirtle', level: 11, ev: 3 }}
+        attacker={{ name: 'geodude', level: 14, atk: 17 }}
+      />
+    - <PokeDamage
+        name="Rock Tomb"
+        defender={{ name: 'squirtle', level: 11, ev: 3, stage: 1 }}
+        attacker={{ name: 'geodude', level: 14, atk: 17 }}
+      />
+    - <PokeDamage
+        name="Tackle"
+        defender={{ name: 'squirtle', level: 11, ev: 3, stage: 1 }}
+        attacker={{ name: 'geodude', level: 14, atk: 17 }}
       />
 
 - Head straight to the mart and buy
@@ -372,31 +357,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
       <SpeedInfo range={{ from: 16, to: 20, at: 0 }} />
 
-      - <PokeMove
+      - <PokeDamage
           name="Quick Attack"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '5(6)' }],
-            lowered: [
-              { from: 0, to: 7, value: '(5)6(7)' },
-              { from: 8, to: 31, value: '5(6)' },
-            ],
-          }}
+          defender={{ name: 'squirtle', level: 15, ev: 10 }}
+          attacker={{ name: 'rattata', level: 10, atk: 14 }}
         />
 
     - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
 
-      - <PokeMove
+      - <PokeDamage
           name="Quick Attack"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 7, value: '(5)6(7)' },
-              { from: 8, to: 31, value: '5(6)' },
-            ],
-            lowered: [
-              { from: 0, to: 22, value: '(5)6(7)' },
-              { from: 23, to: 31, value: '5(6)' },
-            ],
-          }}
+          defender={{ name: 'squirtle', level: 15, ev: 10 }}
+          attacker={{ name: 'rattata', level: 10, atk: 16 }}
         />
 
     - <Pokemon name="Zubat" />: <PokeMove
@@ -414,19 +386,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       /> (x2)
 
       - 62.5% (10/16) to OHKO in torrent
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Fang"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 14, value: '12-14(15)' },
-              { from: 15, to: 31, value: '11-12(13)' },
-            ],
-            lowered: [
-              { from: 0, to: 1, value: '15-17(18)' },
-              { from: 2, to: 14, value: '13-15(16)' },
-              { from: 15, to: 31, value: '12-14(15)' },
-            ],
-          }}
+          defender={{ name: 'squirtle', level: 15, ev: 10 }}
+          attacker={{ name: 'rattata', level: 13, atk: 19 }}
         />
 
     - <Pokemon name="Sandshrew" />: <PokeMove name="Water Gun" />
@@ -527,35 +490,16 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Tackle" /> if low roll on the first <PokeMove name="Bite" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Swift"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 1, value: '13-15(16)' },
-            { from: 2, to: 21, value: '12-14(15)' },
-            { from: 22, to: 31, value: '11-13(14)' },
-          ],
-          lowered: [
-            { from: 0, to: 11, value: '11-13(14)' },
-            { from: 12, to: 26, value: '11-12(13)' },
-            { from: 27, to: 31, value: '10-11(12)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 20, ev: 11 }}
+        attacker={{ name: 'starmie', level: 21, atk: 39 }}
       />
 
-    - <PokeMove
+    - <PokeDamage
         name="Water Pulse"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 19, value: '10-11(12)' },
-            { from: 20, to: 31, value: '9-10(11)' },
-          ],
-          lowered: [
-            { from: 0, to: 4, value: '11-13(14)' },
-            { from: 5, to: 14, value: '11-12(13)' },
-            { from: 15, to: 31, value: '10-11(12)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 20, ev: 0 }}
+        attacker={{ name: 'starmie', level: 21, atk: 47 }}
       />
 
 - After the fight:
@@ -569,16 +513,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Pidgeotto" />: <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
     - 25% (4/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
-    - <PokeMove
-        name="Quick Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 13, value: '7-8(9)' },
-            { from: 14, to: 31, value: '5-6(7)' },
-          ],
-          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
-        }}
-      />
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeDamage
+            name="Quick Attack"
+            defender={{
+              name: 'wartortle',
+              level: 21,
+              ev: adjustEV(13, mtMoonExp),
+            }}
+            attacker={{ name: 'pidgeotto', level: 17, atk: 26 }}
+          />
+        )}
+      </StateContext>
 
   - <StateContext stateKey="starter">
       {({ nature, atk }) => (
@@ -597,15 +544,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeMove
+    - <PokeDamage
         name="Vine Whip"
-        dmgRanges={{
-          normal: [{ from: 0, to: 31, value: '15-17(18)' }],
-          lowered: [
-            { from: 0, to: 20, value: '17-19(20)' },
-            { from: 21, to: 31, value: '15-17(18)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 21, ev: 0 }}
+        attacker={{ name: 'bulbasaur', level: 18, atk: 30 }}
       />
 
   - <Pokemon name="Abra" />: <PokeMove name="Water Pulse" />
@@ -627,25 +569,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Quick Attack"
-            dmgRanges={
-              mtMoonExp === 'josh'
-                ? {
-                    normal: [{ from: 0, to: 31, value: '5-6(7)' }],
-                    lowered: [
-                      { from: 0, to: 14, value: '7-8(9)' },
-                      { from: 15, to: 31, value: '5-6(7)' },
-                    ],
-                  }
-                : {
-                    normal: [{ from: 0, to: 31, value: '5-6(7)' }],
-                    lowered: [
-                      { from: 0, to: 13, value: '7-8(9)' },
-                      { from: 14, to: 31, value: '5-6(7)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'wartortle',
+              level: 22,
+              ev: adjustEV(13, mtMoonExp),
+            }}
+            attacker={{ name: 'rattata', level: 15, atk: 24 }}
           />
         )}
       </StateContext>
@@ -739,15 +670,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Pidgey" />: <PokeMove name="Bite" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Quick Attack"
-        dmgRanges={{
-          normal: [{ from: 0, to: 31, value: '3' }],
-          lowered: [
-            { from: 0, to: 14, value: '5' },
-            { from: 15, to: 31, value: '3' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 25, ev: 19 }}
+        attacker={{ name: 'pidgey', level: 13, atk: 16 }}
       />
 
 - Grab this hidden <PokeItem name="Ether" /> (risky but can skip if Torrent at 26 + 2 <PokeMove name="Mega Kick" /> left).
@@ -774,12 +700,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-    - <PokeMove name="Headbutt" /> / <PokeMove
+    - <PokeDamage
+        name="Headbutt"
+        defender={{ name: 'wartortle', level: 25, ev: 19 }}
+        attacker={{ name: 'drowzee', level: 17, atk: 23 }}
+      />
+    - <PokeDamage
         name="Confusion"
-        dmgRanges={{
-          normal: [{ from: 0, to: 31, value: '5-7' }],
-          lowered: [{ from: 0, to: 31, value: '5-7' }],
-        }}
+        defender={{ name: 'wartortle', level: 25, ev: 0 }}
+        attacker={{ name: 'drowzee', level: 17, atk: 19 }}
       />
 
 ## Route 6
@@ -799,15 +728,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Quick Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 10, value: '7-8(9)' },
-            { from: 11, to: 31, value: '(5)6(7)' },
-          ],
-          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
-        }}
+        defender={{ name: 'wartortle', level: 25, ev: 19 }}
+        attacker={{ name: 'raticate', level: 16, atk: 30 }}
       />
 
 ## Vermilion City
@@ -850,49 +774,29 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Quick Attack"
-            dmgRanges={
-              mtMoonExp === 'josh'
-                ? {
-                    normal: [
-                      { from: 0, to: 6, value: '7-8(9)' },
-                      {
-                        from: 7,
-                        to: 12,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                      { from: 13, to: 31, value: '(5)6(7)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 28, value: '7-8(9)' },
-                      {
-                        from: 29,
-                        to: 31,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 5, value: '7-8(9)' },
-                      {
-                        from: 6,
-                        to: 12,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                      { from: 13, to: 31, value: '(5)6(7)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 27, value: '7-8(9)' },
-                      {
-                        from: 28,
-                        to: 31,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'wartortle',
+              level: 26,
+              ev: adjustEV(19, mtMoonExp),
+            }}
+            attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
+            displayLevel={true}
+          />
+        )}
+      </StateContext>
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeDamage
+            name="Quick Attack"
+            defender={{
+              name: 'wartortle',
+              level: 27,
+              ev: adjustEV(19, mtMoonExp),
+            }}
+            attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
+            displayLevel={true}
           />
         )}
       </StateContext>
@@ -915,27 +819,17 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeMove
+    - <PokeDamage
         name="Vine Whip"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 25, value: '17-19(20)' },
-            {
-              from: 26,
-              to: 31,
-              value: '15-17(18) at level 27, 17-19(20) at level 26',
-            },
-          ],
-          lowered: [
-            { from: 0, to: 14, value: '20-23(24)' },
-            {
-              from: 15,
-              to: 20,
-              value: '17-19(20) at level 27, 20-23(24) at level 26',
-            },
-            { from: 21, to: 31, value: '17-19(20)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 26, ev: 1 }}
+        attacker={{ name: 'ivysaur', level: 20, atk: 39 }}
+        displayLevel={true}
+      />
+    - <PokeDamage
+        name="Vine Whip"
+        defender={{ name: 'wartortle', level: 27, ev: 1 }}
+        attacker={{ name: 'ivysaur', level: 20, atk: 39 }}
+        displayLevel={true}
       />
 
   - <Pokemon name="Raticate" />: <PokeMove
@@ -945,87 +839,46 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Quick Attack"
-            dmgRanges={
-              mtMoonExp === 'josh'
-                ? {
-                    normal: [
-                      { from: 0, to: 22, value: '7-8(9)' },
-                      {
-                        from: 23,
-                        to: 28,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                      { from: 29, to: 31, value: '(5)6(7)' },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 1,
-                        value: '7-8(9) at level 27, 8-9(10) at level 26',
-                      },
-                      { from: 2, to: 31, value: '7-8(9)' },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 21, value: '7-8(9)' },
-                      {
-                        from: 22,
-                        to: 28,
-                        value: '(5)6(7) at level 27, 7-8(9) at level 26',
-                      },
-                      { from: 29, to: 31, value: '(5)6(7)' },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 1,
-                        value: '7-8(9) at level 27, 8-9(10) at level 26',
-                      },
-                      { from: 2, to: 31, value: '7-8(9)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'wartortle',
+              level: 26,
+              ev: adjustEV(19, mtMoonExp),
+            }}
+            attacker={{ name: 'raticate', level: 16, atk: 28 }}
+            displayLevel={true}
+          />
+        )}
+      </StateContext>
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeDamage
+            name="Quick Attack"
+            defender={{
+              name: 'wartortle',
+              level: 27,
+              ev: adjustEV(19, mtMoonExp),
+            }}
+            attacker={{ name: 'raticate', level: 16, atk: 28 }}
+            displayLevel={true}
           />
         )}
       </StateContext>
 
   - <Pokemon name="Kadabra" />: <PokeMove name="Bite" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Confusion"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 6, value: '13-15(16)' },
-            {
-              from: 7,
-              to: 13,
-              value: '12-14(15) at level 27, 13-15(16) at level 26',
-            },
-            { from: 14, to: 28, value: '12-14(15)' },
-            {
-              from: 29,
-              to: 31,
-              value: '11-12(13) at level 27, 12-14(15) at level 26',
-            },
-          ],
-          lowered: [
-            { from: 0, to: 6, value: '15-17(18)' },
-            {
-              from: 7,
-              to: 13,
-              value: '13-15(16) at level 27, 15-17(18) at level 26',
-            },
-            { from: 14, to: 28, value: '13-15(16)' },
-            {
-              from: 29,
-              to: 31,
-              value: '12-14(15) at level 27, 13-15(16) at level 26',
-            },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 26, ev: 2 }}
+        attacker={{ name: 'kadabra', level: 18, atk: 49 }}
+        displayLevel={true}
+      />
+    - <PokeDamage
+        name="Confusion"
+        defender={{ name: 'wartortle', level: 27, ev: 2 }}
+        attacker={{ name: 'kadabra', level: 18, atk: 49 }}
+        displayLevel={true}
       />
 
 - Talk to the captain for <PokeItem name="HM01" /> and take the Bed Lady's free heal on the way out.
@@ -1084,107 +937,36 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> or <PokeMove name="Water Pulse" />, <PokeMove name="Mega Kick" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Shock Wave"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 0, value: '(40)41-47(48)' },
-            { from: 1, to: 11, value: '37-43(44)' },
-            { from: 12, to: 29, value: '(35)36-41(42)' },
-            { from: 30, to: 31, value: '32-37(38)' },
-          ],
-          lowered: [
-            { from: 0, to: 7, value: '(42)43-49(50)' },
-            { from: 8, to: 22, value: '(40)41-47(48)' },
-            { from: 23, to: 31, value: '37-43(44)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 28, ev: 2 }}
+        attacker={{ name: 'raichu', level: 24, atk: 52 }}
       />
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Quick Attack"
-            dmgRanges={
-              mtMoonExp === 'marcos'
-                ? {
-                    normal: [
-                      {
-                        from: 0,
-                        to: 13,
-                        value: '7-8(9), 13-15(16) after Screech',
-                      },
-                      {
-                        from: 14,
-                        to: 27,
-                        value: '6-7(8), 12-14(15) after Screech',
-                      },
-                      {
-                        from: 28,
-                        to: 31,
-                        value: '6-7(8), (11)12-13(14) after Screech',
-                      },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 9,
-                        value: '8-9(10), 15-17(18) after Screech',
-                      },
-                      {
-                        from: 10,
-                        to: 20,
-                        value: '7-8(9), 14-16(17) after Screech',
-                      },
-                      {
-                        from: 21,
-                        to: 31,
-                        value: '7-8(9), 13-15(16) after Screech',
-                      },
-                    ],
-                  }
-                : {
-                    normal: [
-                      {
-                        from: 0,
-                        to: 0,
-                        value: '7-8(9), 14-16(17) after Screech',
-                      },
-                      {
-                        from: 1,
-                        to: 14,
-                        value: '7-8(9), 13-15(16) after Screech',
-                      },
-                      {
-                        from: 15,
-                        to: 28,
-                        value: '6-7(8), 12-14(15) after Screech',
-                      },
-                      {
-                        from: 29,
-                        to: 31,
-                        value: '6-7(8), (11)12-13(14) after Screech',
-                      },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 10,
-                        value: '8-9(10), 15-17(18) after Screech',
-                      },
-                      {
-                        from: 11,
-                        to: 21,
-                        value: '7-8(9), 14-16(17) after Screech',
-                      },
-                      {
-                        from: 22,
-                        to: 31,
-                        value: '7-8(9), 13-15(16) after Screech',
-                      },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'wartortle',
+              level: 28,
+              ev: adjustEV(19, mtMoonExp),
+            }}
+            attacker={{ name: 'raichu', level: 24, atk: 43 }}
+          />
+        )}
+      </StateContext>
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeDamage
+            name="Quick Attack"
+            defender={{
+              name: 'wartortle',
+              level: 28,
+              ev: adjustEV(19, mtMoonExp),
+              stage: -2,
+            }}
+            attacker={{ name: 'raichu', level: 24, atk: 43 }}
           />
         )}
       </StateContext>
@@ -1293,18 +1075,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Bulbasaur" />: <PokeMove name="Mega Kick" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Razor Leaf"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 26, value: '20-23(24)' },
-            { from: 27, to: 31, value: '17-19(20)' },
-          ],
-          lowered: [
-            { from: 0, to: 16, value: '22-25(26)' },
-            { from: 17, to: 31, value: '20-23(24)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 30, ev: 3 }}
+        attacker={{ name: 'bulbasaur', level: 22, atk: 33 }}
       />
 
 - ### Hiker Eric
@@ -1380,18 +1154,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Quick Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 4, value: '8-9(10)' },
-            { from: 5, to: 31, value: '7-8(9)' },
-          ],
-          lowered: [
-            { from: 0, to: 26, value: '8-9(10	)' },
-            { from: 27, to: 31, value: '7-8(9)' },
-          ],
-        }}
+        defender={{ name: 'wartortle', level: 32, ev: 28 }}
+        attacker={{ name: 'raticate', level: 20, atk: 37 }}
       />
 
   - <Pokemon name="Zubat" />: <PokeMove name="Water Pulse" />
@@ -1451,123 +1217,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - 98% to 2HKO with Torrent
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Mega Punch"
-            dmgRanges={
-              mtMoonExp === 'josh'
-                ? {
-                    normal: [
-                      {
-                        from: 0,
-                        to: 6,
-                        value: '(23)24-27(28), (35)36-41(42) at -1',
-                      },
-                      {
-                        from: 7,
-                        to: 12,
-                        value: '(23)24-27(28), 34-39(40) at -1',
-                      },
-                      {
-                        from: 13,
-                        to: 15,
-                        value: '(22)23-26(27), 34-39(40) at -1',
-                      },
-                      {
-                        from: 16,
-                        to: 26,
-                        value: '21-24(25), 33-38(39) at -1',
-                      },
-                      {
-                        from: 27,
-                        to: 31,
-                        value: '21-24(25), 31-36(37) at -1',
-                      },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 9,
-                        value: '26-30(31), 39-45(46) at -1',
-                      },
-                      {
-                        from: 10,
-                        to: 12,
-                        value: '26-30(31), 38-44(45) at -1',
-                      },
-                      {
-                        from: 13,
-                        to: 15,
-                        value: '25-29(30), 38-44(45) at -1',
-                      },
-                      {
-                        from: 16,
-                        to: 23,
-                        value: '25-29(30), 36-42(43) at -1',
-                      },
-                      {
-                        from: 24,
-                        to: 31,
-                        value: '(23)24-27(28), (35)36-41(42) at -1',
-                      },
-                    ],
-                  }
-                : {
-                    normal: [
-                      {
-                        from: 0,
-                        to: 5,
-                        value: '(23)24-27(28), (35)36-41(42) at -1',
-                      },
-                      {
-                        from: 6,
-                        to: 11,
-                        value: '(23)24-27(28), 34-39(40) at -1',
-                      },
-                      {
-                        from: 12,
-                        to: 14,
-                        value: '(22)23-26(27), 34-39(40) at -1',
-                      },
-                      {
-                        from: 15,
-                        to: 25,
-                        value: '21-24(25), 33-38(39) at -1',
-                      },
-                      {
-                        from: 26,
-                        to: 31,
-                        value: '21-24(25), 31-36(37) at -1',
-                      },
-                    ],
-                    lowered: [
-                      {
-                        from: 0,
-                        to: 8,
-                        value: '26-30(31), 39-45(46) at -1',
-                      },
-                      {
-                        from: 9,
-                        to: 11,
-                        value: '26-30(31), 38-44(45) at -1',
-                      },
-                      {
-                        from: 12,
-                        to: 14,
-                        value: '25-29(30), 38-44(45) at -1',
-                      },
-                      {
-                        from: 15,
-                        to: 22,
-                        value: '25-29(30), 36-42(43) at -1',
-                      },
-                      {
-                        from: 23,
-                        to: 31,
-                        value: '(23)24-27(28), (35)36-41(42) at -1',
-                      },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'blastoise',
+              level: 36,
+              ev: adjustEV(35, mtMoonExp),
+            }}
+            attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
+          />
+        )}
+      </StateContext>
+    - <StateContext stateKey="mtMoonExp">
+        {(mtMoonExp) => (
+          <PokeDamage
+            name="Mega Punch"
+            defender={{
+              name: 'blastoise',
+              level: 36,
+              ev: adjustEV(35, mtMoonExp),
+              stage: -1,
+            }}
+            attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
           />
         )}
       </StateContext>
@@ -1632,53 +1303,32 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         torrent={true}
       /> / <PokeMove name="Mega Kick" />
 
-      - <PokeMove
+      - <PokeDamage
           name="Quick Attack"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '7-8(9)' }],
-            lowered: [
-              { from: 0, to: 5, value: '8-9(10)' },
-              { from: 6, to: 31, value: '7-8(9)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 36, ev: 35 }}
+          attacker={{ name: 'pidgeotto', level: 25, atk: 38 }}
         />
 
     - <Pokemon name="Ivysaur" />: <PokeMove name="Mega Kick" />
 
-      - <PokeMove
+      - <PokeDamage
           name="Razor Leaf"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 14, value: '22-25(26), 32-37(38) with Overgrow' },
-              { from: 15, to: 28, value: '22-25(26), 30-35(36) with Overgrow' },
-              { from: 29, to: 31, value: '20-23(24), 30-35(36) with Overgrow' },
-            ],
-            lowered: [
-              { from: 0, to: 3, value: '25-29(30), 37-43(44) with Overgrow' },
-              { from: 4, to: 20, value: '25-29(30), 35-41(42) with Overgrow' },
-              { from: 21, to: 23, value: '25-29(30), 32-37(38) with Overgrow' },
-              { from: 24, to: 31, value: '22-25(26), 32-37(38) with Overgrow' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 36, ev: 3 }}
+          attacker={{ name: 'ivysaur', level: 25, atk: 48 }}
+        />
+      - <PokeDamage
+          name="Razor Leaf"
+          defender={{ name: 'blastoise', level: 36, ev: 3 }}
+          attacker={{ name: 'ivysaur', level: 25, atk: 48, torrent: true }}
         />
 
     - <Pokemon name="Gyarados" />: <PokeMove name="Mega Kick" />
 
       - Stall a turn if no Torrent.
-      - <PokeMove
+      - <PokeDamage
           name="Thrash"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 9, value: '14-16(17)' },
-              { from: 10, to: 26, value: '13-15(16)' },
-              { from: 27, to: 31, value: '12-14(15)' },
-            ],
-            lowered: [
-              { from: 0, to: 7, value: '16-18(19)' },
-              { from: 8, to: 20, value: '15-19(18)' },
-              { from: 21, to: 31, value: '14-16(17)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 37, ev: 35 }}
+          attacker={{ name: 'gyarados', level: 23, atk: 65 }}
         />
 
     - <Pokemon name="Growlithe" />: <PokeMove name="Mega Kick" /> / <PokeMove name="Water Pulse" />
@@ -1694,15 +1344,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       - Only use one <PokeItem name="X Sp Atk" text="X Special" /> if in high enough HP
         to tank a Overgrow <PokeMove name="Razor Leaf" /> and <PokeMove name="Thrash" />.
       - Use an <PokeItem name="X Accuracy" /> if you get hit by <PokeMove name="Sand Attack"/> (Yolo if you get hit by it twice).
-      - <PokeMove
+      - <PokeDamage
           name="Quick Attack"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '7-8(9)' }],
-            lowered: [
-              { from: 0, to: 5, value: '8-9(10)' },
-              { from: 6, to: 31, value: '7-8(9)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 36, ev: 35 }}
+          attacker={{ name: 'pidgeotto', level: 25, atk: 38 }}
         />
 
     - <Pokemon name="Ivysaur" />: <PokeMove
@@ -1731,40 +1376,24 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           }
         </StateContext>
 
-      - <PokeMove
+      - <PokeDamage
           name="Razor Leaf"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 14, value: '22-25(26), 32-37(38) with Overgrow' },
-              { from: 15, to: 28, value: '22-25(26), 30-35(36) with Overgrow' },
-              { from: 29, to: 31, value: '20-23(24), 30-35(36) with Overgrow' },
-            ],
-            lowered: [
-              { from: 0, to: 3, value: '25-29(30), 37-43(44) with Overgrow' },
-              { from: 4, to: 20, value: '25-29(30), 35-41(42) with Overgrow' },
-              { from: 21, to: 23, value: '25-29(30), 32-37(38) with Overgrow' },
-              { from: 24, to: 31, value: '22-25(26), 32-37(38) with Overgrow' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 36, ev: 3 }}
+          attacker={{ name: 'ivysaur', level: 25, atk: 48 }}
+        />
+      - <PokeDamage
+          name="Razor Leaf"
+          defender={{ name: 'blastoise', level: 36, ev: 3 }}
+          attacker={{ name: 'ivysaur', level: 25, atk: 48, torrent: true }}
         />
 
     - <Pokemon name="Gyarados" />: <PokeMove name="Bite" /> x2
 
       - Stall a turn if no Torrent.
-      - <PokeMove
+      - <PokeDamage
           name="Thrash"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 9, value: '14-16(17)' },
-              { from: 10, to: 26, value: '13-15(16)' },
-              { from: 27, to: 31, value: '12-14(15)' },
-            ],
-            lowered: [
-              { from: 0, to: 7, value: '16-18(19)' },
-              { from: 8, to: 20, value: '15-19(18)' },
-              { from: 21, to: 31, value: '14-16(17)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 37, ev: 35 }}
+          attacker={{ name: 'gyarados', level: 23, atk: 65 }}
         />
 
     - <Pokemon name="Growlithe" />: <PokeMove name="Bite" />
@@ -1795,34 +1424,16 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Mega Kick" /> / <PokeMove name="Bite" /> for one turn if not
       in Torrent.
-
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Bonemerang"
-            dmgRanges={
-              mtMoonExp === 'marcos'
-                ? {
-                    normal: [
-                      { from: 0, to: 11, value: '15-17(18)' },
-                      { from: 12, to: 31, value: '13-15(16)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 14, value: '16-18(19)' },
-                      { from: 15, to: 31, value: '15-17(18)' },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 12, value: '15-17(18)' },
-                      { from: 13, to: 31, value: '13-15(16)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 15, value: '16-18(19)' },
-                      { from: 16, to: 31, value: '15-17(18)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'blastoise',
+              level: 36,
+              ev: adjustEV(35, mtMoonExp),
+            }}
+            attacker={{ name: 'marowak', level: 30, atk: 62 }}
           />
         )}
       </StateContext>
@@ -1861,15 +1472,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
   - <Pokemon name="Raticate" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Quick Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 22, value: '7-8(9)' },
-            { from: 23, to: 31, value: '(5)6(7)' },
-          ],
-          lowered: [{ from: 0, to: 31, value: '7-8(9)' }],
-        }}
+        defender={{ name: 'blastoise', level: 38, ev: 38 }}
+        attacker={{ name: 'raticate', level: 23, atk: 46 }}
       />
 
   - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
@@ -1937,21 +1543,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     ), <PokeMove name="Surf" torrent={true} />
 
     - Use <PokeItem name="X Sp Atk" text="X Special" /> if **60+ HP** or if in <Pokemon name="Weezing" /> kill range after level up.
-    - <PokeMove
+    - <PokeDamage
         name="Sludge"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 8, value: '26-30(31)' },
-            { from: 9, to: 21, value: '25-29(30)' },
-            { from: 22, to: 31, value: '23-27(28)' },
-          ],
-          lowered: [
-            { from: 0, to: 1, value: '30-35(36)' },
-            { from: 2, to: 14, value: '28-(33)34' },
-            { from: 15, to: 24, value: '28-32(33)' },
-            { from: 25, to: 31, value: '26-30(31)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 41, ev: 39 }}
+        attacker={{ name: 'muk', level: 39, atk: 77 }}
       />
 
   - <Pokemon name="Koffing" />: <PokeMove name="Surf" />
@@ -1964,38 +1559,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Sludge"
-            dmgRanges={
-              mtMoonExp === 'marcos'
-                ? {
-                    normal: [
-                      { from: 0, to: 9, value: '30-35(36)' },
-                      { from: 10, to: 19, value: '28-33(34)' },
-                      { from: 20, to: 31, value: '28-32(33)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 7, value: '34-39(40)' },
-                      { from: 8, to: 14, value: '33-38(39)' },
-                      { from: 15, to: 24, value: '31-36(37)' },
-                      { from: 25, to: 31, value: '30-35(36)' },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 0, value: '31-36(37)' },
-                      { from: 1, to: 10, value: '30-35(36)' },
-                      { from: 11, to: 20, value: '28-33(34)' },
-                      { from: 21, to: 31, value: '28-32(33)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 8, value: '34-39(40)' },
-                      { from: 9, to: 15, value: '33-38(39)' },
-                      { from: 16, to: 25, value: '31-36(37)' },
-                      { from: 26, to: 31, value: '30-35(36)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'blastoise',
+              level: 42,
+              ev: adjustEV(40, mtMoonExp),
+            }}
+            attacker={{ name: 'weezing', level: 43, atk: 82 }}
           />
         )}
       </StateContext>
@@ -2111,77 +1682,29 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - Use <PokeItem name="X Sp Atk" text="X Special" /> if no Torrent for <Pokemon name="Arcanine" />.
     - Use <PokeMove name="Water Pulse" /> only if low PP on <PokeMove name="Surf" />.
-    - <PokeMove
+    - <PokeDamage
         name="Take Down"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 1, value: '18-21(22)' },
-            { from: 2, to: 13, value: '(17)18-20(21)' },
-            { from: 14, to: 25, value: '17-19(20)' },
-            { from: 26, to: 31, value: '16-18(19)' },
-          ],
-          lowered: [
-            { from: 0, to: 4, value: '20-24(25)' },
-            { from: 5, to: 16, value: '19-22(23)' },
-            { from: 17, to: 25, value: '18-21(22)' },
-            { from: 26, to: 31, value: '(17)18-20(21)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 42, ev: 42, defBadge: true }}
+        attacker={{ name: 'growlithe', level: 42, atk: 63 }}
       />
-    - <PokeMove
+    - <PokeDamage
         name="Fire Blast"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 9, value: '18-21(22)' },
-            { from: 10, to: 26, value: '(17)18-20(21)' },
-            { from: 27, to: 31, value: '17-19(20)' },
-          ],
-          lowered: [
-            { from: 0, to: 4, value: '21-24(25)' },
-            { from: 5, to: 18, value: '20-23(24)' },
-            { from: 19, to: 26, value: '19-22(23)' },
-            { from: 27, to: 31, value: '18-21(22)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 42, ev: 8 }}
+        attacker={{ name: 'growlithe', level: 42, atk: 63 }}
       />
 
   - <Pokemon name="Ponyta" />: <PokeMove name="Surf" /> <SpeedInfo range={{ from: 22, to: 23, at: 0 }} />
   - <Pokemon name="Rapidash" />: <PokeMove name="Surf" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Bounce"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 1, value: '22-25(26)' },
-            { from: 2, to: 11, value: '21-24(25)' },
-            { from: 12, to: 20, value: '20-23(24)' },
-            { from: 21, to: 31, value: '19-22(23)' },
-          ],
-          lowered: [
-            { from: 0, to: 9, value: '(23)24-27(28)' },
-            { from: 10, to: 25, value: '(22)23-26(27)' },
-            { from: 26, to: 31, value: '21-24(25)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 42, ev: 42, defBadge: true }}
+        attacker={{ name: 'rapidash', level: 42, atk: 80 }}
       />
-
-    - <PokeMove
+    - <PokeDamage
         name="Fire Blast"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 2, value: '22-25(26)' },
-            { from: 3, to: 9, value: '21-24(25)' },
-            { from: 10, to: 23, value: '20-23(24)' },
-            { from: 24, to: 31, value: '19-22(23)' },
-          ],
-          lowered: [
-            { from: 0, to: 2, value: '4-28(29)' },
-            { from: 3, to: 7, value: '(23)24-27(28)' },
-            { from: 8, to: 21, value: '(22)23-26(27)' },
-            { from: 22, to: 28, value: '22-25(26)' },
-            { from: 29, to: 31, value: '21-24(25)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 42, ev: 8 }}
+        attacker={{ name: 'rapidash', level: 42, atk: 72 }}
       />
 
   - <Pokemon name="Arcanine" />: <PokeMove name="Surf" torrent={true} />
@@ -2208,18 +1731,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Tangela" />: <PokeMove name="Bite" />
   - <Pokemon name="Vileplume" />: <PokeMove name="Blizzard" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Giga Drain"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 3, value: '27-31(32)' },
-            { from: 4, to: 31, value: '25-29(30)' },
-          ],
-          lowered: [
-            { from: 0, to: 3, value: '30-35(36)' },
-            { from: 4, to: 31, value: '27-31(32)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 44, ev: 8, defBadge: true }}
+        attacker={{ name: 'vileplume', level: 29, atk: 63 }}
       />
 
 - Exit through the already cut bush, then <PokeMove name="Fly" /> to Celadon City and bike to Silph Co.
@@ -2261,32 +1776,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     /> (x2), <PokeItem name="X Accuracy" />, <PokeMove name="Surf" />
 
     - Use 2x <PokeItem name="X Sp Atk" text="X Special" /> if <PokeMove name="Feather Dance" /> turn 1.
-    - <PokeMove
+    - <PokeDamage
         name="Wing Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 4, value: '17-20(21)' },
-            { from: 5, to: 25, value: '16-18(19)' },
-            { from: 26, to: 31, value: '15-17(18)' },
-          ],
-          lowered: [
-            { from: 0, to: 11, value: '18-21(22)' },
-            { from: 12, to: 31, value: '17-20(21)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 44, ev: 44, defBadge: true }}
+        attacker={{ name: 'pidgeot', level: 37, atk: 68 }}
       />
-    - <PokeMove
+    - <PokeDamage
         name="Quick Attack"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 5, value: '12-14(15)' },
-            { from: 6, to: 31, value: '11-12(13)' },
-          ],
-          lowered: [
-            { from: 0, to: 3, value: '13-15(16)' },
-            { from: 4, to: 31, value: '12-14(15)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 44, ev: 44, defBadge: true }}
+        attacker={{ name: 'pidgeot', level: 37, atk: 68 }}
       />
 
   - <Pokemon name="Venusaur" />: <PokeMove name="Blizzard" />
@@ -2328,35 +1826,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-
-    - <PokeMove
+    - <PokeDamage
         name="Fake Out"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 10, value: '13-15(16)' },
-            { from: 11, to: 31, value: '12-14(15)' },
-          ],
-          lowered: [
-            { from: 0, to: 10, value: '15-17(18)' },
-            { from: 11, to: 31, value: '13-15(16)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 46, ev: 47, defBadge: true }}
+        attacker={{ name: 'kangaskhan', level: 35, atk: 82 }}
       />
-
-    - <PokeMove
+    - <PokeDamage
         name="Mega Punch"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 10, value: '25-29(30)' },
-            { from: 11, to: 23, value: '(23)24-27(28)' },
-            { from: 24, to: 31, value: '(22)23-26(27)' },
-          ],
-          lowered: [
-            { from: 0, to: 10, value: '28-32(33)' },
-            { from: 11, to: 23, value: '26-30(31)' },
-            { from: 24, to: 31, value: '25-29(30)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 46, ev: 47, defBadge: true }}
+        attacker={{ name: 'kangaskhan', level: 35, atk: 82 }}
       />
 
   - <Pokemon name="Rhyhorn" />: <PokeMove name="Water Pulse" />
@@ -2390,18 +1868,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeMove
+    - <PokeDamage
         name="Psybeam"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 10, value: '(11)12-13(14)' },
-            { from: 11, to: 31, value: '11-12(13)' },
-          ],
-          lowered: [
-            { from: 0, to: 16, value: '12-14(15)' },
-            { from: 17, to: 31, value: '(11)12-13(14)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 47, ev: 12, defBadge: true }}
+        attacker={{ name: 'venomoth', level: 38, atk: 65 }}
       />
 
   - <Pokemon name="Alakazam" />: <PokeMove name="Surf" torrent={true} />
@@ -2485,22 +1955,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Venusaur" />: <PokeMove name="Blizzard" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Razor Leaf"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 5, value: '(71)72-83(84)' },
-            { from: 6, to: 15, value: '68-79(80)' },
-            { from: 16, to: 23, value: '(66)67-77(78)' },
-            { from: 24, to: 31, value: '(62)63-73(74)' },
-          ],
-          lowered: [
-            { from: 0, to: 5, value: '(78)79-91(92)' },
-            { from: 6, to: 13, value: '(76)77-89(90)' },
-            { from: 14, to: 25, value: '73-85(86)' },
-            { from: 26, to: 31, value: '(71)72-83(84)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 49, ev: 12, defBadge: true }}
+        attacker={{ name: 'venusaur', level: 53, atk: 126 }}
       />
 
   - <Pokemon name="Rhyhorn" />: <PokeMove name="Bite" />
@@ -2516,27 +1974,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Alakazam" />: <PokeMove name="Surf" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Psychic"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 0, value: '(54)55-63(64)' },
-            { from: 1, to: 8, value: '(53)54-62(63)' },
-            { from: 9, to: 14, value: '(51)52-60(61)' },
-            { from: 15, to: 18, value: '51-59(60)' },
-            { from: 19, to: 26, value: '49-57(58)' },
-            { from: 27, to: 31, value: '(48)49-56(57)' },
-          ],
-          lowered: [
-            { from: 0, to: 0, value: '61-71(72)' },
-            { from: 1, to: 6, value: '(59)60-69(70)' },
-            { from: 7, to: 10, value: '(58)59-68(69)' },
-            { from: 11, to: 16, value: '(56)57-66(67)' },
-            { from: 17, to: 22, value: '56-65(66)' },
-            { from: 23, to: 26, value: '(54)55-63(64)' },
-            { from: 27, to: 31, value: '(53)54-62(63)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 50, ev: 13, defBadge: true }}
+        attacker={{ name: 'alakazam', level: 47, atk: 140 }}
       />
 
 - Do not <PokeItem name="Super Repel" /> for the grass after Rival (1% chance to encounter).
@@ -2573,47 +2014,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Body Slam"
-            dmgRanges={
-              mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                ? {
-                    normal: [
-                      { from: 0, to: 3, value: '31-36(37)' },
-                      { from: 4, to: 9, value: '30-35(36)' },
-                      { from: 10, to: 10, value: '29-34(35)' },
-                      { from: 11, to: 20, value: '28-33(34)' },
-                      { from: 21, to: 26, value: '28-32(33)' },
-                      { from: 27, to: 31, value: '27-31(32)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 3, value: '(34)35-40(41)' },
-                      { from: 4, to: 9, value: '34-39(40)' },
-                      { from: 10, to: 17, value: '33-38(39)' },
-                      { from: 18, to: 21, value: '32-37(38)' },
-                      { from: 22, to: 29, value: '31-36(37)' },
-                      { from: 30, to: 31, value: '30-35(36)' },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 2, value: '31-36(37)' },
-                      { from: 3, to: 8, value: '30-35(36)' },
-                      { from: 9, to: 9, value: '29-34(35)' },
-                      { from: 10, to: 19, value: '28-33(34)' },
-                      { from: 20, to: 25, value: '28-32(33)' },
-                      { from: 26, to: 31, value: '27-31(32)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 2, value: '(34)35-40(41)' },
-                      { from: 3, to: 8, value: '34-39(40)' },
-                      { from: 9, to: 16, value: '33-38(39)' },
-                      { from: 17, to: 20, value: '32-37(38)' },
-                      { from: 21, to: 28, value: '31-36(37)' },
-                      { from: 29, to: 31, value: '30-35(36)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'blastoise',
+              level: 52,
+              ev: adjustEV(60, mtMoonExp),
+              defBadge: true,
+            }}
+            attacker={{ name: 'lapras', level: 54, atk: 113 }}
           />
         )}
       </StateContext>
@@ -2654,67 +2063,29 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Rock Tomb"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '16-18(19)' },
-                        { from: 10, to: 31, value: '15-17(18)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 14, value: '17-20(21)' },
-                        { from: 15, to: 31, value: '16-18(19)' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '16-18(19)' },
-                        { from: 9, to: 31, value: '15-17(18)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 13, value: '17-20(21)' },
-                        { from: 14, to: 31, value: '16-18(19)' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(60, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Earthquake"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '30-36' },
-                        { from: 10, to: 20, value: '28-34' },
-                        { from: 21, to: 31, value: '28-33' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 5, value: '34-40' },
-                        { from: 6, to: 14, value: '33-39' },
-                        { from: 15, to: 24, value: '31-37' },
-                        { from: 25, to: 31, value: '30-36' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '30-36' },
-                        { from: 9, to: 19, value: '28-34' },
-                        { from: 20, to: 31, value: '28-33' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 4, value: '34-40' },
-                        { from: 5, to: 13, value: '33-39' },
-                        { from: 14, to: 23, value: '31-37' },
-                        { from: 24, to: 31, value: '30-36' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(60, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
@@ -2723,123 +2094,43 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Mach Punch"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 1, value: '26-31' },
-                        { from: 2, to: 12, value: '25-30' },
-                        { from: 13, to: 26, value: '23-28' },
-                        { from: 26, to: 31, value: '22-27' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 2, value: '28-34' },
-                        { from: 3, to: 13, value: '28-33' },
-                        { from: 14, to: 25, value: '26-31' },
-                        { from: 26, to: 31, value: '25-30' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 0, value: '26-31' },
-                        { from: 1, to: 11, value: '25-30' },
-                        { from: 12, to: 25, value: '23-28' },
-                        { from: 25, to: 31, value: '22-27' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 2, value: '28-34' },
-                        { from: 3, to: 13, value: '28-33' },
-                        { from: 14, to: 25, value: '26-31' },
-                        { from: 26, to: 31, value: '25-30' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Sky Uppercut"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 5, value: '(53)54-62(63)' },
-                        { from: 6, to: 9, value: '(51)52-60(61)' },
-                        { from: 10, to: 14, value: '51-59(60)' },
-                        { from: 15, to: 22, value: '49-57(58)' },
-                        { from: 23, to: 28, value: '(48)49-56(57)' },
-                        { from: 29, to: 31, value: '(46)47-54(55)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 1, value: '(59)60-69(70)' },
-                        { from: 2, to: 7, value: '(58)59-68(69)' },
-                        { from: 8, to: 12, value: '(56)57-66(67)' },
-                        { from: 13, to: 16, value: '56-65(66)' },
-                        { from: 17, to: 22, value: '(54)55-63(64)' },
-                        { from: 23, to: 31, value: '(53)54-62(63)' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 4, value: '(53)54-62(63)' },
-                        { from: 5, to: 8, value: '(51)52-60(61)' },
-                        { from: 9, to: 13, value: '51-59(60)' },
-                        { from: 14, to: 21, value: '49-57(58)' },
-                        { from: 22, to: 27, value: '(48)49-56(57)' },
-                        { from: 28, to: 31, value: '(46)47-54(55)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 0, value: '(59)60-69(70)' },
-                        { from: 1, to: 6, value: '(58)59-68(69)' },
-                        { from: 7, to: 11, value: '(56)57-66(67)' },
-                        { from: 12, to: 15, value: '56-65(66)' },
-                        { from: 16, to: 21, value: '(54)55-63(64)' },
-                        { from: 22, to: 31, value: '(53)54-62(63)' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Rock Tomb"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '21-25' },
-                        { from: 10, to: 20, value: '20-24' },
-                        { from: 21, to: 30, value: '19-23' },
-                        { from: 31, to: 31, value: '18-22' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 5, value: '23-28' },
-                        { from: 6, to: 14, value: '22-27' },
-                        { from: 15, to: 24, value: '22-26' },
-                        { from: 25, to: 31, value: '21-25' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '21-25' },
-                        { from: 9, to: 19, value: '20-24' },
-                        { from: 20, to: 29, value: '19-23' },
-                        { from: 30, to: 31, value: '18-22' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 4, value: '23-28' },
-                        { from: 5, to: 13, value: '22-27' },
-                        { from: 14, to: 23, value: '22-26' },
-                        { from: 24, to: 31, value: '21-25' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
@@ -2859,67 +2150,29 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Rock Tomb"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '16-18(19)' },
-                        { from: 10, to: 31, value: '15-17(18)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 14, value: '17-20(21)' },
-                        { from: 15, to: 31, value: '16-18(19)' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '16-18(19)' },
-                        { from: 9, to: 31, value: '15-17(18)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 13, value: '17-20(21)' },
-                        { from: 14, to: 31, value: '16-18(19)' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(60, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Earthquake"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '30-36' },
-                        { from: 10, to: 20, value: '28-34' },
-                        { from: 21, to: 31, value: '28-33' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 5, value: '34-40' },
-                        { from: 6, to: 14, value: '33-39' },
-                        { from: 15, to: 24, value: '31-37' },
-                        { from: 25, to: 31, value: '30-36' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '30-36' },
-                        { from: 9, to: 19, value: '28-34' },
-                        { from: 20, to: 31, value: '28-33' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 4, value: '34-40' },
-                        { from: 5, to: 13, value: '33-39' },
-                        { from: 14, to: 23, value: '31-37' },
-                        { from: 24, to: 31, value: '30-36' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(60, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
@@ -2928,123 +2181,43 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Mach Punch"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 1, value: '26-31' },
-                        { from: 2, to: 12, value: '25-30' },
-                        { from: 13, to: 26, value: '23-28' },
-                        { from: 26, to: 31, value: '22-27' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 2, value: '28-34' },
-                        { from: 3, to: 13, value: '28-33' },
-                        { from: 14, to: 25, value: '26-31' },
-                        { from: 26, to: 31, value: '25-30' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 0, value: '26-31' },
-                        { from: 1, to: 11, value: '25-30' },
-                        { from: 12, to: 25, value: '23-28' },
-                        { from: 25, to: 31, value: '22-27' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 2, value: '28-34' },
-                        { from: 3, to: 13, value: '28-33' },
-                        { from: 14, to: 25, value: '26-31' },
-                        { from: 26, to: 31, value: '25-30' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Sky Uppercut"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 5, value: '(53)54-62(63)' },
-                        { from: 6, to: 9, value: '(51)52-60(61)' },
-                        { from: 10, to: 14, value: '51-59(60)' },
-                        { from: 15, to: 22, value: '49-57(58)' },
-                        { from: 23, to: 28, value: '(48)49-56(57)' },
-                        { from: 29, to: 31, value: '(46)47-54(55)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 1, value: '(59)60-69(70)' },
-                        { from: 2, to: 7, value: '(58)59-68(69)' },
-                        { from: 8, to: 12, value: '(56)57-66(67)' },
-                        { from: 13, to: 16, value: '56-65(66)' },
-                        { from: 17, to: 22, value: '(54)55-63(64)' },
-                        { from: 23, to: 31, value: '(53)54-62(63)' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 4, value: '(53)54-62(63)' },
-                        { from: 5, to: 8, value: '(51)52-60(61)' },
-                        { from: 9, to: 13, value: '51-59(60)' },
-                        { from: 14, to: 21, value: '49-57(58)' },
-                        { from: 22, to: 27, value: '(48)49-56(57)' },
-                        { from: 28, to: 31, value: '(46)47-54(55)' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 0, value: '(59)60-69(70)' },
-                        { from: 1, to: 6, value: '(58)59-68(69)' },
-                        { from: 7, to: 11, value: '(56)57-66(67)' },
-                        { from: 12, to: 15, value: '56-65(66)' },
-                        { from: 16, to: 21, value: '(54)55-63(64)' },
-                        { from: 22, to: 31, value: '(53)54-62(63)' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
       - <StateContext stateKey="mtMoonExp">
           {(mtMoonExp) => (
-            <PokeMove
+            <PokeDamage
               name="Rock Tomb"
-              dmgRanges={
-                mtMoonExp === 'josh' || mtMoonExp === 'spinner'
-                  ? {
-                      normal: [
-                        { from: 0, to: 9, value: '21-25' },
-                        { from: 10, to: 20, value: '20-24' },
-                        { from: 21, to: 30, value: '19-23' },
-                        { from: 31, to: 31, value: '18-22' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 5, value: '23-28' },
-                        { from: 6, to: 14, value: '22-27' },
-                        { from: 15, to: 24, value: '22-26' },
-                        { from: 25, to: 31, value: '21-25' },
-                      ],
-                    }
-                  : {
-                      normal: [
-                        { from: 0, to: 8, value: '21-25' },
-                        { from: 9, to: 19, value: '20-24' },
-                        { from: 20, to: 29, value: '19-23' },
-                        { from: 30, to: 31, value: '18-22' },
-                      ],
-                      lowered: [
-                        { from: 0, to: 4, value: '23-28' },
-                        { from: 5, to: 13, value: '22-27' },
-                        { from: 14, to: 23, value: '22-26' },
-                        { from: 24, to: 31, value: '21-25' },
-                      ],
-                    }
-              }
+              defender={{
+                name: 'blastoise',
+                level: 52,
+                ev: adjustEV(61, mtMoonExp),
+                defBadge: true,
+              }}
+              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
@@ -3073,39 +2246,15 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - Need at least +3 from here without Torrent.
     - <StateContext stateKey="mtMoonExp">
         {(mtMoonExp) => (
-          <PokeMove
+          <PokeDamage
             name="Shadow Punch"
-            dmgRanges={
-              mtMoonExp === 'josh'
-                ? {
-                    normal: [
-                      { from: 0, to: 2, value: '28-33(34)' },
-                      { from: 3, to: 16, value: '28-32(33)' },
-                      { from: 17, to: 27, value: '26-30(31)' },
-                      { from: 28, to: 31, value: '25-29(30)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 8, value: '31-36(37)' },
-                      { from: 9, to: 18, value: '30-35(36)' },
-                      { from: 19, to: 29, value: '28-33(34)' },
-                      { from: 30, to: 31, value: '28-32(33)' },
-                    ],
-                  }
-                : {
-                    normal: [
-                      { from: 0, to: 1, value: '28-33(34)' },
-                      { from: 2, to: 15, value: '28-32(33)' },
-                      { from: 16, to: 26, value: '26-30(31)' },
-                      { from: 27, to: 31, value: '25-29(30)' },
-                    ],
-                    lowered: [
-                      { from: 0, to: 7, value: '31-36(37)' },
-                      { from: 8, to: 17, value: '30-35(36)' },
-                      { from: 18, to: 28, value: '28-33(34)' },
-                      { from: 29, to: 31, value: '28-32(33)' },
-                    ],
-                  }
-            }
+            defender={{
+              name: 'blastoise',
+              level: 53,
+              ev: adjustEV(62, mtMoonExp),
+              defBadge: true,
+            }}
+            attacker={{ name: 'gengar', level: 54, atk: 100 }}
           />
         )}
       </StateContext>
@@ -3133,91 +2282,36 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           }
         </StateContext>
 
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 1, value: '75-88(89)' },
-              { from: 2, to: 3, value: '74-87(88)' },
-              { from: 4, to: 7, value: '73-86(87)' },
-              { from: 8, to: 10, value: '73-85(86)' },
-              { from: 11, to: 12, value: '72-84(85)' },
-              { from: 13, to: 16, value: '71-83(84)' },
-              { from: 17, to: 18, value: '70-82(83)' },
-              { from: 19, to: 20, value: '69-81(82)' },
-              { from: 21, to: 23, value: '68-80(81)' },
-              { from: 24, to: 27, value: '68-79(80)' },
-              { from: 28, to: 31, value: '67-78(79)' },
-            ],
-            lowered: [
-              { from: 0, to: 1, value: '85-99(100)' },
-              { from: 2, to: 3, value: '84-98(99)' },
-              { from: 4, to: 7, value: '82-96(97)' },
-              { from: 8, to: 9, value: '81-95(96)' },
-              { from: 10, to: 10, value: '80-94(95)' },
-              { from: 11, to: 14, value: '79-93(94)' },
-              { from: 15, to: 16, value: '79-92(93)' },
-              { from: 17, to: 20, value: '78-91(92)' },
-              { from: 21, to: 23, value: '77-90(91)' },
-              { from: 24, to: 27, value: '75-88(89)' },
-              { from: 28, to: 29, value: '74-87(88)' },
-              { from: 30, to: 31, value: '73-86(87)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'gyarados', level: 56, atk: 161 }}
         />
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '45-66' }],
-            lowered: [{ from: 0, to: 31, value: '45-66' }],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'dragonair', level: 54, atk: 111 }}
         />
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '45-66' }],
-            lowered: [{ from: 0, to: 31, value: '45-66' }],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'dragonair', level: 54, atk: 111 }}
         />
 
     - <Pokemon name="Dragonite" />: <PokeMove name="Blizzard" />
     - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
 
       - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 3, value: '(68)69-80(81)' },
-              { from: 4, to: 6, value: '68-79(80)' },
-              { from: 7, to: 8, value: '67-78(79)' },
-              { from: 9, to: 12, value: '(66)67-77(78)' },
-              { from: 13, to: 17, value: '(65)66-76(77)' },
-              { from: 18, to: 19, value: '(64)65-75(76)' },
-              { from: 20, to: 21, value: '(63)64-74(75)' },
-              { from: 22, to: 24, value: '(62)63-73(74)' },
-              { from: 25, to: 28, value: '62-72(73)' },
-              { from: 29, to: 31, value: '61-71(72)' },
-            ],
-            lowered: [
-              { from: 0, to: 3, value: '62-72(73)' },
-              { from: 4, to: 6, value: '61-71(72)' },
-              { from: 7, to: 10, value: '(60)61-70(71)' },
-              { from: 11, to: 12, value: '(59)60-69(70)' },
-              { from: 13, to: 15, value: '(58)59-68(69)' },
-              { from: 16, to: 19, value: '(57)58-67(68)' },
-              { from: 20, to: 23, value: '(56)57-66(67)' },
-              { from: 24, to: 28, value: '56-65(66)' },
-              { from: 29, to: 30, value: '55-64(65)' },
-              { from: 31, to: 31, value: '(54)55-63(64)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
+          attacker={{ name: 'aerodactyl', level: 58, atk: 129 }}
         />
 
   - #### Risky strategy
@@ -3248,93 +2342,37 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
             )
           }
         </StateContext>
-
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 1, value: '75-88(89)' },
-              { from: 2, to: 3, value: '74-87(88)' },
-              { from: 4, to: 7, value: '73-86(87)' },
-              { from: 8, to: 10, value: '73-85(86)' },
-              { from: 11, to: 12, value: '72-84(85)' },
-              { from: 13, to: 16, value: '71-83(84)' },
-              { from: 17, to: 18, value: '70-82(83)' },
-              { from: 19, to: 20, value: '69-81(82)' },
-              { from: 21, to: 23, value: '68-80(81)' },
-              { from: 24, to: 27, value: '68-79(80)' },
-              { from: 28, to: 31, value: '67-78(79)' },
-            ],
-            lowered: [
-              { from: 0, to: 1, value: '85-99(100)' },
-              { from: 2, to: 3, value: '84-98(99)' },
-              { from: 4, to: 7, value: '82-96(97)' },
-              { from: 8, to: 9, value: '81-95(96)' },
-              { from: 10, to: 10, value: '80-94(95)' },
-              { from: 11, to: 14, value: '79-93(94)' },
-              { from: 15, to: 16, value: '79-92(93)' },
-              { from: 17, to: 20, value: '78-91(92)' },
-              { from: 21, to: 23, value: '77-90(91)' },
-              { from: 24, to: 27, value: '75-88(89)' },
-              { from: 28, to: 29, value: '74-87(88)' },
-              { from: 30, to: 31, value: '73-86(87)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'gyarados', level: 56, atk: 161 }}
         />
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '45-66' }],
-            lowered: [{ from: 0, to: 31, value: '45-66' }],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'dragonair', level: 54, atk: 111 }}
         />
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
       - Use <PokeItem name="Elixir" /> if you missed a <PokeMove name="Blizzard" />.
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [{ from: 0, to: 31, value: '45-66' }],
-            lowered: [{ from: 0, to: 31, value: '45-66' }],
-          }}
+          defender={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
+          attacker={{ name: 'dragonair', level: 54, atk: 111 }}
         />
 
     - <Pokemon name="Dragonite" />: <PokeMove name="Blizzard" />
     - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
 
       - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
-      - <PokeMove
+      - <PokeDamage
           name="Hyper Beam"
-          dmgRanges={{
-            normal: [
-              { from: 0, to: 3, value: '(68)69-80(81)' },
-              { from: 4, to: 6, value: '68-79(80)' },
-              { from: 7, to: 8, value: '67-78(79)' },
-              { from: 9, to: 12, value: '(66)67-77(78)' },
-              { from: 13, to: 17, value: '(65)66-76(77)' },
-              { from: 18, to: 19, value: '(64)65-75(76)' },
-              { from: 20, to: 21, value: '(63)64-74(75)' },
-              { from: 22, to: 24, value: '(62)63-73(74)' },
-              { from: 25, to: 28, value: '62-72(73)' },
-              { from: 29, to: 31, value: '61-71(72)' },
-            ],
-            lowered: [
-              { from: 0, to: 3, value: '62-72(73)' },
-              { from: 4, to: 6, value: '61-71(72)' },
-              { from: 7, to: 10, value: '(60)61-70(71)' },
-              { from: 11, to: 12, value: '(59)60-69(70)' },
-              { from: 13, to: 15, value: '(58)59-68(69)' },
-              { from: 16, to: 19, value: '(57)58-67(68)' },
-              { from: 20, to: 23, value: '(56)57-66(67)' },
-              { from: 24, to: 28, value: '56-65(66)' },
-              { from: 29, to: 30, value: '55-64(65)' },
-              { from: 31, to: 31, value: '(54)55-63(64)' },
-            ],
-          }}
+          defender={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
+          attacker={{ name: 'aerodactyl', level: 58, atk: 129 }}
         />
 
 - Heal to **full HP** and use <PokeItem name="Elixir" /> before Champion.
@@ -3347,24 +2385,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - If you get into Torrent, skip the third <PokeItem name="X Sp Atk" text="X Special" /> and heal on <Pokemon name="Gyarados" />.
     - **Need** +3 without Torrent or +2 with Torrent to get past <Pokemon name="Alakazam" />.
     - Can <PokeMove name="Blizzard" /> at +2 if <PokeItem name="Guard Spec" /> runs out.
-    - <PokeMove
+    - <PokeDamage
         name="Aerial Ace"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 1, value: '35-41(42)' },
-            { from: 2, to: 10, value: '34-39(40)' },
-            { from: 11, to: 19, value: '33-38(39)' },
-            { from: 20, to: 30, value: '31-36(37)' },
-            { from: 31, to: 31, value: '30-35(36)' },
-          ],
-          lowered: [
-            { from: 0, to: 1, value: '39-45(46)' },
-            { from: 2, to: 8, value: '38-44(45)' },
-            { from: 9, to: 19, value: '36-42(43)' },
-            { from: 20, to: 26, value: '35-41(42)' },
-            { from: 27, to: 31, value: '34-39(40)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
+        attacker={{ name: 'pidgeot', level: 59, atk: 117 }}
       />
 
   - <Pokemon name="Venusaur" />: <PokeItem name="X Accuracy" />, <PokeMove name="Blizzard" />
@@ -3378,53 +2402,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Gyarados" />: <PokeMove name="Bite" />, <PokeMove name="Blizzard" />
 
     - <PokeMove name="Blizzard" /> x2 if at +2.
-    - <PokeMove
+    - <PokeDamage
         name="Thrash"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 1, value: '44-51(52)' },
-            { from: 2, to: 6, value: '43-50(51)' },
-            { from: 7, to: 9, value: '42-49(50)' },
-            { from: 10, to: 15, value: '41-48(49)' },
-            { from: 16, to: 20, value: '40-47(48)' },
-            { from: 21, to: 26, value: '39-46(47)' },
-            { from: 27, to: 31, value: '39-45(46)' },
-          ],
-          lowered: [
-            { from: 0, to: 4, value: '48-56(57)' },
-            { from: 5, to: 8, value: '47-55(56)' },
-            { from: 9, to: 13, value: '46-54(55)' },
-            { from: 14, to: 17, value: '45-53(54)' },
-            { from: 18, to: 22, value: '45-52(53)' },
-            { from: 23, to: 26, value: '44-51(52)' },
-            { from: 27, to: 31, value: '43-50(51)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 56, ev: 64, defBadge: true }}
+        attacker={{ name: 'gyarados', level: 59, atk: 153 }}
       />
 
   - <Pokemon name="Arcanine" />: <PokeMove name="Surf" />
 
-    - <PokeMove
+    - <PokeDamage
         name="Extreme Speed"
-        dmgRanges={{
-          normal: [
-            { from: 0, to: 4, value: '41-48(49)' },
-            { from: 5, to: 8, value: '40-47(48)' },
-            { from: 9, to: 15, value: '39-46(47)' },
-            { from: 16, to: 20, value: '39-45(46)' },
-            { from: 21, to: 26, value: '38-44(45)' },
-            { from: 27, to: 31, value: '37-43(44)' },
-          ],
-          lowered: [
-            { from: 0, to: 2, value: '46-54(55)' },
-            { from: 3, to: 6, value: '45-53(54)' },
-            { from: 7, to: 11, value: '45-52(53)' },
-            { from: 12, to: 15, value: '44-51(52)' },
-            { from: 16, to: 20, value: '43-50(51)' },
-            { from: 21, to: 24, value: '42-49(50)' },
-            { from: 25, to: 31, value: '41-48(49)' },
-          ],
-        }}
+        defender={{ name: 'blastoise', level: 56, ev: 64, defBadge: true }}
+        attacker={{ name: 'arcanine', level: 61, atk: 158 }}
       />
 
 - Ending split is on fadeout after Hall of Fame.

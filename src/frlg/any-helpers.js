@@ -90,3 +90,16 @@ export function silphRivalHP({ nature, def }) {
 
   return 74;
 }
+
+export function adjustEV(ev, mtMoonExp) {
+  switch (mtMoonExp) {
+    case 'josh':
+      return ev - 2;
+    case 'spinner':
+      return ev - 1;
+    case 'marcos':
+      return ev + 1;
+    default:
+      return ev;
+  }
+}
