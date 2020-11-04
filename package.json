@@ -23,7 +23,7 @@
     "react-dom": "^16.8.4",
     "react-hook-form": "^6.9.6",
     "react-hooks-global-state": "^1.0.1",
-    "react-query": "^2.25.2",
+    "react-query": "^2.26.1",
     "slugify": "^1.4.5"
   },
   "browserslist": {
