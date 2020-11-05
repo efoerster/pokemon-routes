@@ -1,7 +1,15 @@
 import React from 'react';
 import { useGlobalState } from '../state';
 
-export function SpeedInfo({ range }) {
+type SpeedInfoProps = {
+  range: {
+    from: number;
+    to: number;
+    at: number;
+  };
+};
+
+export function SpeedInfo({ range }: SpeedInfoProps) {
   const [starter] = useGlobalState('starter');
   return (
     range &&

@@ -7,7 +7,7 @@ export function Pokemon({ name }) {
   const type = pokemon && pokemon.types[0].type.name;
   const sprite =
     pokemon &&
-    pokemon.sprites.versions['generation-iii']['firered-leafgreen']
+    (pokemon.sprites as any).versions['generation-iii']['firered-leafgreen']
       .front_default;
 
   return (

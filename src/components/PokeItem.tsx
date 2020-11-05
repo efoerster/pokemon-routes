@@ -1,7 +1,9 @@
 import React from 'react';
 import { usePokeItem } from '../pokeapi';
 
-export function PokeItem({ name, text }) {
+type PokeItemProps = { name: string; text?: string };
+
+export function PokeItem({ name, text }: PokeItemProps) {
   const item = usePokeItem(name);
   return (
     <>

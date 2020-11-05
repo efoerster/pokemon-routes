@@ -4,12 +4,17 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { usePokeMove } from '../pokeapi';
 import { PokeTypeText } from './PokeTypeText';
 
-export function PokeMove({ name, torrent }) {
+type PokeMoveProps = {
+  name: string;
+  torrent?: boolean;
+};
+
+export function PokeMove({ name, torrent }: PokeMoveProps) {
   const move = usePokeMove(name);
   const type = move && move.type.name;
   const style = torrent
     ? { borderBottom: '3px dashed var(--pokemon-type-water)' }
-    : null;
+    : undefined;
 
   return (
     <>

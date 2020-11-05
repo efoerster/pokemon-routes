@@ -1,10 +1,10 @@
 import React from 'react';
-import { useGlobalState } from '../state';
+import { useGlobalState, MtMoonExp } from '../state';
 
 export function MtMoonPicker() {
   const [mtMoonExp, setMtMoonExp] = useGlobalState('mtMoonExp');
-  const handleClick = (event) => {
-    setMtMoonExp(event.target.id);
+  const handleClick = (event: React.MouseEvent) => {
+    setMtMoonExp(event.currentTarget.id as MtMoonExp);
   };
 
   const Pill = ({ id, children }) => {
