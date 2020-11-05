@@ -38,7 +38,7 @@
     "react-hook-form": "^6.10.1",
     "react-hooks-global-state": "^1.0.1",
     "react-query": "^2.26.1",
-    "slugify": "^1.4.5"
+    "slugify": "^1.4.6"
   },
   "browserslist": {
     "production": [
