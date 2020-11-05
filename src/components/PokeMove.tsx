@@ -9,7 +9,7 @@ type PokeMoveProps = {
   torrent?: boolean;
 };
 
-export function PokeMove({ name, torrent }: PokeMoveProps) {
+export function PokeMove({ name, torrent }: PokeMoveProps): JSX.Element {
   const move = usePokeMove(name);
   const type = move && move.type.name;
   const style = torrent

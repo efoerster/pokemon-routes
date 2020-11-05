@@ -2,7 +2,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useGlobalState } from '../state';
 
-export function StarterPicker() {
+type IVInputCellProps = {
+  name: string;
+};
+
+export function StarterPicker(): JSX.Element {
   const [starter, setStarter] = useGlobalState('starter');
   const { register, handleSubmit } = useForm();
 
@@ -18,7 +22,7 @@ export function StarterPicker() {
     });
   });
 
-  const IVInputCell = ({ name }) => (
+  const IVInputCell = ({ name }: IVInputCellProps) => (
     <td>
       <input
         name={name}

@@ -3,7 +3,7 @@ import { usePokeItem } from '../pokeapi';
 
 type PokeItemProps = { name: string; text?: string };
 
-export function PokeItem({ name, text }: PokeItemProps) {
+export function PokeItem({ name, text }: PokeItemProps): JSX.Element {
   const item = usePokeItem(name);
   return (
     <>

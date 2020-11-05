@@ -1,13 +1,18 @@
 import React from 'react';
 import { useGlobalState, MtMoonExp } from '../state';
 
-export function MtMoonPicker() {
+type PillProps = {
+  id: string;
+  children: React.ReactNode;
+};
+
+export function MtMoonPicker(): JSX.Element {
   const [mtMoonExp, setMtMoonExp] = useGlobalState('mtMoonExp');
   const handleClick = (event: React.MouseEvent) => {
     setMtMoonExp(event.currentTarget.id as MtMoonExp);
   };
 
-  const Pill = ({ id, children }) => {
+  const Pill = ({ id, children }: PillProps) => {
     let className = 'pills__item';
     if (mtMoonExp === id) {
       className += ' pills__item--active';

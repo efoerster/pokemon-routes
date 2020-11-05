@@ -49,7 +49,7 @@ export function antidoteInfo({ nature, def, hp }: Starter): AntidoteInfo {
 export function grabPersimBerry(
   { nature, def, spd, spa }: Starter,
   mtMoonExp: MtMoonExp,
-) {
+): boolean {
   if (nature === 'mild') {
     return false;
   }
@@ -72,7 +72,10 @@ export function grabPersimBerry(
   return mtMoonExp !== 'josh' && def >= 27;
 }
 
-export function grabCarbosFor({ spe }: Starter, mtMoonExp: MtMoonExp) {
+export function grabCarbosFor(
+  { spe }: Starter,
+  mtMoonExp: MtMoonExp,
+): string | null {
   if (spe == 20) {
     return 'giovanni';
   }
@@ -88,7 +91,7 @@ export function grabCarbosFor({ spe }: Starter, mtMoonExp: MtMoonExp) {
   return null;
 }
 
-export function silphRivalHP({ nature, def }: Starter) {
+export function silphRivalHP({ nature, def }: Starter): number {
   if (nature === 'mild') {
     return def <= 11 ? 82 : 80;
   }
@@ -102,7 +105,7 @@ export function silphRivalHP({ nature, def }: Starter) {
   return 74;
 }
 
-export function adjustEV(ev: number, mtMoonExp: MtMoonExp) {
+export function adjustEV(ev: number, mtMoonExp: MtMoonExp): number {
   switch (mtMoonExp) {
     case 'josh':
       return ev - 2;

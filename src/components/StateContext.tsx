@@ -11,7 +11,10 @@ type StateContextProps = {
   ) => ReactNode;
 };
 
-export function StateContext({ stateKey, children }: StateContextProps) {
+export function StateContext({
+  stateKey,
+  children,
+}: StateContextProps): JSX.Element {
   const [state, setState] = useGlobalState(stateKey);
   return <>{children(state, setState)}</>;
 }

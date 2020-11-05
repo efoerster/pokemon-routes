@@ -82,15 +82,15 @@ function calcDefStat(
   starter: Starter,
   defPokemon: IPokemon,
   { level, ev, stage, defBadge }: DefenderPokemon,
-) {
+): number {
   const defIV = SPECIAL_TYPES.includes(type) ? starter.spd : starter.def;
   const defStatName = SPECIAL_TYPES.includes(type)
     ? 'special-defense'
     : 'defense';
 
-  const { base_stat: baseDef } = defPokemon.stats.find(
-    (stat) => stat.stat.name === defStatName,
-  )!;
+  const baseDef =
+    defPokemon.stats.find((x) => x.stat.name === defStatName)?.base_stat ??
+    Number.NaN;
 
   const nature =
     (defStatName === 'defense' && starter.nature === 'mild') ||
@@ -117,7 +117,7 @@ function calcDmgModifier(
   atkPokemon: IPokemon,
   defPokemon: IPokemon,
   moveTypeName: string,
-) {
+): number {
   let modifier = 1.0;
   if (atkPokemon.types.find((x) => x.type.name === moveTypeName)) {
     modifier *= 1.5;
@@ -135,7 +135,7 @@ function calcBaseDmg(
   move: IMove,
   def: number,
   modifier: number,
-) {
+): number {
   let power = move.power;
   if (move.past_values.length > 0) {
     for (const { power: pastPower, version_group } of move.past_values) {
@@ -156,7 +156,7 @@ function calcBaseDmg(
   return baseDmg;
 }
 
-function calcDmgRange(maxDmg: number) {
+function calcDmgRange(maxDmg: number): string {
   const minDmg = Math.trunc(maxDmg * 0.85);
   const secondDmgValue = Math.trunc(maxDmg * 0.86);
   const penultDmgValue = Math.trunc(maxDmg * 0.99);
@@ -178,7 +178,7 @@ function calcDmgRange(maxDmg: number) {
   return dmgRange;
 }
 
-function formatRange(left: number, right: number) {
+function formatRange(left: number, right: number): string {
   return left == right ? `${left}` : `${left}-${right}`;
 }
 
@@ -187,7 +187,7 @@ export function PokeDamage({
   defender,
   attacker,
   displayLevel,
-}: PokeDamageProps) {
+}: PokeDamageProps): JSX.Element {
   const [starter] = useGlobalState('starter');
   const move = usePokeMove(name);
   const defPokemon = usePokemon(defender.name);

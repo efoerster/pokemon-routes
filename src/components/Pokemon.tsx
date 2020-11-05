@@ -2,7 +2,11 @@ import React from 'react';
 import { PokeTypeText } from './PokeTypeText';
 import { usePokemon } from '../pokeapi';
 
-export function Pokemon({ name }) {
+type PokemonProps = {
+  name: string;
+};
+
+export function Pokemon({ name }: PokemonProps): JSX.Element {
   const pokemon = usePokemon(name);
   const type = pokemon && pokemon.types[0].type.name;
   const sprite =
