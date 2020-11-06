@@ -4,6 +4,62 @@ import { usePokeMove, usePokemon } from '../pokeapi';
 import { PokeMove } from './PokeMove';
 import { Starter, useGlobalState } from '../state';
 
+type DefenderPokemon = {
+  name: string;
+  level: number;
+  ev: number;
+  stage: number;
+  defBadge?: boolean;
+};
+
+type AttackerPokemon = {
+  name: string;
+  level: number;
+  atk: number;
+  torrent?: boolean;
+};
+
+type PokeDamageProps = {
+  name: string;
+  defender: DefenderPokemon;
+  attacker: AttackerPokemon;
+  displayLevel?: boolean;
+};
+
+export function PokeDamage({
+  name,
+  defender,
+  attacker,
+  displayLevel,
+}: PokeDamageProps): JSX.Element {
+  const [starter] = useGlobalState('starter');
+  const move = usePokeMove(name);
+  const defPokemon = usePokemon(defender.name);
+  const atkPokemon = usePokemon(attacker.name);
+
+  let dmgRange = '';
+  if (move && defPokemon && atkPokemon) {
+    const def = calcDefStat(move.type.name, starter, defPokemon, defender);
+    const baseDmg = calcBaseDmg(attacker, move, atkPokemon, defPokemon, def);
+    dmgRange = calcDmgRange(baseDmg);
+  }
+
+  return (
+    <>
+      <PokeMove name={name} /> damage
+      {displayLevel && <> at level {defender.level}</>}
+      {defender.stage && (
+        <>
+          {' '}
+          at {defender.stage > 0 && '+'}
+          {defender.stage} Def
+        </>
+      )}
+      {attacker.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
+    </>
+  );
+}
+
 const TYPE_INDEX = {
   normal: 0,
   fire: 1,
@@ -55,28 +111,6 @@ const SPECIAL_TYPES = [
   'dark',
 ];
 
-type DefenderPokemon = {
-  name: string;
-  level: number;
-  ev: number;
-  stage: number;
-  defBadge?: boolean;
-};
-
-type AttackerPokemon = {
-  name: string;
-  level: number;
-  atk: number;
-  torrent?: boolean;
-};
-
-type PokeDamageProps = {
-  name: string;
-  defender: DefenderPokemon;
-  attacker: AttackerPokemon;
-  displayLevel?: boolean;
-};
-
 function calcDefStat(
   type: string,
   starter: Starter,
@@ -113,34 +147,22 @@ function calcDefStat(
   return def;
 }
 
-function calcDmgModifier(
-  atkPokemon: IPokemon,
-  defPokemon: IPokemon,
-  moveTypeName: string,
-): number {
-  let modifier = 1.0;
-  if (atkPokemon.types.find((x) => x.type.name === moveTypeName)) {
-    modifier *= 1.5;
-  }
-
-  for (const { type } of defPokemon.types) {
-    modifier *= TYPES_FACTORS[moveTypeName][TYPE_INDEX[type.name]];
-  }
-
-  return modifier;
-}
-
 function calcBaseDmg(
   { level, atk, torrent }: AttackerPokemon,
   move: IMove,
+  atkPokemon: IPokemon,
+  defPokemon: IPokemon,
   def: number,
-  modifier: number,
 ): number {
   let power = move.power;
   if (move.past_values.length > 0) {
     for (const { power: pastPower, version_group } of move.past_values) {
       const versionName = version_group.name;
-      if (power && versionName != 'red-blue' && versionName != 'gold-silver') {
+      if (
+        pastPower &&
+        versionName != 'red-blue' &&
+        versionName != 'gold-silver'
+      ) {
         power = pastPower;
         break;
       }
@@ -150,10 +172,20 @@ function calcBaseDmg(
     power = Math.trunc(power * 1.5);
   }
 
-  let baseDmg = (Math.trunc((2 * level) / 5) + 2) * power;
-  baseDmg = Math.trunc((baseDmg * (atk / def)) / 50) + 2;
-  baseDmg = Math.trunc(baseDmg * modifier);
-  return baseDmg;
+  let dmg = (Math.trunc((2 * level) / 5) + 2) * power;
+  dmg = Math.trunc(Math.trunc(dmg * (atk / def)) / 50) + 2;
+
+  if (atkPokemon.types.find((x) => x.type.name === move.type.name)) {
+    dmg = Math.trunc(dmg * 1.5);
+  }
+
+  for (const { type } of defPokemon.types) {
+    dmg = Math.trunc(
+      dmg * TYPES_FACTORS[move.type.name][TYPE_INDEX[type.name]],
+    );
+  }
+
+  return dmg;
 }
 
 function calcDmgRange(maxDmg: number): string {
@@ -180,39 +212,4 @@ function calcDmgRange(maxDmg: number): string {
 
 function formatRange(left: number, right: number): string {
   return left == right ? `${left}` : `${left}-${right}`;
-}
-
-export function PokeDamage({
-  name,
-  defender,
-  attacker,
-  displayLevel,
-}: PokeDamageProps): JSX.Element {
-  const [starter] = useGlobalState('starter');
-  const move = usePokeMove(name);
-  const defPokemon = usePokemon(defender.name);
-  const atkPokemon = usePokemon(attacker.name);
-
-  let dmgRange = '';
-  if (move && defPokemon && atkPokemon) {
-    const def = calcDefStat(move.type.name, starter, defPokemon, defender);
-    const modifier = calcDmgModifier(atkPokemon, defPokemon, move.type.name);
-    const baseDmg = calcBaseDmg(attacker, move, def, modifier);
-    dmgRange = calcDmgRange(baseDmg);
-  }
-
-  return (
-    <>
-      <PokeMove name={name} /> damage
-      {displayLevel && <> at level {defender.level}</>}
-      {defender.stage && (
-        <>
-          {' '}
-          at {defender.stage > 0 && '+'}
-          {defender.stage} Def
-        </>
-      )}
-      {attacker.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
-    </>
-  );
 }
