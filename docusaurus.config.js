@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
+const path = require('path');
+
 module.exports = {
   title: 'Pokemon Routes',
   tagline: 'Interactive speedrunning guides of the Pokemon series',
@@ -7,6 +11,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'efoerster',
   projectName: 'pokemon-routes',
+  plugins: [path.resolve(__dirname, './plugins/ts-loader')],
   themeConfig: {
     colorMode: {
       defaultMode: 'dark',
