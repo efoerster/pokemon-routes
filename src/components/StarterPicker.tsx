@@ -31,6 +31,7 @@ export function StarterPicker(): JSX.Element {
         max="31"
         defaultValue={starter[name]}
         ref={register({ required: true, min: 0, max: 31 })}
+        onFocus={(event) => event.target.select()}
       />
     </td>
   );
