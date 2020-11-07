@@ -1,20 +1,12 @@
+import { observer } from 'mobx-react-lite';
 import React, { ReactNode } from 'react';
-import { State, useGlobalState } from '../state';
-
-type StateValues = State[keyof State];
+import { StateStore, useStore } from '../stores';
 
 type StateContextProps = {
-  stateKey: keyof State;
-  children: (
-    state: StateValues,
-    setState: (state: StateValues) => void,
-  ) => ReactNode;
+  children: (state: StateStore) => ReactNode;
 };
 
-export function StateContext({
-  stateKey,
-  children,
-}: StateContextProps): JSX.Element {
-  const [state, setState] = useGlobalState(stateKey);
-  return <>{children(state, setState)}</>;
-}
+export const StateContext = observer(({ children }: StateContextProps) => {
+  const state = useStore();
+  return <>{children(state)}</>;
+});

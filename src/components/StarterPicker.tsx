@@ -1,26 +1,20 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
-import { useGlobalState } from '../state';
+import { useStore } from '../stores';
+import { PickStarterArgs } from '../stores/starter';
 
 type IVInputCellProps = {
   name: string;
 };
 
-export function StarterPicker(): JSX.Element {
-  const [starter, setStarter] = useGlobalState('starter');
+export const StarterPicker = observer(() => {
+  const { starter } = useStore();
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = handleSubmit(({ nature, hp, atk, def, spa, spd, spe }) => {
-    setStarter({
-      nature,
-      hp: parseInt(hp),
-      atk: parseInt(atk),
-      def: parseInt(def),
-      spa: parseInt(spa),
-      spd: parseInt(spd),
-      spe: parseFloat(spe),
-    });
-  });
+  const onSubmit = handleSubmit((args) =>
+    starter.pickStarter(args as PickStarterArgs),
+  );
 
   const IVInputCell = ({ name }: IVInputCellProps) => (
     <td>
@@ -71,4 +65,4 @@ export function StarterPicker(): JSX.Element {
       <input className="button button--primary" type="submit" />
     </form>
   );
-}
+});

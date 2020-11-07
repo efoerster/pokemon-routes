@@ -2,7 +2,9 @@ import React from 'react';
 import { IMove, IPokemon } from 'pokeapi-typescript';
 import { usePokeMove, usePokemon } from '../pokeapi';
 import { PokeMove } from './PokeMove';
-import { Starter, useGlobalState } from '../state';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../stores';
+import { StarterStore } from '../stores/starter';
 
 type DefenderPokemon = {
   name: string;
@@ -26,39 +28,36 @@ type PokeDamageProps = {
   displayLevel?: boolean;
 };
 
-export function PokeDamage({
-  name,
-  defender,
-  attacker,
-  displayLevel,
-}: PokeDamageProps): JSX.Element {
-  const [starter] = useGlobalState('starter');
-  const move = usePokeMove(name);
-  const defPokemon = usePokemon(defender.name);
-  const atkPokemon = usePokemon(attacker.name);
+export const PokeDamage = observer(
+  ({ name, defender, attacker, displayLevel }: PokeDamageProps) => {
+    const { starter } = useStore();
+    const move = usePokeMove(name);
+    const defPokemon = usePokemon(defender.name);
+    const atkPokemon = usePokemon(attacker.name);
 
-  let dmgRange = '';
-  if (move && defPokemon && atkPokemon) {
-    const def = calcDefStat(move.type.name, starter, defPokemon, defender);
-    const baseDmg = calcBaseDmg(attacker, move, atkPokemon, defPokemon, def);
-    dmgRange = calcDmgRange(baseDmg);
-  }
+    let dmgRange = '';
+    if (move && defPokemon && atkPokemon) {
+      const def = calcDefStat(move.type.name, starter, defPokemon, defender);
+      const baseDmg = calcBaseDmg(attacker, move, atkPokemon, defPokemon, def);
+      dmgRange = calcDmgRange(baseDmg);
+    }
 
-  return (
-    <>
-      <PokeMove name={name} /> damage
-      {displayLevel && <> at level {defender.level}</>}
-      {defender.stage && (
-        <>
-          {' '}
-          at {defender.stage > 0 && '+'}
-          {defender.stage} Def
-        </>
-      )}
-      {attacker.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
-    </>
-  );
-}
+    return (
+      <>
+        <PokeMove name={name} /> damage
+        {displayLevel && <> at level {defender.level}</>}
+        {defender.stage && (
+          <>
+            {' '}
+            at {defender.stage > 0 && '+'}
+            {defender.stage} Def
+          </>
+        )}
+        {attacker.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
+      </>
+    );
+  },
+);
 
 const TYPE_INDEX = {
   normal: 0,
@@ -113,7 +112,7 @@ const SPECIAL_TYPES = [
 
 function calcDefStat(
   type: string,
-  starter: Starter,
+  starter: StarterStore,
   defPokemon: IPokemon,
   { level, ev, stage, defBadge }: DefenderPokemon,
 ): number {

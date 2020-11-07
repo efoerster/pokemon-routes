@@ -1,4 +1,5 @@
-import { MtMoonExp, Starter } from '../state';
+import { MtMoonExp } from '../stores/frlg';
+import { StarterStore } from '../stores/starter';
 
 type AntidoteInfo = {
   hp: number;
@@ -6,7 +7,7 @@ type AntidoteInfo = {
   heal: boolean;
 };
 
-export function antidoteInfo({ nature, def, hp }: Starter): AntidoteInfo {
+export function antidoteInfo({ nature, def, hp }: StarterStore): AntidoteInfo {
   if ((nature === 'mild' && def >= 7) || (nature !== 'mild' && def <= 6)) {
     if (hp <= 2) {
       return { hp: 7, torrent: false, heal: false };
@@ -47,7 +48,7 @@ export function antidoteInfo({ nature, def, hp }: Starter): AntidoteInfo {
 }
 
 export function grabPersimBerry(
-  { nature, def, spd, spa }: Starter,
+  { nature, def, spd, spa }: StarterStore,
   mtMoonExp: MtMoonExp,
 ): boolean {
   if (nature === 'mild') {
@@ -73,7 +74,7 @@ export function grabPersimBerry(
 }
 
 export function grabCarbosFor(
-  { spe }: Starter,
+  { spe }: StarterStore,
   mtMoonExp: MtMoonExp,
 ): string | null {
   if (spe == 20) {
@@ -91,7 +92,7 @@ export function grabCarbosFor(
   return null;
 }
 
-export function silphRivalHP({ nature, def }: Starter): number {
+export function silphRivalHP({ nature, def }: StarterStore): number {
   if (nature === 'mild') {
     return def <= 11 ? 82 : 80;
   }

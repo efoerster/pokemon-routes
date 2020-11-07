@@ -1,5 +1,6 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useGlobalState } from '../state';
+import { useStore } from '../stores';
 
 type SpeedInfoProps = {
   range: {
@@ -9,8 +10,8 @@ type SpeedInfoProps = {
   };
 };
 
-export function SpeedInfo({ range }: SpeedInfoProps): JSX.Element {
-  const [starter] = useGlobalState('starter');
+export const SpeedInfo = observer(({ range }: SpeedInfoProps) => {
+  const { starter } = useStore();
   return (
     <>
       {range && starter.spe >= range.from && starter.spe <= range.to && (
@@ -20,4 +21,4 @@ export function SpeedInfo({ range }: SpeedInfoProps): JSX.Element {
       )}
     </>
   );
-}
+});

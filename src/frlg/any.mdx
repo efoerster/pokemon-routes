@@ -58,8 +58,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - ### Rival 1
 
-  - <StateContext stateKey="starter">
-      {({ nature, atk }) => (
+  - <StateContext>
+      {({ starter: { nature, atk } }) => (
         <>
           <Pokemon name="Bulbasaur" />:{' '}
           {nature === 'modest' || atk <= 3 ? (
@@ -80,8 +80,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Grab the <PokeItem name="Potion" /> from mart guy.
 - Kill any level 2 or 3 <Pokemon name="Pidgey" /> / <Pokemon name="Rattata" /> along the way.
-  - <StateContext stateKey="starter">
-      {({ nature, atk }) =>
+  - <StateContext>
+      {({ starter: { nature, atk } }) =>
         (nature === 'modest' || atk < 21) && (
           <>
             <b>Do not</b> kill a level 3 <Pokemon name="Pidgey" />.
@@ -89,9 +89,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         )
       }
     </StateContext>
-  - <StateContext stateKey="starter">
-      {({ spe }) =>
-        spe == 31 && (
+  - <StateContext>
+      {({ starter }) =>
+        starter.spe == 31 && (
           <>
             Attempt to kill an extra <Pokemon name="Pidgey" /> /{' '}
             <Pokemon name="Rattata" /> on Route 1.
@@ -126,12 +126,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         attacker={{ name: 'weedle', level: 9, atk: 11 }}
       />
     - **Poison** damage:
-      <StateContext stateKey="starter">
-        {({ hp }) => <b> {hp <= 11 ? '2' : '2 at level 6, 3 at level 7'}</b>}
+      <StateContext>
+        {({ starter }) => (
+          <b> {starter.hp <= 11 ? '2' : '2 at level 6, 3 at level 7'}</b>
+        )}
       </StateContext>
 
-- <StateContext stateKey="starter">
-    {(starter) => {
+- <StateContext>
+    {({ starter }) => {
       const { hp, torrent, heal } = antidoteInfo(starter);
       return (
         <>
@@ -190,9 +192,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - 56.25% (9/16) to OHKO
     - Teach <PokeMove name="Water Gun" /> over <PokeMove name="Tail Whip" /> (Mash A)
-    - <StateContext stateKey="starter">
-        {({ spe }) =>
-          spe >= 24 && (
+    - <StateContext>
+        {({ starter }) =>
+          starter.spe >= 24 && (
             <>
               If you drop speed with <PokeMove name="Bubble" />, it will{' '}
               <PokeMove name="Rock Tomb" /> you at 24+ Speed.{' '}
@@ -233,17 +235,17 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Attempt to get torrent in as little turns as possible on this route.
 
-  - <StateContext stateKey="starter">
-      {({ hp }) => (
+  - <StateContext>
+      {({ starter }) => (
         <>
           If no torrent for level 14, get it off the 2nd level 10{' '}
-          <Pokemon name="Caterpie" /> (<b>{hp == 27 ? '+3' : '+2'} HP</b> upon
-          level up).
+          <Pokemon name="Caterpie" /> (
+          <b>{starter.hp == 27 ? '+3' : '+2'} HP</b> upon level up).
         </>
       )}
     </StateContext>
-  - <StateContext stateKey="starter">
-      {({ hp }) => (
+  - <StateContext>
+      {({ starter: { hp } }) => (
         <>
           If no torrent for level 15, get it off the level 11{' '}
           <Pokemon name="Caterpie" /> (
@@ -260,8 +262,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> (x2)
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 &&
           spa <= 30 &&
           'Both Caterpie are 93.75% (15/16) to OHKO in Torrent'
@@ -305,16 +307,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - If no HM Slaves, can catch <Pokemon name="Nidoran F" /> / <Pokemon name="Nidoran M" /> for <PokeMove name="Cut" /> and <PokeMove name="Strength" />.
   - Can Bag Manip the Lass for a free pass.
 
-- <StateContext stateKey="starter">
-    {(starter) => (
-      <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
-          <>
-            <b>{grabPersimBerry(starter, mtMoonExp) ? 'Grab' : 'Skip'}</b> the{' '}
-            <PokeItem name="Persim Berry" />.
-          </>
-        )}
-      </StateContext>
+- <StateContext>
+    {({ starter, frlg }) => (
+      <>
+        <b>{grabPersimBerry(starter, frlg.mtMoonExp) ? 'Grab' : 'Skip'}</b> the{' '}
+        <PokeItem name="Persim Berry" />.
+      </>
     )}
   </StateContext>
 
@@ -342,8 +340,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
     - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
     - <Pokemon name="Metapod" />: <PokeMove name="Water Gun" torrent={true} />
-    - <StateContext stateKey="starter">
-        {({ hp }) => (
+    - <StateContext>
+        {({ starter: { hp } }) => (
           <>
             <b>
               {hp == 24 || hp == 25 || hp == 30 || hp == 31 ? '+3' : '+2'} HP
@@ -421,7 +419,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       name="Water Gun"
       torrent={true}
     /> (x2)
-    <StateContext stateKey="mtMoonExp">
+    <StateContext>
       {(mtMoonExp) => (
         <SpeedInfo
           range={
@@ -475,8 +473,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Staryu" />: <PokeMove name="Bite" /> x2{' '}
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>
               {spa >= 30 ? '93%' : '59.4%'} to 2HKO with {spa} SPA
@@ -513,22 +511,22 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Pidgeotto" />: <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
     - 25% (4/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 21,
-              ev: adjustEV(13, mtMoonExp),
+              ev: adjustEV(13, frlg.mtMoonExp),
             }}
             attacker={{ name: 'pidgeotto', level: 17, atk: 26 }}
           />
         )}
       </StateContext>
 
-  - <StateContext stateKey="starter">
-      {({ nature, atk }) => (
+  - <StateContext>
+      {({ starter: { nature, atk } }) => (
         <>
           <Pokemon name="Bulbasaur" />:{' '}
           {nature === 'modest' && atk <= 12 ? (
@@ -551,11 +549,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       />
 
   - <Pokemon name="Abra" />: <PokeMove name="Water Pulse" />
-    <StateContext stateKey="mtMoonExp">
-      {(mtMoonExp) => (
+    <StateContext>
+      {({ frlg }) => (
         <SpeedInfo
           range={
-            mtMoonExp === 'josh'
+            frlg.mtMoonExp === 'josh'
               ? { from: 20, to: 23, at: 0 }
               : { from: 21, to: 24, at: 0 }
           }
@@ -567,14 +565,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 22,
-              ev: adjustEV(13, mtMoonExp),
+              ev: adjustEV(13, frlg.mtMoonExp),
             }}
             attacker={{ name: 'rattata', level: 15, atk: 24 }}
           />
@@ -645,8 +643,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>
               {spa == 28 ? '68.75% (11/16)' : '81.25% (13/16)'} to OHKO at{' '}
@@ -658,9 +656,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Oddish" />: <PokeMove name="Mega Kick" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
-          spa >= 28 && (
+    - <StateContext>
+        {({ starter }) =>
+          starter.spa >= 28 && (
             <>
               37.5% (6/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
             </>
@@ -691,9 +689,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Machop" />: <PokeMove name="Water Pulse" />
   - <Pokemon name="Drowzee" />: <PokeMove name="Mega Kick" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
-          spa >= 29 && (
+    - <StateContext>
+        {({ starter }) =>
+          starter.spa >= 29 && (
             <>
               18.75% (3/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
             </>
@@ -750,8 +748,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <PokeItem name="Rare Candy" /> to level 27 if you do not level out of torrent.
 
-    - <StateContext stateKey="starter">
-        {({ hp }) => (
+    - <StateContext>
+        {({ starter: { hp } }) => (
           <>
             <b>
               +{[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp) ? '3' : '2'}{' '}
@@ -772,28 +770,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> or <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 26,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
             }}
             attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
             displayLevel={true}
           />
         )}
       </StateContext>
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 27,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
             }}
             attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
             displayLevel={true}
@@ -801,8 +799,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         )}
       </StateContext>
 
-  - <StateContext stateKey="starter">
-      {({ nature, atk }) => (
+  - <StateContext>
+      {({ starter: { nature, atk } }) => (
         <>
           <Pokemon name="Ivysaur" />:{' '}
           {(nature === 'modest' && atk <= 20) ||
@@ -837,28 +835,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 26,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
             }}
             attacker={{ name: 'raticate', level: 16, atk: 28 }}
             displayLevel={true}
           />
         )}
       </StateContext>
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 27,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
             }}
             attacker={{ name: 'raticate', level: 16, atk: 28 }}
             displayLevel={true}
@@ -895,11 +893,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - ### Gentlemen Tucker
 
   - <Pokemon name="Pikachu" />: <PokeMove name="Water Pulse" />
-    <StateContext stateKey="mtMoonExp">
-      {(mtMoonExp) => (
+    <StateContext>
+      {({ frlg }) => (
         <SpeedInfo
           range={
-            mtMoonExp === 'josh'
+            frlg.mtMoonExp === 'josh'
               ? { from: 24, to: 26, at: 0 }
               : { from: 25, to: 27, at: 0 }
           }
@@ -910,11 +908,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - ### Leader Surge
 
   - <Pokemon name="Voltorb" />: <PokeMove name="Water Pulse" /> (x2)
-    <StateContext stateKey="mtMoonExp">
-      {(mtMoonExp) => (
+    <StateContext>
+      {({ frlg }) => (
         <SpeedInfo
           range={
-            mtMoonExp === 'josh'
+            frlg.mtMoonExp === 'josh'
               ? { from: 27, to: 30, at: 0 }
               : { from: 28, to: 31, at: 0 }
           }
@@ -922,8 +920,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>{spa == 28 ? '62.5% (10/16)' : '81.25% (13/16)'} to OHKO</>
           )
@@ -943,27 +941,27 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         attacker={{ name: 'raichu', level: 24, atk: 52 }}
       />
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 28,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
             }}
             attacker={{ name: 'raichu', level: 24, atk: 43 }}
           />
         )}
       </StateContext>
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Quick Attack"
             defender={{
               name: 'wartortle',
               level: 28,
-              ev: adjustEV(19, mtMoonExp),
+              ev: adjustEV(19, frlg.mtMoonExp),
               stage: -2,
             }}
             attacker={{ name: 'raichu', level: 24, atk: 43 }}
@@ -995,8 +993,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Weedle" />: <PokeMove name="Water Gun" />
   - <Pokemon name="Venonat" />: <PokeMove name="Water Pulse" /> (x2)
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>
               {spa <= 30 ? '37.5% (6/16)' : '43.75% (7/16)'} to OHKO without
@@ -1031,8 +1029,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Cubone" />: <PokeMove name="Water Gun" />
   - <Pokemon name="Slowpoke" />: <PokeMove name="Bite" /> (x2)
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && <>{spa <= 30 ? '12.5% (2/16)' : '25% (4/16)'} to OHKO</>
         }
       </StateContext>
@@ -1045,8 +1043,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Slowpoke" />: <PokeMove name="Bite" /> (x2)
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>{spa <= 30 ? '6.25% (1/16)' : '18.75% (3/16)'} to OHKO</>
           )
@@ -1055,8 +1053,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - ### Jr Trainer Martha
 
-  - <StateContext stateKey="starter">
-      {({ nature, atk }) => (
+  - <StateContext>
+      {({ starter: { nature, atk } }) => (
         <>
           <Pokemon name="Oddish" />:{' '}
           {nature === 'modest' || atk <= 15 ? (
@@ -1072,8 +1070,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <StateContext stateKey="starter">
-        {({ nature, atk }) =>
+    - <StateContext>
+        {({ starter: { nature, atk } }) =>
           nature !== 'modest' &&
           atk >= 16 && (
             <>{atk <= 18 ? '81.25%' : atk <= 21 ? '87.5%' : '100%'} to OHKO</>
@@ -1154,11 +1152,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - ### Gamer Rich
 
     - <Pokemon name="Growlithe" />: <PokeMove name="Water Gun" />
-    - <StateContext stateKey="starter">
-        {({ spa }) => (
+    - <StateContext>
+        {({ starter }) => (
           <>
             <Pokemon name="Vulpix" />:{' '}
-            {spa <= 29 ? (
+            {starter.spa <= 29 ? (
               <PokeMove name="Water Pulse" />
             ) : (
               <PokeMove name="Water Gun" />
@@ -1219,8 +1217,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Sandslash" />: <PokeMove name="Water Pulse" />
   - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && spa <= 30 && '93.75% (15/16) to OHKO without Torrent'
         }
       </StateContext>
@@ -1241,27 +1239,27 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Kangaskhan" />: <PokeMove name="Water Pulse" /> x2-3
 
     - 98% to 2HKO with Torrent
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Mega Punch"
             defender={{
               name: 'blastoise',
               level: 36,
-              ev: adjustEV(35, mtMoonExp),
+              ev: adjustEV(35, frlg.mtMoonExp),
             }}
             attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
           />
         )}
       </StateContext>
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Mega Punch"
             defender={{
               name: 'blastoise',
               level: 36,
-              ev: adjustEV(35, mtMoonExp),
+              ev: adjustEV(35, frlg.mtMoonExp),
               stage: -1,
             }}
             attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
@@ -1276,9 +1274,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - Bike straight to the mart and take the elevator to 5F (↓↓).
 - Buy at the bottom vendor:
   - **If low on <PokeMove name="Mega Kick" /> or high HP after Giovanni**
-    - <StateContext stateKey="starter">
-        {({ spe }) => (
-          <StateContext stateKey="mtMoonExp">
+    - <StateContext>
+        {({ starter: { spe } }) => (
+          <StateContext>
             {(mtMoonExp) => (
               <>
                 {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
@@ -1293,9 +1291,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - 2x <PokeItem name="Guard Spec" /> (↓)
   - **If 2-3 PP for <PokeMove name="Mega Kick" /> left**
     - 1x <PokeItem name="X Attack" />
-    - <StateContext stateKey="starter">
-        {({ spe }) => (
-          <StateContext stateKey="mtMoonExp">
+    - <StateContext>
+        {({ starter: { spe } }) => (
+          <StateContext>
             {(mtMoonExp) => (
               <>
                 {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
@@ -1381,8 +1379,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         torrent={true}
       /> / <PokeMove name="Bite " /> x2
 
-      - <StateContext stateKey="starter">
-          {({ spa }) =>
+      - <StateContext>
+          {({ starter: { spa } }) =>
             spa >= 28 && (
               <>
                 <PokeMove name="Water Pulse" /> with Torrent is{' '}
@@ -1391,8 +1389,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
             )
           }
         </StateContext>
-      - <StateContext stateKey="starter">
-          {({ spa }) =>
+      - <StateContext>
+          {({ starter: { spa } }) =>
             spa >= 28 && (
               <>
                 <PokeMove name="Bite" /> is{' '}
@@ -1450,14 +1448,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Mega Kick" /> / <PokeMove name="Bite" /> for one turn if not
       in Torrent.
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Bonemerang"
             defender={{
               name: 'blastoise',
               level: 36,
-              ev: adjustEV(35, mtMoonExp),
+              ev: adjustEV(35, frlg.mtMoonExp),
             }}
             attacker={{ name: 'marowak', level: 30, atk: 62 }}
           />
@@ -1472,8 +1470,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Zubat" />: <PokeMove name="Water Gun" torrent={true} />
   - <Pokemon name="Golbat" />: <PokeMove name="Water Pulse" torrent={true} />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>
               {spa <= 30 ? '37.5% (6/16)' : '50% (8/16)'} to OHKO without
@@ -1578,18 +1576,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Weezing" />: <PokeMove name="Surf" torrent={true} /> (at +1)
     / <PokeMove name="Water Pulse" />, <PokeMove name="Surf" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) => spa >= 30 && '68.75% to OHKO'}
+    - <StateContext>
+        {({ starter }) => starter.spa >= 30 && '68.75% to OHKO'}
       </StateContext>
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Sludge"
             defender={{
               name: 'blastoise',
               level: 42,
-              ev: adjustEV(40, mtMoonExp),
+              ev: adjustEV(40, frlg.mtMoonExp),
             }}
             attacker={{ name: 'weezing', level: 43, atk: 82 }}
           />
@@ -1609,42 +1607,38 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Go to the mansion (approach from the left side).
 
-- <StateContext stateKey="starter">
-    {(starter) => (
-      <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => {
-          const carbosFor = grabCarbosFor(starter, mtMoonExp);
-          return (
+- <StateContext>
+    {({ starter, frlg }) => {
+      const carbosFor = grabCarbosFor(starter, frlg.mtMoonExp);
+      return (
+        <>
+          {carbosFor ? 'Grab' : 'Skip'} the <PokeItem name="Carbos" />
+          {carbosFor && carbosFor === 'blaine' ? (
             <>
-              {carbosFor ? 'Grab' : 'Skip'} the <PokeItem name="Carbos" />
-              {carbosFor && carbosFor === 'blaine' ? (
-                <>
-                  {' '}
-                  for Blaine's <Pokemon name="Rapidash" />
-                </>
-              ) : carbosFor === 'sabrina' ? (
-                <>
-                  {' '}
-                  for Sabrina's <Pokemon name="Alakazam" />
-                </>
-              ) : carbosFor === 'giovanni' ? (
-                <>
-                  {' '}
-                  for Giovannis's <Pokemon name="Dugtrio" />
-                </>
-              ) : (
-                <></>
-              )}.
+              {' '}
+              for Blaine's <Pokemon name="Rapidash" />
             </>
-          );
-        }}
-      </StateContext>
-    )}
+          ) : carbosFor === 'sabrina' ? (
+            <>
+              {' '}
+              for Sabrina's <Pokemon name="Alakazam" />
+            </>
+          ) : carbosFor === 'giovanni' ? (
+            <>
+              {' '}
+              for Giovannis's <Pokemon name="Dugtrio" />
+            </>
+          ) : (
+            <></>
+          )}.
+        </>
+      );
+    }}
   </StateContext>
 
-  - <StateContext stateKey="starter">
-      {({ spe }) =>
-        spe == 31 && (
+  - <StateContext>
+      {({ starter }) =>
+        starter.spe == 31 && (
           <>
             <b>Skip</b> it if you fought two <Pokemon name="Pidgey" /> /{' '}
             <Pokemon name="Rattata" /> on Route 1.
@@ -1664,18 +1658,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - Teach <PokeMove name="Strength" /> to <Pokemon name="Sandshrew" /> if you caught one.
   - Teach <PokeMove name="Blizzard" /> over <PokeMove name="Mega Kick" /> (Slot 4).
-  - <StateContext stateKey="starter">
-      {(starter) => (
-        <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) =>
-            grabCarbosFor(starter, mtMoonExp) === 'blaine' && (
-              <>
-                Use <PokeItem name="Carbos" /> now.
-              </>
-            )
-          }
-        </StateContext>
-      )}
+  - <StateContext>
+      {({ starter, frlg }) =>
+        grabCarbosFor(starter, frlg.mtMoonExp) === 'blaine' && (
+          <>
+            Use <PokeItem name="Carbos" /> now.
+          </>
+        )
+      }
     </StateContext>
   - Use <PokeItem name="Escape Rope" /> and bike to the gym.
 
@@ -1685,25 +1675,21 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - ### Leader Blaine
 
-  - <StateContext stateKey="starter">
-      {(starter) => (
-        <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+  - <StateContext>
+      {({ starter, frlg: { mtMoonExp } }) => (
+        <>
+          <Pokemon name="Growlithe" />:{' '}
+          {(starter.spe == 21 ||
+            (grabCarbosFor(starter, mtMoonExp) === 'blaine' &&
+              mtMoonExp === 'josh')) && (
             <>
-              <Pokemon name="Growlithe" />:{' '}
-              {(starter.spe == 21 ||
-                (grabCarbosFor(starter, mtMoonExp) === 'blaine' &&
-                  mtMoonExp === 'josh')) && (
-                <>
-                  <PokeItem name="X Speed" />,{' '}
-                </>
-              )}
-              (<PokeItem name="X Sp Atk" text="X Special" />
-              ), <PokeMove name="Surf" /> /{' '}
-              <PokeMove name="Water Pulse" torrent={true} />
+              <PokeItem name="X Speed" />,{' '}
             </>
           )}
-        </StateContext>
+          (<PokeItem name="X Sp Atk" text="X Special" />
+          ), <PokeMove name="Surf" /> /{' '}
+          <PokeMove name="Water Pulse" torrent={true} />
+        </>
       )}
     </StateContext>
 
@@ -1773,22 +1759,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - On spinner bag manip:
 
   - Use <PokeItem name="Max Elixir" />.
-  - <StateContext stateKey="starter">
-      {(starter) => (
-        <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) =>
-            (grabCarbosFor(starter, mtMoonExp) === 'sabrina' ||
-              grabCarbosFor(starter, mtMoonExp) === 'giovanni') && (
-              <>
-                Use <PokeItem name="Carbos" /> now.
-              </>
-            )
-          }
-        </StateContext>
-      )}
+  - <StateContext>
+      {({ starter, frlg: { mtMoonExp } }) =>
+        (grabCarbosFor(starter, mtMoonExp) === 'sabrina' ||
+          grabCarbosFor(starter, mtMoonExp) === 'giovanni') && (
+          <>
+            Use <PokeItem name="Carbos" /> now.
+          </>
+        )
+      }
     </StateContext>
-  - <StateContext stateKey="starter">
-      {(starter) => (
+  - <StateContext>
+      {({ starter }) => (
         <>
           Heal to around <b>{silphRivalHP(starter)} HP</b>.
         </>
@@ -1829,8 +1811,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Cubone" />: <PokeMove name="Bite" /> / <PokeMove name="Water Pulse" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>{spa <= 29 ? '75% (12/16)' : '81.25% (13/16)'} to OHKO</>
           )
@@ -1846,8 +1828,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Nidoqueen" />: <PokeMove name="Surf" torrent={true} />
   - <Pokemon name="Kangaskhan" />: <PokeMove name="Surf" torrent={true} />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>{spa <= 29 ? '68.75% (11/16)' : '81.25% (13/16)'} to OHKO</>
           )
@@ -1877,21 +1859,17 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Kadabra" />: <PokeMove name="Surf" torrent={true} />
   - <Pokemon name="Mr Mime" />: <PokeMove name="Surf" torrent={true} />
 
-  - <StateContext stateKey="starter">
-      {(starter) => (
-        <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+  - <StateContext>
+      {({ starter, frlg }) => (
+        <>
+          <Pokemon name="Venomoth" />:{' '}
+          {!(starter.spe >= 29 && grabCarbosFor(starter, frlg.mtMoonExp)) && (
             <>
-              <Pokemon name="Venomoth" />:{' '}
-              {!(starter.spe >= 29 && grabCarbosFor(starter, mtMoonExp)) && (
-                <>
-                  <PokeItem name="X Speed" />,{' '}
-                </>
-              )}
-              <PokeMove name="Surf" torrent={true} />
+              <PokeItem name="X Speed" />,{' '}
             </>
           )}
-        </StateContext>
+          <PokeMove name="Surf" torrent={true} />
+        </>
       )}
     </StateContext>
 
@@ -1914,8 +1892,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Machoke" />: <PokeMove name="Surf" />
 
-    - <StateContext stateKey="starter">
-        {({ spa }) =>
+    - <StateContext>
+        {({ starter: { spa } }) =>
           spa >= 28 && (
             <>
               {spa <= 29 ? '81.25% (13/16)' : '87.5% (14/16)'} to OHKO without
@@ -1949,16 +1927,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - If less than 5 PP on <PokeMove name="Surf" />, you can <PokeMove name="Water Pulse" /> everything in Torrent.
 
   - <Pokemon name="Dugtrio" />: <PokeMove name="Water Pulse" />
-    <StateContext stateKey="starter">
-      {(starter) => (
-        <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) =>
-            grabCarbosFor(starter, mtMoonExp) !== 'giovanni' && (
-              <SpeedInfo range={{ from: 18, to: 20, at: 0 }} />
-            )
-          }
-        </StateContext>
-      )}
+    <StateContext>
+      {({ starter, frlg }) =>
+        grabCarbosFor(starter, frlg.mtMoonExp) !== 'giovanni' && (
+          <SpeedInfo range={{ from: 18, to: 20, at: 0 }} />
+        )
+      }
     </StateContext>
   - <Pokemon name="Nidoking" />: <PokeMove name="Surf" /> / <PokeMove name="Water Pulse" torrent={true} />
   - <Pokemon name="Nidoqueen" />: <PokeMove name="Surf" /> / <PokeMove name="Water Pulse" torrent={true} />
@@ -2039,14 +2013,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     <SpeedInfo range={{ from: 15, to: 16, at: 0 }} />
   - <Pokemon name="Lapras" />: <PokeMove name="Bite" /> x3
 
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Body Slam"
             defender={{
               name: 'blastoise',
               level: 52,
-              ev: adjustEV(60, mtMoonExp),
+              ev: adjustEV(60, frlg.mtMoonExp),
               defBadge: true,
             }}
             attacker={{ name: 'lapras', level: 54, atk: 113 }}
@@ -2056,9 +2030,9 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Heal to at least **80 HP** before Bruno.
 
-  - <StateContext stateKey="starter">
-      {({ spe }) =>
-        spe == 31 ? (
+  - <StateContext>
+      {({ starter }) =>
+        starter.spe == 31 ? (
           <>Do Mid HP Bruno strategy.</>
         ) : (
           <>
@@ -2088,28 +2062,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Use an extra <PokeItem name="X Sp Atk" text="X Special" /> if missed <PokeMove name="Rock Tomb" />.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Rock Tomb"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(60, mtMoonExp),
+                ev: adjustEV(60, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Earthquake"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(60, mtMoonExp),
+                ev: adjustEV(60, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'onix', level: 51, atk: 66 }}
@@ -2119,42 +2093,42 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Mach Punch"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Sky Uppercut"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Rock Tomb"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
@@ -2175,28 +2149,28 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Continue setting up <PokeItem name="X Sp Atk" text="X Special" /> until +4 or at least +2 and in Torrent.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Rock Tomb"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(60, mtMoonExp),
+                ev: adjustEV(60, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'onix', level: 51, atk: 66 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Earthquake"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(60, mtMoonExp),
+                ev: adjustEV(60, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'onix', level: 51, atk: 66 }}
@@ -2206,42 +2180,42 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Mach Punch"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Sky Uppercut"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
             />
           )}
         </StateContext>
-      - <StateContext stateKey="mtMoonExp">
-          {(mtMoonExp) => (
+      - <StateContext>
+          {({ frlg }) => (
             <PokeDamage
               name="Rock Tomb"
               defender={{
                 name: 'blastoise',
                 level: 52,
-                ev: adjustEV(61, mtMoonExp),
+                ev: adjustEV(61, frlg.mtMoonExp),
                 defBadge: true,
               }}
               attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
@@ -2271,14 +2245,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     , <PokeMove name="Surf" torrent={true} />
 
     - Need at least +3 from here without Torrent.
-    - <StateContext stateKey="mtMoonExp">
-        {(mtMoonExp) => (
+    - <StateContext>
+        {({ frlg }) => (
           <PokeDamage
             name="Shadow Punch"
             defender={{
               name: 'blastoise',
               level: 53,
-              ev: adjustEV(62, mtMoonExp),
+              ev: adjustEV(62, frlg.mtMoonExp),
               defBadge: true,
             }}
             attacker={{ name: 'gengar', level: 54, atk: 100 }}
@@ -2303,8 +2277,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       , <PokeItem name="X Sp Atk" text="X Special" />, <PokeMove name="Blizzard" />
       , <PokeMove name="Blizzard" />
 
-      - <StateContext stateKey="starter">
-          {({ spa }) =>
+      - <StateContext>
+          {({ starter: { spa } }) =>
             spa >= 30 && <>{spa == 31 ? '41.8%' : '31.25% (5/16)'} to 2HKO</>
           }
         </StateContext>
@@ -2349,8 +2323,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       />
       , <PokeMove name="Bite" /> x2, <PokeMove name="Blizzard" />
 
-      - <StateContext stateKey="starter">
-          {({ spa }) =>
+      - <StateContext>
+          {({ starter: { spa } }) =>
             spa >= 28 && (
               <>
                 {spa == 31 ? '85%' : '72%'} to 3HKO with{' '}
@@ -2359,8 +2333,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
             )
           }
         </StateContext>
-      - <StateContext stateKey="starter">
-          {({ spa }) =>
+      - <StateContext>
+          {({ starter: { spa } }) =>
             spa >= 29 && (
               <>
                 {spa == 31 ? '83%' : '72%'} to 2HKO with{' '}

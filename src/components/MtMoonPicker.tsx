@@ -1,20 +1,22 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useGlobalState, MtMoonExp } from '../state';
+import { useStore } from '../stores';
+import { MtMoonExp } from '../stores/frlg';
 
 type PillProps = {
   id: string;
   children: React.ReactNode;
 };
 
-export function MtMoonPicker(): JSX.Element {
-  const [mtMoonExp, setMtMoonExp] = useGlobalState('mtMoonExp');
+export const MtMoonPicker = observer(() => {
+  const { frlg } = useStore();
   const handleClick = (event: React.MouseEvent) => {
-    setMtMoonExp(event.currentTarget.id as MtMoonExp);
+    frlg.pickMtMoonExp(event.currentTarget.id as MtMoonExp);
   };
 
   const Pill = ({ id, children }: PillProps) => {
     let className = 'pills__item';
-    if (mtMoonExp === id) {
+    if (frlg.mtMoonExp === id) {
       className += ' pills__item--active';
     }
 
@@ -36,4 +38,4 @@ export function MtMoonPicker(): JSX.Element {
       </ul>
     </>
   );
-}
+});

@@ -33,11 +33,12 @@
     "@fortawesome/react-fontawesome": "^0.1.12",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
+    "mobx": "^6.0.3",
+    "mobx-react-lite": "^3.1.4",
     "pokeapi-typescript": "^2.1.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-hook-form": "^6.10.1",
-    "react-hooks-global-state": "^1.0.1",
     "react-query": "^2.26.1",
     "slugify": "^1.4.6"
   },
