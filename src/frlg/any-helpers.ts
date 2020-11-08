@@ -1,3 +1,4 @@
+import { AdjustEVFunction } from '../components/PokeDamage';
 import { MtMoonExp } from '../stores/frlg';
 import { StarterStore } from '../stores/starter';
 
@@ -106,15 +107,19 @@ export function silphRivalHP({ nature, def }: StarterStore): number {
   return 74;
 }
 
-export function adjustEV(ev: number, mtMoonExp: MtMoonExp): number {
-  switch (mtMoonExp) {
-    case 'josh':
-      return ev - 2;
-    case 'spinner':
-      return ev - 1;
-    case 'marcos':
-      return ev + 1;
-    default:
-      return ev;
+export const adjustEV: AdjustEVFunction = (store, stat, ev) => {
+  if (stat === 'def') {
+    switch (store.frlg.mtMoonExp) {
+      case 'josh':
+        return ev - 2;
+      case 'spinner':
+        return ev - 1;
+      case 'marcos':
+        return ev + 1;
+      default:
+        return ev;
+    }
   }
-}
+
+  return ev;
+};

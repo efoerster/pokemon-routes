@@ -420,10 +420,10 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> (x2)
     <StateContext>
-      {(mtMoonExp) => (
+      {({ frlg }) => (
         <SpeedInfo
           range={
-            mtMoonExp === 'josh'
+            frlg.mtMoonExp === 'josh'
               ? { from: 24, to: 29, at: 0 }
               : { from: 25, to: 30, at: 0 }
           }
@@ -511,19 +511,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Pidgeotto" />: <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
     - 25% (4/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 21,
-              ev: adjustEV(13, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'pidgeotto', level: 17, atk: 26 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 21, ev: 13 }}
+        attacker={{ name: 'pidgeotto', level: 17, atk: 26 }}
+        adjustEV={adjustEV}
+      />
 
   - <StateContext>
       {({ starter: { nature, atk } }) => (
@@ -565,19 +558,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
 
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 22,
-              ev: adjustEV(13, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'rattata', level: 15, atk: 24 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 22, ev: 13 }}
+        attacker={{ name: 'rattata', level: 15, atk: 24 }}
+        adjustEV={adjustEV}
+      />
 
 - ### Bug Catcher Cale
 
@@ -770,34 +756,20 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> or <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 26,
-              ev: adjustEV(19, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
-            displayLevel={true}
-          />
-        )}
-      </StateContext>
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 27,
-              ev: adjustEV(19, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
-            displayLevel={true}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 26, ev: 19 }}
+        attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
+        displayLevel={true}
+        adjustEV={adjustEV}
+      />
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 27, ev: 19 }}
+        attacker={{ name: 'pidgeotto', level: 19, atk: 28 }}
+        displayLevel={true}
+        adjustEV={adjustEV}
+      />
 
   - <StateContext>
       {({ starter: { nature, atk } }) => (
@@ -835,34 +807,20 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 26,
-              ev: adjustEV(19, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'raticate', level: 16, atk: 28 }}
-            displayLevel={true}
-          />
-        )}
-      </StateContext>
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 27,
-              ev: adjustEV(19, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'raticate', level: 16, atk: 28 }}
-            displayLevel={true}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 26, ev: 19 }}
+        attacker={{ name: 'raticate', level: 16, atk: 28 }}
+        displayLevel={true}
+        adjustEV={adjustEV}
+      />
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 27, ev: 19 }}
+        attacker={{ name: 'raticate', level: 16, atk: 28 }}
+        displayLevel={true}
+        adjustEV={adjustEV}
+      />
 
   - <Pokemon name="Kadabra" />: <PokeMove name="Bite" />
 
@@ -940,34 +898,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         defender={{ name: 'wartortle', level: 28, ev: 2 }}
         attacker={{ name: 'raichu', level: 24, atk: 52 }}
       />
-
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 28,
-              ev: adjustEV(19, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'raichu', level: 24, atk: 43 }}
-          />
-        )}
-      </StateContext>
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Quick Attack"
-            defender={{
-              name: 'wartortle',
-              level: 28,
-              ev: adjustEV(19, frlg.mtMoonExp),
-              stage: -2,
-            }}
-            attacker={{ name: 'raichu', level: 24, atk: 43 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 28, ev: 19 }}
+        attacker={{ name: 'raichu', level: 24, atk: 43 }}
+        adjustEV={adjustEV}
+      />
+    - <PokeDamage
+        name="Quick Attack"
+        defender={{ name: 'wartortle', level: 28, ev: 19, stage: -2 }}
+        attacker={{ name: 'raichu', level: 24, atk: 43 }}
+        adjustEV={adjustEV}
+      />
 
 - Get the <PokeItem name="Bike Voucher" />, then run back to Cerulean City.
 
@@ -1017,9 +959,6 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Use <PokeItem name="Repel" /> as needed.
   - Use <PokeItem name="Elixir" /> on <PokeItem name="Repel" /> menu as necessary for <PokeMove name="Mega Kick" /> PP.
-
-<!-- ![Rock Tunnel Map](../../static/img/frlg/RockTunnel.jpg) -->
-
 - Walk along the green path. Fight yellow trainers and **avoid red trainers**.
 
   ![Rock Tunnel Map 1](../../static/img/frlg/RockTunnel-1.png)
@@ -1239,33 +1178,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Kangaskhan" />: <PokeMove name="Water Pulse" /> x2-3
 
     - 98% to 2HKO with Torrent
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Mega Punch"
-            defender={{
-              name: 'blastoise',
-              level: 36,
-              ev: adjustEV(35, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
-          />
-        )}
-      </StateContext>
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Mega Punch"
-            defender={{
-              name: 'blastoise',
-              level: 36,
-              ev: adjustEV(35, frlg.mtMoonExp),
-              stage: -1,
-            }}
-            attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Mega Punch"
+        defender={{ name: 'blastoise', level: 36, ev: 35 }}
+        attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
+        adjustEV={adjustEV}
+      />
+    - <PokeDamage
+        name="Mega Punch"
+        defender={{ name: 'blastoise', level: 36, ev: 35, stage: -1 }}
+        attacker={{ name: 'kangaskhan', level: 29, atk: 68 }}
+        adjustEV={adjustEV}
+      />
 
 - Grab the <PokeItem name="Silph Scope" /> and <PokeItem name="Escape Rope" /> out.
 
@@ -1275,15 +1199,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - Buy at the bottom vendor:
   - **If low on <PokeMove name="Mega Kick" /> or high HP after Giovanni**
     - <StateContext>
-        {({ starter: { spe } }) => (
-          <StateContext>
-            {(mtMoonExp) => (
-              <>
-                {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
-                <PokeItem name="X Speed" /> (↓↓)
-              </>
-            )}
-          </StateContext>
+        {({ starter: { spe }, frlg: { mtMoonExp } }) => (
+          <>
+            {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
+            <PokeItem name="X Speed" /> (↓↓)
+          </>
         )}
       </StateContext>
     - 21x <PokeItem name="X Sp Atk" text="X Special" /> (↓)
@@ -1292,15 +1212,11 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - **If 2-3 PP for <PokeMove name="Mega Kick" /> left**
     - 1x <PokeItem name="X Attack" />
     - <StateContext>
-        {({ starter: { spe } }) => (
-          <StateContext>
-            {(mtMoonExp) => (
-              <>
-                {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
-                <PokeItem name="X Speed" /> (↓↓)
-              </>
-            )}
-          </StateContext>
+        {({ starter: { spe }, frlg: { mtMoonExp } }) => (
+          <>
+            {spe >= 30 || (spe >= 29 && mtMoonExp === 'josh') ? '4x' : '5x'}{' '}
+            <PokeItem name="X Speed" /> (↓↓)
+          </>
         )}
       </StateContext>
     - 18x <PokeItem name="X Sp Atk" text="X Special" /> (↓)
@@ -1448,19 +1364,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Mega Kick" /> / <PokeMove name="Bite" /> for one turn if not
       in Torrent.
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Bonemerang"
-            defender={{
-              name: 'blastoise',
-              level: 36,
-              ev: adjustEV(35, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'marowak', level: 30, atk: 62 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Bonemerang"
+        defender={{ name: 'blastoise', level: 36, ev: 35 }}
+        attacker={{ name: 'marowak', level: 30, atk: 62 }}
+        adjustEV={adjustEV}
+      />
 
 - Head upstairs and let every Rocket Grunt walk up to you along the way.
 
@@ -1580,19 +1489,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         {({ starter }) => starter.spa >= 30 && '68.75% to OHKO'}
       </StateContext>
 
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Sludge"
-            defender={{
-              name: 'blastoise',
-              level: 42,
-              ev: adjustEV(40, frlg.mtMoonExp),
-            }}
-            attacker={{ name: 'weezing', level: 43, atk: 82 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Sludge"
+        defender={{ name: 'blastoise', level: 42, ev: 40 }}
+        attacker={{ name: 'weezing', level: 43, atk: 82 }}
+        adjustEV={adjustEV}
+      />
 
 ## Fuchsia City
 
@@ -2013,20 +1915,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     <SpeedInfo range={{ from: 15, to: 16, at: 0 }} />
   - <Pokemon name="Lapras" />: <PokeMove name="Bite" /> x3
 
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Body Slam"
-            defender={{
-              name: 'blastoise',
-              level: 52,
-              ev: adjustEV(60, frlg.mtMoonExp),
-              defBadge: true,
-            }}
-            attacker={{ name: 'lapras', level: 54, atk: 113 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Body Slam"
+        defender={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
+        attacker={{ name: 'lapras', level: 54, atk: 113 }}
+        adjustEV={adjustEV}
+      />
 
 - Heal to at least **80 HP** before Bruno.
 
@@ -2062,79 +1956,39 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Use an extra <PokeItem name="X Sp Atk" text="X Special" /> if missed <PokeMove name="Rock Tomb" />.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Rock Tomb"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(60, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'onix', level: 51, atk: 66 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Earthquake"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(60, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'onix', level: 51, atk: 66 }}
-            />
-          )}
-        </StateContext>
+      - <PokeDamage
+          name="Rock Tomb"
+          defender={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
+          attacker={{ name: 'onix', level: 51, atk: 66 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Earthquake"
+          defender={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
+          attacker={{ name: 'onix', level: 51, atk: 66 }}
+          adjustEV={adjustEV}
+        />
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Mach Punch"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Sky Uppercut"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Rock Tomb"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
+      - <PokeDamage
+          name="Mach Punch"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Sky Uppercut"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Rock Tomb"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
 
     - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
     - <Pokemon name="Machamp" />: <PokeMove name="Surf" />
@@ -2149,79 +2003,39 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Continue setting up <PokeItem name="X Sp Atk" text="X Special" /> until +4 or at least +2 and in Torrent.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Rock Tomb"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(60, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'onix', level: 51, atk: 66 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Earthquake"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(60, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'onix', level: 51, atk: 66 }}
-            />
-          )}
-        </StateContext>
+      - <PokeDamage
+          name="Rock Tomb"
+          defender={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
+          attacker={{ name: 'onix', level: 51, atk: 66 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Earthquake"
+          defender={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
+          attacker={{ name: 'onix', level: 51, atk: 66 }}
+          adjustEV={adjustEV}
+        />
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Mach Punch"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Sky Uppercut"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
-      - <StateContext>
-          {({ frlg }) => (
-            <PokeDamage
-              name="Rock Tomb"
-              defender={{
-                name: 'blastoise',
-                level: 52,
-                ev: adjustEV(61, frlg.mtMoonExp),
-                defBadge: true,
-              }}
-              attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
-            />
-          )}
-        </StateContext>
+      - <PokeDamage
+          name="Mach Punch"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Sky Uppercut"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
+      - <PokeDamage
+          name="Rock Tomb"
+          defender={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
+          attacker={{ name: 'hitmonchan', level: 53, atk: 132 }}
+          adjustEV={adjustEV}
+        />
 
     - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
       <SpeedInfo range={{ from: 17, to: 18, at: 0 }} />
@@ -2245,20 +2059,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     , <PokeMove name="Surf" torrent={true} />
 
     - Need at least +3 from here without Torrent.
-    - <StateContext>
-        {({ frlg }) => (
-          <PokeDamage
-            name="Shadow Punch"
-            defender={{
-              name: 'blastoise',
-              level: 53,
-              ev: adjustEV(62, frlg.mtMoonExp),
-              defBadge: true,
-            }}
-            attacker={{ name: 'gengar', level: 54, atk: 100 }}
-          />
-        )}
-      </StateContext>
+    - <PokeDamage
+        name="Shadow Punch"
+        defender={{ name: 'blastoise', level: 53, ev: 62, defBadge: true }}
+        attacker={{ name: 'gengar', level: 54, atk: 100 }}
+        adjustEV={adjustEV}
+      />
 
   - <Pokemon name="Golbat" />: <PokeMove name="Surf" torrent={true} />
   - <Pokemon name="Arbok" />: <PokeMove name="Surf" torrent={true} />

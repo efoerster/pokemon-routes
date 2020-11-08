@@ -3,8 +3,7 @@ import { IMove, IPokemon, IPokemonStat } from 'pokeapi-typescript';
 import { usePokeMove, usePokemon } from '../pokeapi';
 import { PokeMove } from './PokeMove';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../stores';
-import { StarterStore } from '../stores/starter';
+import { StateStore, useStore } from '../stores';
 import {
   calcDmgRange,
   calcStat,
@@ -28,16 +27,23 @@ type AttackerPokemon = {
   torrent?: boolean;
 };
 
+export type AdjustEVFunction = (
+  store: StateStore,
+  stat: string,
+  ev: number,
+) => number;
+
 type PokeDamageProps = {
   name: string;
   defender: DefenderPokemon;
   attacker: AttackerPokemon;
   displayLevel?: boolean;
+  adjustEV?: AdjustEVFunction;
 };
 
 export const PokeDamage = observer(
-  ({ name, defender, attacker, displayLevel }: PokeDamageProps) => {
-    const { starter } = useStore();
+  ({ name, defender, attacker, displayLevel, adjustEV }: PokeDamageProps) => {
+    const store = useStore();
     const move = usePokeMove(name);
     const defPokemon = usePokemon(defender.name);
     const atkPokemon = usePokemon(attacker.name);
@@ -47,13 +53,13 @@ export const PokeDamage = observer(
       const moveType = move.type.name as Type;
       const { atk, torrent } = attacker;
       const { ev, defBadge, stage: defStage } = defender;
-
       const def = calcDefStat(
-        starter,
+        store,
         defender.level,
         ev,
         moveType,
         defPokemon.stats,
+        adjustEV,
       );
 
       const range = calcDmgRange(
@@ -88,24 +94,32 @@ export const PokeDamage = observer(
 );
 
 function calcDefStat(
-  starter: StarterStore,
+  store: StateStore,
   level: number,
   ev: number,
   moveType: Type,
   stats: IPokemonStat[],
+  adjustEV?: AdjustEVFunction,
 ): number {
-  const defIV = isSpecialType(moveType) ? starter.spd : starter.def;
-  const defStatName = isSpecialType(moveType) ? 'special-defense' : 'defense';
+  const { starter } = store;
+  const { stat, name } = isSpecialType(moveType)
+    ? { stat: 'spd', name: 'special-defense' }
+    : { stat: 'def', name: 'defense' };
+
   const baseDef =
-    stats.find((x) => x.stat.name === defStatName)?.base_stat ?? Number.NaN;
+    stats.find((x) => x.stat.name === name)?.base_stat ?? Number.NaN;
 
   const nature: NatureEffect =
-    (defStatName === 'defense' && starter.nature === 'mild') ||
-    (defStatName === 'special-defense' && starter.nature === 'rash')
+    (name === 'defense' && starter.nature === 'mild') ||
+    (name === 'special-defense' && starter.nature === 'rash')
       ? 'negative'
       : 'neutral';
 
-  return calcStat(baseDef, level, defIV, ev, nature);
+  if (adjustEV) {
+    ev = adjustEV(store, stat, ev);
+  }
+
+  return calcStat(baseDef, level, starter[stat], ev, nature);
 }
 
 function getMovePower(move: IMove) {
