@@ -1,10 +1,17 @@
 import React from 'react';
-import { IMove, IPokemon } from 'pokeapi-typescript';
+import { IMove, IPokemon, IPokemonStat } from 'pokeapi-typescript';
 import { usePokeMove, usePokemon } from '../pokeapi';
 import { PokeMove } from './PokeMove';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores';
 import { StarterStore } from '../stores/starter';
+import {
+  calcDmgRange,
+  calcStat,
+  isSpecialType,
+  NatureEffect,
+  Type,
+} from '../pokecalc';
 
 type DefenderPokemon = {
   name: string;
@@ -37,9 +44,30 @@ export const PokeDamage = observer(
 
     let dmgRange = '';
     if (move && defPokemon && atkPokemon) {
-      const def = calcDefStat(move.type.name, starter, defPokemon, defender);
-      const baseDmg = calcBaseDmg(attacker, move, atkPokemon, defPokemon, def);
-      dmgRange = calcDmgRange(baseDmg);
+      const moveType = move.type.name as Type;
+      const { atk, torrent } = attacker;
+      const { ev, defBadge, stage: defStage } = defender;
+
+      const def = calcDefStat(
+        starter,
+        defender.level,
+        ev,
+        moveType,
+        defPokemon.stats,
+      );
+
+      const range = calcDmgRange(
+        {
+          level: attacker.level,
+          atk,
+          types: getPokemonType(atkPokemon),
+          move: { power: getMovePower(move), type: moveType },
+        },
+        { def, types: getPokemonType(defPokemon) },
+        { defBadge, defStage, torrent },
+      );
+
+      dmgRange = formatDmgRange(range);
     }
 
     return (
@@ -59,100 +87,28 @@ export const PokeDamage = observer(
   },
 );
 
-const TYPE_INDEX = {
-  normal: 0,
-  fire: 1,
-  water: 2,
-  electric: 3,
-  grass: 4,
-  ice: 5,
-  fighting: 6,
-  poison: 7,
-  ground: 8,
-  flying: 9,
-  psychic: 10,
-  bug: 11,
-  rock: 12,
-  ghost: 13,
-  dragon: 14,
-  dark: 15,
-  steel: 16,
-};
-
-const TYPES_FACTORS = {
-  normal: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5],
-  fire: [1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2],
-  water: [1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1],
-  electric: [1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1],
-  grass: [1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5],
-  ice: [1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5],
-  fighting: [2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2],
-  poison: [1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0],
-  ground: [1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2],
-  flying: [1, 1, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5],
-  psychic: [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5],
-  bug: [1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5],
-  rock: [1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5],
-  ghost: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5],
-  dragon: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5],
-  dark: [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 0.5],
-  steel: [1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5],
-};
-
-const SPECIAL_TYPES = [
-  'water',
-  'grass',
-  'fire',
-  'ice',
-  'electric',
-  'psychic',
-  'dragon',
-  'dark',
-];
-
 function calcDefStat(
-  type: string,
   starter: StarterStore,
-  defPokemon: IPokemon,
-  { level, ev, stage, defBadge }: DefenderPokemon,
+  level: number,
+  ev: number,
+  moveType: Type,
+  stats: IPokemonStat[],
 ): number {
-  const defIV = SPECIAL_TYPES.includes(type) ? starter.spd : starter.def;
-  const defStatName = SPECIAL_TYPES.includes(type)
-    ? 'special-defense'
-    : 'defense';
-
+  const defIV = isSpecialType(moveType) ? starter.spd : starter.def;
+  const defStatName = isSpecialType(moveType) ? 'special-defense' : 'defense';
   const baseDef =
-    defPokemon.stats.find((x) => x.stat.name === defStatName)?.base_stat ??
-    Number.NaN;
+    stats.find((x) => x.stat.name === defStatName)?.base_stat ?? Number.NaN;
 
-  const nature =
+  const nature: NatureEffect =
     (defStatName === 'defense' && starter.nature === 'mild') ||
     (defStatName === 'special-defense' && starter.nature === 'rash')
-      ? 0.9
-      : 1.0;
+      ? 'negative'
+      : 'neutral';
 
-  let def = 2 * baseDef + defIV + Math.trunc(ev / 4);
-  def = Math.trunc((Math.trunc((def * level) / 100) + 5) * nature);
-
-  if (stage) {
-    const factor = stage > 0 ? (2 + stage) / 2 : 2 / (2 - stage);
-    def = Math.trunc(def * factor);
-  }
-
-  if (defBadge) {
-    def = Math.trunc(def * 1.1);
-  }
-
-  return def;
+  return calcStat(baseDef, level, defIV, ev, nature);
 }
 
-function calcBaseDmg(
-  { level, atk, torrent }: AttackerPokemon,
-  move: IMove,
-  atkPokemon: IPokemon,
-  defPokemon: IPokemon,
-  def: number,
-): number {
+function getMovePower(move: IMove) {
   let power = move.power;
   if (move.past_values.length > 0) {
     for (const { power: pastPower, version_group } of move.past_values) {
@@ -167,48 +123,37 @@ function calcBaseDmg(
       }
     }
   }
-  if (torrent) {
-    power = Math.trunc(power * 1.5);
-  }
 
-  let dmg = (Math.trunc((2 * level) / 5) + 2) * power;
-  dmg = Math.trunc(Math.trunc(dmg * (atk / def)) / 50) + 2;
-
-  if (atkPokemon.types.find((x) => x.type.name === move.type.name)) {
-    dmg = Math.trunc(dmg * 1.5);
-  }
-
-  for (const { type } of defPokemon.types) {
-    dmg = Math.trunc(
-      dmg * TYPES_FACTORS[move.type.name][TYPE_INDEX[type.name]],
-    );
-  }
-
-  return dmg;
+  return power;
 }
 
-function calcDmgRange(maxDmg: number): string {
-  const minDmg = Math.trunc(maxDmg * 0.85);
-  const secondDmgValue = Math.trunc(maxDmg * 0.86);
-  const penultDmgValue = Math.trunc(maxDmg * 0.99);
+function getPokemonType(pokemon: IPokemon): Type[] {
+  return pokemon.types.map((x) => x.type.name as Type);
+}
 
-  let dmgRange: string;
+function formatDmgRange(range: number[]): string {
+  const minDmg = range[0];
+  const secondDmgValue = range[1];
+  const penultDmgValue = range[range.length - 2];
+  const maxDmg = range[range.length - 1];
+
+  let formatted: string;
 
   if (minDmg == secondDmgValue && maxDmg == penultDmgValue) {
-    dmgRange = formatRange(minDmg, maxDmg);
+    formatted = formatInterval(minDmg, maxDmg);
   } else if (minDmg != secondDmgValue && maxDmg == penultDmgValue) {
-    dmgRange = `(${minDmg})${formatRange(secondDmgValue, maxDmg)}`;
+    formatted = `(${minDmg})${formatInterval(secondDmgValue, maxDmg)}`;
   } else if (minDmg == secondDmgValue && maxDmg != penultDmgValue) {
-    dmgRange = `${formatRange(minDmg, penultDmgValue)}(${maxDmg})`;
+    formatted = `${formatInterval(minDmg, penultDmgValue)}(${maxDmg})`;
   } else {
-    dmgRange = `(${minDmg})${formatRange(
+    formatted = `(${minDmg})${formatInterval(
       secondDmgValue,
       penultDmgValue,
     )}(${maxDmg})`;
   }
-  return dmgRange;
+  return formatted;
 }
 
-function formatRange(left: number, right: number): string {
+function formatInterval(left: number, right: number): string {
   return left == right ? `${left}` : `${left}-${right}`;
 }
