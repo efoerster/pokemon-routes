@@ -14,7 +14,7 @@ export const MtMoonPicker = observer(() => {
     frlg.pickMtMoonExp(event.currentTarget.id as MtMoonExp);
   };
 
-  const Pill = ({ id, children }: PillProps) => {
+  const Pill = observer(({ id, children }: PillProps) => {
     let className = 'pills__item';
     if (frlg.mtMoonExp === id) {
       className += ' pills__item--active';
@@ -25,7 +25,7 @@ export const MtMoonPicker = observer(() => {
         {children}
       </li>
     );
-  };
+  });
 
   return (
     <>
