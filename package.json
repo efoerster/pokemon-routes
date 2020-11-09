@@ -38,7 +38,7 @@
     "pokeapi-typescript": "^2.1.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-hook-form": "^6.10.1",
+    "react-hook-form": "^6.11.0",
     "react-query": "^2.26.1",
     "slugify": "^1.4.6"
   },
