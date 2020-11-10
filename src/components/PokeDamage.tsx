@@ -12,7 +12,7 @@ import {
   Type,
 } from '../pokecalc';
 
-type DefenderPokemon = {
+type Player = {
   name: string;
   level: number;
   ev: number;
@@ -20,7 +20,7 @@ type DefenderPokemon = {
   defBadge?: boolean;
 };
 
-type AttackerPokemon = {
+type Enemy = {
   name: string;
   level: number;
   atk: number;
@@ -35,41 +35,41 @@ export type AdjustEVFunction = (
 
 type PokeDamageProps = {
   name: string;
-  defender: DefenderPokemon;
-  attacker: AttackerPokemon;
+  player: Player;
+  enemy: Enemy;
   displayLevel?: boolean;
   adjustEV?: AdjustEVFunction;
 };
 
 export const PokeDamage = observer(
-  ({ name, defender, attacker, displayLevel, adjustEV }: PokeDamageProps) => {
+  ({ name, player, enemy, displayLevel, adjustEV }: PokeDamageProps) => {
     const store = useStore();
     const move = usePokeMove(name);
-    const defPokemon = usePokemon(defender.name);
-    const atkPokemon = usePokemon(attacker.name);
+    const playerPokemon = usePokemon(player.name);
+    const enemyPokemon = usePokemon(enemy.name);
 
     let dmgRange = '';
-    if (move && defPokemon && atkPokemon) {
+    if (move && playerPokemon && enemyPokemon) {
       const moveType = move.type.name as Type;
-      const { atk, torrent } = attacker;
-      const { ev, defBadge, stage: defStage } = defender;
+      const { atk, torrent } = enemy;
+      const { ev, defBadge, stage: defStage } = player;
       const def = calcDefStat(
         store,
-        defender.level,
+        player.level,
         ev,
         moveType,
-        defPokemon.stats,
+        playerPokemon.stats,
         adjustEV,
       );
 
       const range = calcDmgRange(
         {
-          level: attacker.level,
+          level: enemy.level,
           atk,
-          types: getPokemonType(atkPokemon),
+          types: getPokemonType(enemyPokemon),
           move: { power: getMovePower(move), type: moveType },
         },
-        { def, types: getPokemonType(defPokemon) },
+        { def, types: getPokemonType(playerPokemon) },
         { defBadge, defStage, torrent },
       );
 
@@ -79,15 +79,15 @@ export const PokeDamage = observer(
     return (
       <>
         <PokeMove name={name} /> damage
-        {displayLevel && <> at level {defender.level}</>}
-        {defender.stage && (
+        {displayLevel && <> at level {player.level}</>}
+        {player.stage && (
           <>
             {' '}
-            at {defender.stage > 0 && '+'}
-            {defender.stage} Def
+            at {player.stage > 0 && '+'}
+            {player.stage} Def
           </>
         )}
-        {attacker.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
+        {enemy.torrent && <> at ⅓ health</>}: <b>{dmgRange}</b>
       </>
     );
   },
