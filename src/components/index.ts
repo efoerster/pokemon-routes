@@ -1,4 +1,4 @@
-export { MtMoonPicker } from './MtMoonPicker';
+export { PillSelector } from './PillSelector';
 export { PokeDamage } from './PokeDamage';
 export { PokeItem } from './PokeItem';
 export { Pokemon } from './Pokemon';

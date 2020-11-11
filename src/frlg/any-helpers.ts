@@ -107,19 +107,44 @@ export function silphRivalHP({ nature, def }: StarterStore): number {
   return 74;
 }
 
-export const adjustEV: AdjustEVFunction = (store, stat, ev) => {
-  if (stat === 'def') {
-    switch (store.frlg.mtMoonExp) {
-      case 'josh':
-        return ev - 2;
-      case 'spinner':
-        return ev - 1;
-      case 'marcos':
-        return ev + 1;
-      default:
-        return ev;
-    }
-  }
-
-  return ev;
+const MT_MOON_EV_TABLE = {
+  robby: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
+  josh: { hp: -2, atk: 0, def: -2, spa: 0, spd: 0, spe: 3 },
+  spinner: { hp: -2, atk: 0, def: -1, spa: 0, spd: 0, spe: 2 },
+  marcos: { hp: -2, atk: 0, def: 1, spa: 0, spd: 0, spe: 0 },
 };
+const NOB_EV_TABLE = { hp: 1, atk: 0, def: 3, spa: 0, spd: 0, spe: -1 };
+const ALLEN_EV_TABLE = { hp: 1, atk: -1, def: 3, spa: 0, spd: 0, spe: -1 };
+
+export type EVLocation =
+  | 'beforeMtMoon'
+  | 'afterMtMoon'
+  | 'afterNob'
+  | 'afterEric';
+
+export function adjustEV(location: EVLocation): AdjustEVFunction {
+  return (store, stat, ev) => {
+    if (location === 'beforeMtMoon') {
+      return ev;
+    }
+
+    ev += MT_MOON_EV_TABLE[store.frlg.mtMoonExp][stat];
+    if (location === 'afterMtMoon') {
+      return ev;
+    }
+
+    if (store.frlg.hikerExp === 'nob') {
+      ev += NOB_EV_TABLE[stat];
+    }
+
+    if (location === 'afterNob') {
+      return ev;
+    }
+
+    if (store.frlg.hikerExp === 'nob') {
+      ev += ALLEN_EV_TABLE[stat];
+    }
+
+    return ev;
+  };
+}

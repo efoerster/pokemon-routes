@@ -4,7 +4,7 @@ title: FireRed/LeafGreen Any%
 ---
 
 import {
-  MtMoonPicker,
+  PillSelector,
   PokeDamage,
   PokeItem,
   Pokemon,
@@ -320,7 +320,17 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 ## Mt. Moon
 
-<MtMoonPicker />
+<PillSelector
+  title="Select your optional trainer"
+  stateSelector={(store) => store.frlg.mtMoonExp}
+  handleSelect={(store, id) => store.frlg.pickMtMoonExp(id)}
+  items={[
+    { id: 'robby', text: 'Bug Catcher Robby' },
+    { id: 'josh', text: 'Youngster Josh' },
+    { id: 'spinner', text: 'Rocket Spinner' },
+    { id: 'marcos', text: 'Hiker Marcos' },
+  ]}
+/>
 
 - Run up 8 tiles then
   - Register <PokeItem name="TM Case" />
@@ -515,7 +525,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Quick Attack"
         player={{ name: 'wartortle', level: 21, ev: 13 }}
         enemy={{ name: 'pidgeotto', level: 17, atk: 26 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterMtMoon')}
       />
 
   - <StateContext>
@@ -562,7 +572,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Quick Attack"
         player={{ name: 'wartortle', level: 22, ev: 13 }}
         enemy={{ name: 'rattata', level: 15, atk: 24 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterMtMoon')}
       />
 
 - ### Bug Catcher Cale
@@ -605,6 +615,16 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 ## Route 25
 
+<PillSelector
+  title="Select your trainer"
+  stateSelector={(store) => store.frlg.hikerExp}
+  handleSelect={(store, id) => store.frlg.pickHikerExp(id)}
+  items={[
+    { id: 'eric', text: 'Camper Flint' },
+    { id: 'nob', text: 'Hiker Nob' },
+  ]}
+/>
+
 - Go above the Hiker and grab this hidden <PokeItem name="Elixir" />.
 
   ![Elixir](../../static/img/frlg/Route25Elixir.png)
@@ -620,10 +640,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Nidoran M" />: <PokeMove name="Water Pulse" />
   - <Pokemon name="Nidoran F" />: <PokeMove name="Water Pulse" />
 
-- ### Camper Flint
+- If you have Torrent for level 27 and **28+ SPE**, then fight **Hiker Nob** instead of **Camper Flint**.
 
-  - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
-  - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+  - ### Camper Flint
+
+    - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
+    - <Pokemon name="Ekans" />: <PokeMove name="Water Pulse" />
+
+  - ### Hiker Nob
+
+    - <Pokemon name="Geodude" />: <PokeMove name="Bite" />
+    - <Pokemon name="Geodude" />: <PokeMove name="Bite" />
+    - <Pokemon name="Geodude" />: <PokeMove name="Bite" />
+    - <Pokemon name="Machop" />: <PokeMove name="Water Gun" />
 
 - ### Lass Haley
 
@@ -704,6 +733,42 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Avoid the Bug Catcher and fight the Camper below the girl trainer.
 
+- <StateContext>
+    {({ starter: { hp }, frlg: { hikerExp } }) =>
+      hikerExp === 'nob' && (
+        <>
+          <p>Before fighting Camper Jeff:</p>
+          <ul>
+            <li>
+              <PokeItem name="Rare Candy" /> to level 27 if you do not level out
+              of torrent.
+              <ul>
+                <li>
+                  <b>
+                    +
+                    {[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp)
+                      ? '3'
+                      : '2'}{' '}
+                    HP
+                  </b>{' '}
+                  upon level up.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <PokeItem name="Ether" /> <PokeMove name="Mega Kick" /> if you
+              have not already.
+            </li>
+            <li>
+              Keep Torrent if you are still in it and will not die to a{' '}
+              <PokeMove name="Quick Attack" />.
+            </li>
+          </ul>
+        </>
+      )
+    }
+  </StateContext>
+
 - ### Camper Jeff
 
   - <Pokemon name="Spearow" />: <PokeMove name="Water Pulse" />
@@ -730,24 +795,41 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 ## S.S. Anne
 
-- Before the Rival
-
-  - <PokeItem name="Rare Candy" /> to level 27 if you do not level out of torrent.
-
-    - <StateContext>
-        {({ starter: { hp } }) => (
-          <>
-            <b>
-              +{[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp) ? '3' : '2'}{' '}
-              HP
-            </b>{' '}
-            upon level up.
-          </>
-        )}
-      </StateContext>
-
-  - <PokeItem name="Ether" /> <PokeMove name="Mega Kick" /> if you have not already.
-  - Keep Torrent if you are still in it and will not die to a <PokeMove name="Quick Attack" />.
+- <StateContext>
+    {({ starter: { hp }, frlg: { hikerExp } }) =>
+      hikerExp === 'eric' && (
+        <>
+          <p>Before fighting the rival:</p>
+          <ul>
+            <li>
+              <PokeItem name="Rare Candy" /> to level 27 if you do not level out
+              of torrent.
+              <ul>
+                <li>
+                  <b>
+                    +
+                    {[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp)
+                      ? '3'
+                      : '2'}{' '}
+                    HP
+                  </b>{' '}
+                  upon level up.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <PokeItem name="Ether" /> <PokeMove name="Mega Kick" /> if you
+              have not already.
+            </li>
+            <li>
+              Keep Torrent if you are still in it and will not die to a{' '}
+              <PokeMove name="Quick Attack" />.
+            </li>
+          </ul>
+        </>
+      )
+    }
+  </StateContext>
 
 - ### Rival
 
@@ -761,14 +843,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         player={{ name: 'wartortle', level: 26, ev: 19 }}
         enemy={{ name: 'pidgeotto', level: 19, atk: 28 }}
         displayLevel={true}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
     - <PokeDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 27, ev: 19 }}
         enemy={{ name: 'pidgeotto', level: 19, atk: 28 }}
         displayLevel={true}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
 
   - <StateContext>
@@ -812,14 +894,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         player={{ name: 'wartortle', level: 26, ev: 19 }}
         enemy={{ name: 'raticate', level: 16, atk: 28 }}
         displayLevel={true}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
     - <PokeDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 27, ev: 19 }}
         enemy={{ name: 'raticate', level: 16, atk: 28 }}
         displayLevel={true}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
 
   - <Pokemon name="Kadabra" />: <PokeMove name="Bite" />
@@ -902,13 +984,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Quick Attack"
         player={{ name: 'wartortle', level: 28, ev: 19 }}
         enemy={{ name: 'raichu', level: 24, atk: 43 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
     - <PokeDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 28, ev: 19, stage: -2 }}
         enemy={{ name: 'raichu', level: 24, atk: 43 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterNob')}
       />
 
 - Get the <PokeItem name="Bike Voucher" />, then run back to Cerulean City.
@@ -976,7 +1058,21 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Walk along the green path. Fight yellow trainers and **avoid red trainers**.
 
-  ![Rock Tunnel Map 2](../../static/img/frlg/RockTunnel-2.png)
+  <StateContext>
+    {({ frlg: { hikerExp } }) =>
+      hikerExp === 'eric' ? (
+        <img
+          alt="Rock Tunnel Map 2"
+          src="../../static/img/frlg/RockTunnel-2.png"
+        />
+      ) : (
+        <img
+          alt="Rock Tunnel Map 2"
+          src="../../static/img/frlg/RockTunnel-2-alt.png"
+        />
+      )
+    }
+  </StateContext>
 
 - ### Pokemaniac Winston
 
@@ -1026,10 +1122,32 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         enemy={{ name: 'bulbasaur', level: 22, atk: 33 }}
       />
 
-- ### Hiker Eric
-
-  - <Pokemon name="Machop" />: <PokeMove name="Water Pulse" />
-  - <Pokemon name="Onix" />: <PokeMove name="Water Pulse" />
+- <StateContext>
+    {({ frlg: { hikerExp } }) =>
+      hikerExp === 'eric' ? (
+        <>
+          <h3>Hiker Eric</h3>
+          <ul>
+            <li>
+              <Pokemon name="Machop" />: <PokeMove name="Water Pulse" />
+            </li>
+            <li>
+              <Pokemon name="Onix" />: <PokeMove name="Water Pulse" />
+            </li>
+          </ul>
+        </>
+      ) : (
+        <>
+          <h3>Hiker Allen</h3>
+          <ul>
+            <li>
+              <Pokemon name="Geodude" />: <PokeMove name="Water Gun" />
+            </li>
+          </ul>
+        </>
+      )
+    }
+  </StateContext>
 
 - Walk along the green path. Fight yellow trainers and **avoid red trainers**.
 
@@ -1182,13 +1300,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Mega Punch"
         player={{ name: 'blastoise', level: 36, ev: 35 }}
         enemy={{ name: 'kangaskhan', level: 29, atk: 68 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
     - <PokeDamage
         name="Mega Punch"
         player={{ name: 'blastoise', level: 36, ev: 35, stage: -1 }}
         enemy={{ name: 'kangaskhan', level: 29, atk: 68 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
 
 - Grab the <PokeItem name="Silph Scope" /> and <PokeItem name="Escape Rope" /> out.
@@ -1368,7 +1486,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Bonemerang"
         player={{ name: 'blastoise', level: 36, ev: 35 }}
         enemy={{ name: 'marowak', level: 30, atk: 62 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
 
 - Head upstairs and let every Rocket Grunt walk up to you along the way.
@@ -1493,7 +1611,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Sludge"
         player={{ name: 'blastoise', level: 42, ev: 40 }}
         enemy={{ name: 'weezing', level: 43, atk: 82 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
 
 ## Fuchsia City
@@ -1919,7 +2037,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Body Slam"
         player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
         enemy={{ name: 'lapras', level: 54, atk: 113 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
 
 - Heal to at least **80 HP** before Bruno.
@@ -1960,13 +2078,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Earthquake"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
@@ -1975,19 +2093,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           name="Mach Punch"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Sky Uppercut"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
 
     - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
@@ -2007,13 +2125,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Earthquake"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
@@ -2022,19 +2140,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           name="Mach Punch"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Sky Uppercut"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
       - <PokeDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
-          adjustEV={adjustEV}
+          adjustEV={adjustEV('afterEric')}
         />
 
     - <Pokemon name="Hitmonlee" />: <PokeMove name="Surf" />
@@ -2063,7 +2181,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Shadow Punch"
         player={{ name: 'blastoise', level: 53, ev: 62, defBadge: true }}
         enemy={{ name: 'gengar', level: 54, atk: 100 }}
-        adjustEV={adjustEV}
+        adjustEV={adjustEV('afterEric')}
       />
 
   - <Pokemon name="Golbat" />: <PokeMove name="Surf" torrent={true} />
