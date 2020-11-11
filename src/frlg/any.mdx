@@ -1059,19 +1059,16 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - Walk along the green path. Fight yellow trainers and **avoid red trainers**.
 
   <StateContext>
-    {({ frlg: { hikerExp } }) =>
-      hikerExp === 'eric' ? (
-        <img
-          alt="Rock Tunnel Map 2"
-          src="../../static/img/frlg/RockTunnel-2.png"
-        />
-      ) : (
-        <img
-          alt="Rock Tunnel Map 2"
-          src="../../static/img/frlg/RockTunnel-2-alt.png"
-        />
-      )
-    }
+    {({ frlg: { hikerExp } }) => (
+      <img
+        alt="Rock Tunnel Map 2"
+        src={
+          require(hikerExp === 'eric'
+            ? '../../static/img/frlg/RockTunnel-2.png'
+            : '../../static/img/frlg/RockTunnel-2-alt.png').default
+        }
+      />
+    )}
   </StateContext>
 
 - ### Pokemaniac Winston
