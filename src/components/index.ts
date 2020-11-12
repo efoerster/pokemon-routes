@@ -1,3 +1,4 @@
+export { LevelUpStatGain } from './LevelUpStatGain';
 export { PillSelector } from './PillSelector';
 export { PokeDamage } from './PokeDamage';
 export { PokeItem } from './PokeItem';

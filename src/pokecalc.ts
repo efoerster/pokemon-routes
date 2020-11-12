@@ -58,6 +58,17 @@ export function calcStat(
   return stat;
 }
 
+export function calcHealth(
+  baseHealth: number,
+  level: number,
+  iv: number,
+  ev: number,
+): number {
+  let stat = 2 * baseHealth + iv + Math.trunc(ev / 4);
+  stat = Math.trunc((stat * level) / 100) + level + 10;
+  return stat;
+}
+
 export function calcDmgRange(
   { level, atk, types: atkTypes, move }: Attacker,
   { def, types: defTypes }: Defender,

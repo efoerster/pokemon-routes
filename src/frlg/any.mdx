@@ -4,6 +4,7 @@ title: FireRed/LeafGreen Any%
 ---
 
 import {
+  LevelUpStatGain,
   PillSelector,
   PokeDamage,
   PokeItem,
@@ -235,25 +236,20 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - Attempt to get torrent in as little turns as possible on this route.
 
-  - <StateContext>
-      {({ starter }) => (
-        <>
-          If no torrent for level 14, get it off the 2nd level 10{' '}
-          <Pokemon name="Caterpie" /> (
-          <b>{starter.hp == 27 ? '+3' : '+2'} HP</b> upon level up).
-        </>
-      )}
-    </StateContext>
-  - <StateContext>
-      {({ starter: { hp } }) => (
-        <>
-          If no torrent for level 15, get it off the level 11{' '}
-          <Pokemon name="Caterpie" /> (
-          <b>{hp == 19 || hp == 26 ? '+3' : hp == 5 ? '+1' : '+2'} HP</b> upon
-          level up).
-        </>
-      )}
-    </StateContext>
+  - If no torrent for level 14, get it off the 2nd level 10 <Pokemon name="Caterpie" />.
+    - <LevelUpStatGain
+        name="squirtle"
+        level={13}
+        stat="hp"
+        ev={{ before: 2, after: 2 }}
+      />
+  - If no torrent for level 15, get it off the level 11 <Pokemon name="Caterpie" />.
+    - <LevelUpStatGain
+        name="squirtle"
+        level={14}
+        stat="hp"
+        ev={{ before: 3, after: 3 }}
+      />
 
 - ### Bug Catcher Colton
 
@@ -350,16 +346,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
     - <Pokemon name="Caterpie" />: <PokeMove name="Water Gun" torrent={true} />
     - <Pokemon name="Metapod" />: <PokeMove name="Water Gun" torrent={true} />
-    - <StateContext>
-        {({ starter: { hp } }) => (
-          <>
-            <b>
-              {hp == 24 || hp == 25 || hp == 30 || hp == 31 ? '+3' : '+2'} HP
-            </b>{' '}
-            upon level up.
-          </>
-        )}
-      </StateContext>
+    - <LevelUpStatGain
+        name="squirtle"
+        evolvesInto="wartortle"
+        level={15}
+        stat="hp"
+        ev={{ before: 5, after: 6 }}
+      />
   - ### Youngster Josh (if Torrent at level 15 and want to keep torrent)
 
     - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
@@ -481,7 +474,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - ### Leader Misty
 
-  - <Pokemon name="Staryu" />: <PokeMove name="Bite" /> x2{' '}
+  - <Pokemon name="Staryu" />: <PokeMove name="Bite" /> x2
 
     - <StateContext>
         {({ starter: { spa } }) =>
@@ -689,7 +682,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         enemy={{ name: 'pidgey', level: 13, atk: 16 }}
       />
 
-- Grab this hidden <PokeItem name="Ether" /> (risky but can skip if Torrent at 26 + 2 <PokeMove name="Mega Kick" /> left).
+- Grab this hidden <PokeItem name="Ether" /> (risky but can skip if Torrent at 26 and 2x <PokeMove name="Mega Kick" /> left).
 
   ![Ether](../../static/img/frlg/Route25Ether.png)
 
@@ -734,7 +727,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 - Avoid the Bug Catcher and fight the Camper below the girl trainer.
 
 - <StateContext>
-    {({ starter: { hp }, frlg: { hikerExp } }) =>
+    {({ frlg: { hikerExp } }) =>
       hikerExp === 'nob' && (
         <>
           <p>Before fighting Camper Jeff:</p>
@@ -744,14 +737,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
               of torrent.
               <ul>
                 <li>
-                  <b>
-                    +
-                    {[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp)
-                      ? '3'
-                      : '2'}{' '}
-                    HP
-                  </b>{' '}
-                  upon level up.
+                  <LevelUpStatGain
+                    name="wartortle"
+                    level={26}
+                    stat="hp"
+                    ev={{ before: 10, after: 10 }}
+                    adjustEV={adjustEV('afterNob')}
+                  />
                 </li>
               </ul>
             </li>
@@ -796,7 +788,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 ## S.S. Anne
 
 - <StateContext>
-    {({ starter: { hp }, frlg: { hikerExp } }) =>
+    {({ frlg: { hikerExp } }) =>
       hikerExp === 'eric' && (
         <>
           <p>Before fighting the rival:</p>
@@ -806,14 +798,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
               of torrent.
               <ul>
                 <li>
-                  <b>
-                    +
-                    {[3, 6, 10, 14, 18, 21, 22, 25, 26, 29].includes(hp)
-                      ? '3'
-                      : '2'}{' '}
-                    HP
-                  </b>{' '}
-                  upon level up.
+                  <LevelUpStatGain
+                    name="wartortle"
+                    level={26}
+                    stat="hp"
+                    ev={{ before: 10, after: 10 }}
+                    adjustEV={adjustEV('afterNob')}
+                  />
                 </li>
               </ul>
             </li>
@@ -1284,7 +1275,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Arbok" />: <PokeMove name="Water Pulse" torrent={true} /> or <PokeMove name="Bite" />
     , <PokeMove name="Water Pulse" />
 
-    - Should get **+14** or **+15 HP** upon evolution.
+    - <LevelUpStatGain
+        name="wartortle"
+        evolvesInto="blastoise"
+        level={35}
+        stat="hp"
+        ev={{ before: 15, after: 15 }}
+        adjustEV={adjustEV('afterEric')}
+      />
 
 - ### Giovanni
 

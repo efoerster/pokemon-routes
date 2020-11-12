@@ -1,6 +1,6 @@
 import React from 'react';
-import { IMove, IPokemon, IPokemonStat } from 'pokeapi-typescript';
-import { usePokeMove, usePokemon } from '../pokeapi';
+import { IMove, IPokemon } from 'pokeapi-typescript';
+import { usePokeMove, usePokemon, getBaseStat } from '../pokeapi';
 import { PokeMove } from './PokeMove';
 import { observer } from 'mobx-react-lite';
 import { StateStore, useStore } from '../stores';
@@ -58,7 +58,7 @@ export const PokeDamage = observer(
         player.level,
         ev,
         moveType,
-        playerPokemon.stats,
+        playerPokemon,
         adjustEV,
       );
 
@@ -98,20 +98,16 @@ function calcDefStat(
   level: number,
   ev: number,
   moveType: Type,
-  stats: IPokemonStat[],
+  pokemon: IPokemon,
   adjustEV?: AdjustEVFunction,
 ): number {
   const { starter } = store;
-  const { stat, name } = isSpecialType(moveType)
-    ? { stat: 'spd', name: 'special-defense' }
-    : { stat: 'def', name: 'defense' };
-
-  const baseDef =
-    stats.find((x) => x.stat.name === name)?.base_stat ?? Number.NaN;
+  const stat = isSpecialType(moveType) ? 'spd' : 'def';
+  const baseDef = getBaseStat(pokemon, stat);
 
   const nature: NatureEffect =
-    (name === 'defense' && starter.nature === 'mild') ||
-    (name === 'special-defense' && starter.nature === 'rash')
+    (stat === 'def' && starter.nature === 'mild') ||
+    (stat === 'spd' && starter.nature === 'rash')
       ? 'negative'
       : 'neutral';
 
