@@ -3,7 +3,7 @@ import { getBaseStat, Stat, usePokemon } from '../pokeapi';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores';
 import { calcHealth, calcStat } from '../pokecalc';
-import { AdjustEVFunction } from './PokeDamage';
+import { AdjustEVFunction } from './MoveDamage';
 
 type LevelUpStatGainProps = {
   name: string;

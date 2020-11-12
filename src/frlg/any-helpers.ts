@@ -1,4 +1,4 @@
-import { AdjustEVFunction } from '../components/PokeDamage';
+import { AdjustEVFunction } from '../components/MoveDamage';
 import { MtMoonExp } from '../stores/frlg';
 import { StarterStore } from '../stores/starter';
 

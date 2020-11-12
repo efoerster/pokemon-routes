@@ -5,8 +5,8 @@ title: FireRed/LeafGreen Any%
 
 import {
   LevelUpStatGain,
+  MoveDamage,
   PillSelector,
-  PokeDamage,
   PokeItem,
   Pokemon,
   PokeMove,
@@ -121,7 +121,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - Swap <PokeMove name="Tail Whip" /> with <PokeMove name="Tackle" /> turn 1 before using it (Right + Select, A + A).
     - Spam <PokeMove name="Bubble" /> if level 7.
-    - <PokeDamage
+    - <MoveDamage
         name="Poison Sting"
         player={{ name: 'squirtle', level: 6, ev: 0 }}
         enemy={{ name: 'weedle', level: 9, atk: 11 }}
@@ -165,7 +165,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Geodude" />: <PokeMove name="Bubble" torrent={true} /> (x2)
   - <Pokemon name="Sandshrew" />: <PokeMove name="Bubble" torrent={true} /> x2-4
 
-    - <PokeDamage
+    - <MoveDamage
         name="Scratch"
         player={{ name: 'squirtle', level: 9, ev: 1 }}
         enemy={{ name: 'sandshrew', level: 11, atk: 21 }}
@@ -177,12 +177,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - 87.5% (14/16) to OHKO at level 11
     - Consider <PokeMove name="Withdraw" /> Turn 1 if HP is too high for Torrent.
-    - <PokeDamage
+    - <MoveDamage
         name="Tackle"
         player={{ name: 'squirtle', level: 10, ev: 2 }}
         enemy={{ name: 'geodude', level: 12, atk: 24 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Tackle"
         player={{ name: 'squirtle', level: 10, ev: 2, stage: 1 }}
         enemy={{ name: 'geodude', level: 12, atk: 24 }}
@@ -203,22 +203,22 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-    - <PokeDamage
+    - <MoveDamage
         name="Rock Tomb"
         player={{ name: 'squirtle', level: 11, ev: 3 }}
         enemy={{ name: 'geodude', level: 14, atk: 17 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Tackle"
         player={{ name: 'squirtle', level: 11, ev: 3 }}
         enemy={{ name: 'geodude', level: 14, atk: 17 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Rock Tomb"
         player={{ name: 'squirtle', level: 11, ev: 3, stage: 1 }}
         enemy={{ name: 'geodude', level: 14, atk: 17 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Tackle"
         player={{ name: 'squirtle', level: 11, ev: 3, stage: 1 }}
         enemy={{ name: 'geodude', level: 14, atk: 17 }}
@@ -358,7 +358,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
       <SpeedInfo range={{ from: 16, to: 20, at: 0 }} />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Quick Attack"
           player={{ name: 'squirtle', level: 15, ev: 10 }}
           enemy={{ name: 'rattata', level: 10, atk: 14 }}
@@ -366,7 +366,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Quick Attack"
           player={{ name: 'squirtle', level: 15, ev: 10 }}
           enemy={{ name: 'rattata', level: 10, atk: 16 }}
@@ -387,7 +387,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       /> (x2)
 
       - 62.5% (10/16) to OHKO in torrent
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Fang"
           player={{ name: 'squirtle', level: 15, ev: 10 }}
           enemy={{ name: 'rattata', level: 13, atk: 19 }}
@@ -491,13 +491,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Tackle" /> if low roll on the first <PokeMove name="Bite" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Swift"
         player={{ name: 'wartortle', level: 20, ev: 11 }}
         enemy={{ name: 'starmie', level: 21, atk: 39 }}
       />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Water Pulse"
         player={{ name: 'wartortle', level: 20, ev: 0 }}
         enemy={{ name: 'starmie', level: 21, atk: 47 }}
@@ -514,7 +514,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Pidgeotto" />: <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
     - 25% (4/16) to OHKO with <PokeMove name="Water Pulse" /> Torrent
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 21, ev: 13 }}
         enemy={{ name: 'pidgeotto', level: 17, atk: 26 }}
@@ -538,7 +538,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeDamage
+    - <MoveDamage
         name="Vine Whip"
         player={{ name: 'wartortle', level: 21, ev: 0 }}
         enemy={{ name: 'bulbasaur', level: 18, atk: 30 }}
@@ -561,7 +561,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Rattata" />: <PokeMove name="Water Pulse" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 22, ev: 13 }}
         enemy={{ name: 'rattata', level: 15, atk: 24 }}
@@ -676,7 +676,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Pidgey" />: <PokeMove name="Bite" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 25, ev: 19 }}
         enemy={{ name: 'pidgey', level: 13, atk: 16 }}
@@ -706,12 +706,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-    - <PokeDamage
+    - <MoveDamage
         name="Headbutt"
         player={{ name: 'wartortle', level: 25, ev: 19 }}
         enemy={{ name: 'drowzee', level: 17, atk: 23 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Confusion"
         player={{ name: 'wartortle', level: 25, ev: 0 }}
         enemy={{ name: 'drowzee', level: 17, atk: 19 }}
@@ -769,7 +769,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 25, ev: 19 }}
         enemy={{ name: 'raticate', level: 16, atk: 30 }}
@@ -829,14 +829,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> or <PokeMove name="Water Pulse" />, <PokeMove name="Bite" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 26, ev: 19 }}
         enemy={{ name: 'pidgeotto', level: 19, atk: 28 }}
         displayLevel={true}
         adjustEV={adjustEV('afterNob')}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 27, ev: 19 }}
         enemy={{ name: 'pidgeotto', level: 19, atk: 28 }}
@@ -862,13 +862,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeDamage
+    - <MoveDamage
         name="Vine Whip"
         player={{ name: 'wartortle', level: 26, ev: 1 }}
         enemy={{ name: 'ivysaur', level: 20, atk: 39 }}
         displayLevel={true}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Vine Whip"
         player={{ name: 'wartortle', level: 27, ev: 1 }}
         enemy={{ name: 'ivysaur', level: 20, atk: 39 }}
@@ -880,14 +880,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 26, ev: 19 }}
         enemy={{ name: 'raticate', level: 16, atk: 28 }}
         displayLevel={true}
         adjustEV={adjustEV('afterNob')}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 27, ev: 19 }}
         enemy={{ name: 'raticate', level: 16, atk: 28 }}
@@ -897,13 +897,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Kadabra" />: <PokeMove name="Bite" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Confusion"
         player={{ name: 'wartortle', level: 26, ev: 2 }}
         enemy={{ name: 'kadabra', level: 18, atk: 49 }}
         displayLevel={true}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Confusion"
         player={{ name: 'wartortle', level: 27, ev: 2 }}
         enemy={{ name: 'kadabra', level: 18, atk: 49 }}
@@ -966,18 +966,18 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> or <PokeMove name="Water Pulse" />, <PokeMove name="Mega Kick" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Shock Wave"
         player={{ name: 'wartortle', level: 28, ev: 2 }}
         enemy={{ name: 'raichu', level: 24, atk: 52 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 28, ev: 19 }}
         enemy={{ name: 'raichu', level: 24, atk: 43 }}
         adjustEV={adjustEV('afterNob')}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 28, ev: 19, stage: -2 }}
         enemy={{ name: 'raichu', level: 24, atk: 43 }}
@@ -1104,7 +1104,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Bulbasaur" />: <PokeMove name="Mega Kick" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Razor Leaf"
         player={{ name: 'wartortle', level: 30, ev: 3 }}
         enemy={{ name: 'bulbasaur', level: 22, atk: 33 }}
@@ -1223,7 +1223,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       torrent={true}
     /> / <PokeMove name="Mega Kick" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'wartortle', level: 32, ev: 28 }}
         enemy={{ name: 'raticate', level: 20, atk: 37 }}
@@ -1291,13 +1291,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Kangaskhan" />: <PokeMove name="Water Pulse" /> x2-3
 
     - 98% to 2HKO with Torrent
-    - <PokeDamage
+    - <MoveDamage
         name="Mega Punch"
         player={{ name: 'blastoise', level: 36, ev: 35 }}
         enemy={{ name: 'kangaskhan', level: 29, atk: 68 }}
         adjustEV={adjustEV('afterEric')}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Mega Punch"
         player={{ name: 'blastoise', level: 36, ev: 35, stage: -1 }}
         enemy={{ name: 'kangaskhan', level: 29, atk: 68 }}
@@ -1356,7 +1356,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         torrent={true}
       /> / <PokeMove name="Mega Kick" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Quick Attack"
           player={{ name: 'blastoise', level: 36, ev: 35 }}
           enemy={{ name: 'pidgeotto', level: 25, atk: 38 }}
@@ -1364,12 +1364,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Ivysaur" />: <PokeMove name="Mega Kick" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Razor Leaf"
           player={{ name: 'blastoise', level: 36, ev: 3 }}
           enemy={{ name: 'ivysaur', level: 25, atk: 48 }}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Razor Leaf"
           player={{ name: 'blastoise', level: 36, ev: 3 }}
           enemy={{ name: 'ivysaur', level: 25, atk: 48, torrent: true }}
@@ -1378,7 +1378,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Gyarados" />: <PokeMove name="Mega Kick" />
 
       - Stall a turn if no Torrent.
-      - <PokeDamage
+      - <MoveDamage
           name="Thrash"
           player={{ name: 'blastoise', level: 37, ev: 35 }}
           enemy={{ name: 'gyarados', level: 23, atk: 65 }}
@@ -1397,7 +1397,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       - Only use one <PokeItem name="X Sp Atk" text="X Special" /> if in high enough HP
         to tank a Overgrow <PokeMove name="Razor Leaf" /> and <PokeMove name="Thrash" />.
       - Use an <PokeItem name="X Accuracy" /> if you get hit by <PokeMove name="Sand Attack"/> (Yolo if you get hit by it twice).
-      - <PokeDamage
+      - <MoveDamage
           name="Quick Attack"
           player={{ name: 'blastoise', level: 36, ev: 35 }}
           enemy={{ name: 'pidgeotto', level: 25, atk: 38 }}
@@ -1429,12 +1429,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           }
         </StateContext>
 
-      - <PokeDamage
+      - <MoveDamage
           name="Razor Leaf"
           player={{ name: 'blastoise', level: 36, ev: 3 }}
           enemy={{ name: 'ivysaur', level: 25, atk: 48 }}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Razor Leaf"
           player={{ name: 'blastoise', level: 36, ev: 3 }}
           enemy={{ name: 'ivysaur', level: 25, atk: 48, torrent: true }}
@@ -1443,7 +1443,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Gyarados" />: <PokeMove name="Bite" /> x2
 
       - Stall a turn if no Torrent.
-      - <PokeDamage
+      - <MoveDamage
           name="Thrash"
           player={{ name: 'blastoise', level: 37, ev: 35 }}
           enemy={{ name: 'gyarados', level: 23, atk: 65 }}
@@ -1477,7 +1477,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <PokeMove name="Mega Kick" /> / <PokeMove name="Bite" /> for one turn if not
       in Torrent.
-    - <PokeDamage
+    - <MoveDamage
         name="Bonemerang"
         player={{ name: 'blastoise', level: 36, ev: 35 }}
         enemy={{ name: 'marowak', level: 30, atk: 62 }}
@@ -1519,7 +1519,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Rattata" />: <PokeMove name="Water Gun" torrent={true} />
   - <Pokemon name="Raticate" />: <PokeMove name="Water Gun" torrent={true} /> / <PokeMove name="Water Pulse" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'blastoise', level: 38, ev: 38 }}
         enemy={{ name: 'raticate', level: 23, atk: 46 }}
@@ -1588,7 +1588,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     ), <PokeMove name="Surf" torrent={true} />
 
     - Use <PokeItem name="X Sp Atk" text="X Special" /> if **60+ HP** or if in <Pokemon name="Weezing" /> kill range after level up.
-    - <PokeDamage
+    - <MoveDamage
         name="Sludge"
         player={{ name: 'blastoise', level: 41, ev: 39 }}
         enemy={{ name: 'muk', level: 39, atk: 77 }}
@@ -1602,7 +1602,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         {({ starter }) => starter.spa >= 30 && '68.75% to OHKO'}
       </StateContext>
 
-    - <PokeDamage
+    - <MoveDamage
         name="Sludge"
         player={{ name: 'blastoise', level: 42, ev: 40 }}
         enemy={{ name: 'weezing', level: 43, atk: 82 }}
@@ -1710,12 +1710,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - Use <PokeItem name="X Sp Atk" text="X Special" /> if no Torrent for <Pokemon name="Arcanine" />.
     - Use <PokeMove name="Water Pulse" /> only if low PP on <PokeMove name="Surf" />.
-    - <PokeDamage
+    - <MoveDamage
         name="Take Down"
         player={{ name: 'blastoise', level: 42, ev: 42, defBadge: true }}
         enemy={{ name: 'growlithe', level: 42, atk: 63 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Fire Blast"
         player={{ name: 'blastoise', level: 42, ev: 8 }}
         enemy={{ name: 'growlithe', level: 42, atk: 63 }}
@@ -1724,12 +1724,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Ponyta" />: <PokeMove name="Surf" /> <SpeedInfo range={{ from: 22, to: 23, at: 0 }} />
   - <Pokemon name="Rapidash" />: <PokeMove name="Surf" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Bounce"
         player={{ name: 'blastoise', level: 42, ev: 42, defBadge: true }}
         enemy={{ name: 'rapidash', level: 42, atk: 80 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Fire Blast"
         player={{ name: 'blastoise', level: 42, ev: 8 }}
         enemy={{ name: 'rapidash', level: 42, atk: 72 }}
@@ -1759,7 +1759,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Tangela" />: <PokeMove name="Bite" />
   - <Pokemon name="Vileplume" />: <PokeMove name="Blizzard" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Giga Drain"
         player={{ name: 'blastoise', level: 44, ev: 8, defBadge: true }}
         enemy={{ name: 'vileplume', level: 29, atk: 63 }}
@@ -1800,12 +1800,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     /> (x2), <PokeItem name="X Accuracy" />, <PokeMove name="Surf" />
 
     - Use 2x <PokeItem name="X Sp Atk" text="X Special" /> if <PokeMove name="Feather Dance" /> turn 1.
-    - <PokeDamage
+    - <MoveDamage
         name="Wing Attack"
         player={{ name: 'blastoise', level: 44, ev: 44, defBadge: true }}
         enemy={{ name: 'pidgeot', level: 37, atk: 68 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Quick Attack"
         player={{ name: 'blastoise', level: 44, ev: 44, defBadge: true }}
         enemy={{ name: 'pidgeot', level: 37, atk: 68 }}
@@ -1850,12 +1850,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           )
         }
       </StateContext>
-    - <PokeDamage
+    - <MoveDamage
         name="Fake Out"
         player={{ name: 'blastoise', level: 46, ev: 47, defBadge: true }}
         enemy={{ name: 'kangaskhan', level: 35, atk: 82 }}
       />
-    - <PokeDamage
+    - <MoveDamage
         name="Mega Punch"
         player={{ name: 'blastoise', level: 46, ev: 47, defBadge: true }}
         enemy={{ name: 'kangaskhan', level: 35, atk: 82 }}
@@ -1888,7 +1888,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
       )}
     </StateContext>
 
-    - <PokeDamage
+    - <MoveDamage
         name="Psybeam"
         player={{ name: 'blastoise', level: 47, ev: 12, defBadge: true }}
         enemy={{ name: 'venomoth', level: 38, atk: 65 }}
@@ -1971,7 +1971,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Venusaur" />: <PokeMove name="Blizzard" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Razor Leaf"
         player={{ name: 'blastoise', level: 49, ev: 12, defBadge: true }}
         enemy={{ name: 'venusaur', level: 53, atk: 126 }}
@@ -1990,7 +1990,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Alakazam" />: <PokeMove name="Surf" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Psychic"
         player={{ name: 'blastoise', level: 50, ev: 13, defBadge: true }}
         enemy={{ name: 'alakazam', level: 47, atk: 140 }}
@@ -2028,7 +2028,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     <SpeedInfo range={{ from: 15, to: 16, at: 0 }} />
   - <Pokemon name="Lapras" />: <PokeMove name="Bite" /> x3
 
-    - <PokeDamage
+    - <MoveDamage
         name="Body Slam"
         player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
         enemy={{ name: 'lapras', level: 54, atk: 113 }}
@@ -2069,13 +2069,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Use an extra <PokeItem name="X Sp Atk" text="X Special" /> if missed <PokeMove name="Rock Tomb" />.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <PokeDamage
+      - <MoveDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Earthquake"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
@@ -2084,19 +2084,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Mach Punch"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Sky Uppercut"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
@@ -2116,13 +2116,13 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
       - Continue setting up <PokeItem name="X Sp Atk" text="X Special" /> until +4 or at least +2 and in Torrent.
       - <PokeMove name="Bite" /> both <Pokemon name="Onix" /> at +3 or more.
-      - <PokeDamage
+      - <MoveDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Earthquake"
           player={{ name: 'blastoise', level: 52, ev: 60, defBadge: true }}
           enemy={{ name: 'onix', level: 51, atk: 66 }}
@@ -2131,19 +2131,19 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Hitmonchan" />: <PokeMove name="Surf" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Mach Punch"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Sky Uppercut"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
           adjustEV={adjustEV('afterEric')}
         />
-      - <PokeDamage
+      - <MoveDamage
           name="Rock Tomb"
           player={{ name: 'blastoise', level: 52, ev: 61, defBadge: true }}
           enemy={{ name: 'hitmonchan', level: 53, atk: 132 }}
@@ -2172,7 +2172,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     , <PokeMove name="Surf" torrent={true} />
 
     - Need at least +3 from here without Torrent.
-    - <PokeDamage
+    - <MoveDamage
         name="Shadow Punch"
         player={{ name: 'blastoise', level: 53, ev: 62, defBadge: true }}
         enemy={{ name: 'gengar', level: 54, atk: 100 }}
@@ -2202,7 +2202,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
           }
         </StateContext>
 
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'gyarados', level: 56, atk: 161 }}
@@ -2210,7 +2210,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'dragonair', level: 54, atk: 111 }}
@@ -2218,7 +2218,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'dragonair', level: 54, atk: 111 }}
@@ -2228,7 +2228,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
 
       - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
           enemy={{ name: 'aerodactyl', level: 58, atk: 129 }}
@@ -2262,7 +2262,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
             )
           }
         </StateContext>
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'gyarados', level: 56, atk: 161 }}
@@ -2270,7 +2270,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'dragonair', level: 54, atk: 111 }}
@@ -2279,7 +2279,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Dragonair" />: <PokeMove name="Blizzard" />
 
       - Use <PokeItem name="Elixir" /> if you missed a <PokeMove name="Blizzard" />.
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 54, ev: 62, defBadge: true }}
           enemy={{ name: 'dragonair', level: 54, atk: 111 }}
@@ -2289,7 +2289,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - <Pokemon name="Aerodactyl" />: <PokeMove name="Surf" />
 
       - If <PokeMove name="Ancient Power" /> boost, heal and torrent <PokeMove name="Surf" />.
-      - <PokeDamage
+      - <MoveDamage
           name="Hyper Beam"
           player={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
           enemy={{ name: 'aerodactyl', level: 58, atk: 129 }}
@@ -2305,7 +2305,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     - If you get into Torrent, skip the third <PokeItem name="X Sp Atk" text="X Special" /> and heal on <Pokemon name="Gyarados" />.
     - **Need** +3 without Torrent or +2 with Torrent to get past <Pokemon name="Alakazam" />.
     - Can <PokeMove name="Blizzard" /> at +2 if <PokeItem name="Guard Spec" /> runs out.
-    - <PokeDamage
+    - <MoveDamage
         name="Aerial Ace"
         player={{ name: 'blastoise', level: 55, ev: 62, defBadge: true }}
         enemy={{ name: 'pidgeot', level: 59, atk: 117 }}
@@ -2322,7 +2322,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
   - <Pokemon name="Gyarados" />: <PokeMove name="Bite" />, <PokeMove name="Blizzard" />
 
     - <PokeMove name="Blizzard" /> x2 if at +2.
-    - <PokeDamage
+    - <MoveDamage
         name="Thrash"
         player={{ name: 'blastoise', level: 56, ev: 64, defBadge: true }}
         enemy={{ name: 'gyarados', level: 59, atk: 153 }}
@@ -2330,7 +2330,7 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Arcanine" />: <PokeMove name="Surf" />
 
-    - <PokeDamage
+    - <MoveDamage
         name="Extreme Speed"
         player={{ name: 'blastoise', level: 56, ev: 64, defBadge: true }}
         enemy={{ name: 'arcanine', level: 61, atk: 158 }}

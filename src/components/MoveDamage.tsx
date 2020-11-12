@@ -33,7 +33,7 @@ export type AdjustEVFunction = (
   ev: number,
 ) => number;
 
-type PokeDamageProps = {
+type MoveDamageProps = {
   name: string;
   player: Player;
   enemy: Enemy;
@@ -41,8 +41,8 @@ type PokeDamageProps = {
   adjustEV?: AdjustEVFunction;
 };
 
-export const PokeDamage = observer(
-  ({ name, player, enemy, displayLevel, adjustEV }: PokeDamageProps) => {
+export const MoveDamage = observer(
+  ({ name, player, enemy, displayLevel, adjustEV }: MoveDamageProps) => {
     const store = useStore();
     const move = usePokeMove(name);
     const playerPokemon = usePokemon(player.name);
