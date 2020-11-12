@@ -7,6 +7,7 @@ import {
   LevelUpStatGain,
   MoveDamage,
   PillSelector,
+  PoisonDamage,
   PokeItem,
   Pokemon,
   PokeMove,
@@ -59,21 +60,17 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
 - ### Rival 1
 
-  - <StateContext>
-      {({ starter: { nature, atk } }) => (
-        <>
-          <Pokemon name="Bulbasaur" />:{' '}
-          {nature === 'modest' || atk <= 3 ? (
-            <>
-              <PokeMove name="Tail Whip" /> x1, <PokeMove name="Tackle" />
-            </>
-          ) : (
-            <PokeMove name="Tackle" />
-          )}
-          <SpeedInfo range={{ from: 0, to: 13, at: 0 }} />
-        </>
-      )}
+  - <Pokemon name="Bulbasaur" />: <StateContext>
+      {({ starter: { nature, atk } }) =>
+        (nature === 'modest' || atk <= 3) && (
+          <>
+            <PokeMove name="Tail Whip" /> x1,{' '}
+          </>
+        )
+      }
     </StateContext>
+    <PokeMove name="Tackle" />
+    <SpeedInfo range={{ from: 0, to: 13, at: 0 }} />
 
     - Reset if Bulbasaur ever outspeeds you.
 
@@ -126,12 +123,8 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         player={{ name: 'squirtle', level: 6, ev: 0 }}
         enemy={{ name: 'weedle', level: 9, atk: 11 }}
       />
-    - **Poison** damage:
-      <StateContext>
-        {({ starter }) => (
-          <b> {starter.hp <= 11 ? '2' : '2 at level 6, 3 at level 7'}</b>
-        )}
-      </StateContext>
+    - <PoisonDamage name="squirtle" level={6} ev={0} displayLevel={true} />
+    - <PoisonDamage name="squirtle" level={7} ev={0} displayLevel={true} />
 
 - <StateContext>
     {({ starter }) => {
@@ -416,7 +409,14 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
 
   - <Pokemon name="Grimer" />: <PokeMove name="Water Gun" /> x2
 
-    - If you can survive two turns of Poison and a <PokeMove name="Tackle"/> from <Pokemon name="Voltorb" /> then use <PokeItem name="Antidote" /> on <Pokemon name="Voltorb" />.
+    - If you can survive two turns of Poison and a <PokeMove name="Tackle"/>
+      then use <PokeItem name="Antidote" /> on <Pokemon name="Voltorb" />.
+    - <PoisonDamage
+        name="wartortle"
+        level={16}
+        ev={6}
+        adjustEV={adjustEV('afterMtMoon')}
+      />
 
   - <Pokemon name="Voltorb" />: <PokeMove
       name="Water Gun"
@@ -435,6 +435,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
     </StateContext>
 
     - 56.25% (9/16) to OHKO in Torrent
+    - <MoveDamage
+        name="Tackle"
+        player={{ name: 'wartortle', level: 17, ev: 12 }}
+        enemy={{ name: 'voltorb', level: 12, atk: 12 }}
+        adjustEV={adjustEV('afterMtMoon')}
+      />
 
   - <Pokemon name="Koffing" />: <PokeMove
       name="Water Gun"
@@ -1592,6 +1598,12 @@ This guide is an interactive version of [PulseEffect's Any% Squirtle route](http
         name="Sludge"
         player={{ name: 'blastoise', level: 41, ev: 39 }}
         enemy={{ name: 'muk', level: 39, atk: 77 }}
+      />
+    - <PoisonDamage
+        name="blastoise"
+        level={41}
+        ev={17}
+        adjustEV={adjustEV('afterEric')}
       />
 
   - <Pokemon name="Koffing" />: <PokeMove name="Surf" />

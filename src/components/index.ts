@@ -1,6 +1,7 @@
 export { LevelUpStatGain } from './LevelUpStatGain';
 export { MoveDamage } from './MoveDamage';
 export { PillSelector } from './PillSelector';
+export { PoisonDamage } from './PoisonDamage';
 export { PokeItem } from './PokeItem';
 export { Pokemon } from './Pokemon';
 export { PokeMove } from './PokeMove';
