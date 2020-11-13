@@ -33,7 +33,7 @@
     "@fortawesome/react-fontawesome": "^0.1.12",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
-    "mobx": "^6.0.3",
+    "mobx": "^6.0.4",
     "mobx-react-lite": "^3.1.4",
     "pokeapi-typescript": "^2.1.0",
     "react": "^16.8.4",
