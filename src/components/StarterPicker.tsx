@@ -3,10 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { useStore } from '../stores';
 import { PickStarterArgs } from '../stores/starter';
-
-type IVInputCellProps = {
-  name: string;
-};
+import { Stat } from '../pokeapi';
 
 export const StarterPicker = observer(() => {
   const { starter } = useStore();
@@ -16,53 +13,73 @@ export const StarterPicker = observer(() => {
     starter.pickStarter(args as PickStarterArgs),
   );
 
-  const IVInputCell = ({ name }: IVInputCellProps) => (
-    <td>
-      <input
-        name={name}
-        type="number"
-        min="0"
-        max="31"
-        defaultValue={starter[name]}
-        ref={register({ required: true, min: 0, max: 31 })}
-        onFocus={(event) => event.target.select()}
-      />
-    </td>
+  const inputStyle = { width: 85 };
+  const IVInput = ({ stat }: IVInputProps) => (
+    <input
+      style={inputStyle}
+      name={stat}
+      type="number"
+      min="0"
+      max="31"
+      defaultValue={starter[stat]}
+      ref={register({ required: true, min: 0, max: 31 })}
+      onFocus={(event) => event.target.select()}
+    />
   );
 
   return (
-    <form onSubmit={onSubmit}>
-      <table>
-        <thead>
-          <tr>
-            <th>Nature</th>
-            <th>HP</th>
-            <th>ATK</th>
-            <th>DEF</th>
-            <th>SPA</th>
-            <th>SPD</th>
-            <th>SPE</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <select name="nature" ref={register}>
-                <option value="rash">Rash</option>
-                <option value="mild">Mild</option>
-                <option value="modest">Modest</option>
-              </select>
-            </td>
-            <IVInputCell name="hp" />
-            <IVInputCell name="atk" />
-            <IVInputCell name="def" />
-            <IVInputCell name="spa" />
-            <IVInputCell name="spd" />
-            <IVInputCell name="spe" />
-          </tr>
-        </tbody>
-      </table>
-      <input className="button button--primary" type="submit" />
+    <form className="container" onSubmit={onSubmit}>
+      <BadgeRow title="Nature">
+        <select style={inputStyle} name="nature" ref={register}>
+          <option value="rash">Rash</option>
+          <option value="mild">Mild</option>
+          <option value="modest">Modest</option>
+        </select>
+      </BadgeRow>
+      <BadgeRow title="HP">
+        <IVInput stat="hp" />
+      </BadgeRow>
+      <BadgeRow title="Attack">
+        <IVInput stat="atk" />
+      </BadgeRow>
+      <BadgeRow title="Defense">
+        <IVInput stat="def" />
+      </BadgeRow>
+      <BadgeRow title="Sp. Atk">
+        <IVInput stat="spa" />
+      </BadgeRow>
+      <BadgeRow title="Sp. Def">
+        <IVInput stat="spd" />
+      </BadgeRow>
+      <BadgeRow title="Speed">
+        <IVInput stat="spe" />
+      </BadgeRow>
+      <br />
+      <div className="row">
+        <div className="col">
+          <input className="button button--primary" type="submit" />
+        </div>
+      </div>
     </form>
   );
 });
+
+type IVInputProps = {
+  stat: Stat;
+};
+
+type BadgeRowProps = {
+  title: string;
+  children: React.ReactNode;
+};
+
+function BadgeRow({ title, children }: BadgeRowProps): JSX.Element {
+  return (
+    <div className="row">
+      <div className="col col--2">
+        <span className="badge badge--primary">{title}</span>
+      </div>
+      <div className="col col--1">{children}</div>
+    </div>
+  );
+}

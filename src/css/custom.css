@@ -15,6 +15,7 @@
   --ifm-color-primary-lighter: #ffe474;
   --ifm-color-primary-lightest: #ffeda5;
   --ifm-code-font-size: 95%;
+  --ifm-badge-color: var(--ifm-color-black);
 
   --pokemon-type-bug: #a8b820;
   --pokemon-type-dark: #a29288;
@@ -69,15 +70,16 @@ div[class*='docSidebarContainer'] {
 
 select,
 input {
-  background-color: var(--ifm-color-gray-900);
-  border-color: rgba(255, 255, 255, 0.13);
   color: var(--ifm-font-color-base);
-  background-clip: padding-box;
+  background-color: var(--ifm-color-gray-900);
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 0.25rem;
+  background-clip: padding-box;
   padding: 0.375rem 0.5rem;
 }
 
-:focus {
+select:focus,
+input:focus {
   outline: none !important;
   border: 1px solid var(--ifm-color-primary);
 }
